@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.grupo10.pedidoscafeteria">
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name=".InsertarLocalActivity"></activity>
+        <activity android:name=".LocalMenuActivity" />
+        <activity android:name=".EliminarEncargadoLocalActivity" />
+        <activity android:name=".ConsultarEncargadoLocalActivity" />
+        <activity android:name=".ActualizarEncargadoLocalActivity" />
+        <activity android:name=".InsertarEncargadoLocalActivity" />
+        <activity android:name=".DatosEncargadoLocalMenuActivity" />
+        <activity android:name=".EliminarEmpleadoActivity" />
+        <activity android:name=".ConsultarEmpleadoActivity" />
+        <activity android:name=".ActualizarEmpleadoActivity" />
+        <activity android:name=".InsertarEmpleadoActivity" />
+        <activity android:name=".DatosEmpleadoMenuActivity" />
+        <activity android:name=".EliminarUbicacionActivity" />
+        <activity android:name=".ConsultarUbicacionActivity" />
+        <activity android:name=".ActualizarUbicacionActivity" />
+        <activity android:name=".InsertarUbicacionActivity" />
+        <activity android:name=".UbicacionMenuActivity" />
+        <activity android:name=".EliminarFacultadActivity" />
+        <activity android:name=".ConsultarFacultadActivity" />
+        <activity android:name=".ActualizarFacultadActivity" />
+        <activity android:name=".InsertarFacultadActivity" />
+        <activity android:name=".FacultadMenuActivity" />
+        <activity android:name=".FacultadUbicacionEmpleadoMenu" />
+        <activity android:name=".EncargadoLocalMenuActivity" />
+        <activity android:name=".EmpleadoMenuActivity" />
+        <activity android:name=".CrearUsuarioActivity" />
+        <activity android:name=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>

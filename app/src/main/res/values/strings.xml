@@ -1,0 +1,90 @@
+<resources>
+    <string name="app_name">Pedidos Cafeteria</string>
+    <!-- los textos en el main activity / login -->
+    <string name="usuario">Nombre de Usuario</string>
+    <string name="password">Contraseña</string>
+    <string name="login">Acceder</string>
+    <string name="register">Registrarse</string>
+    <string name="fillDB">Llenar con usuarios</string>
+
+    <!-- los textos en el main activity / login -->
+    <string name="cleantext">Limpiar texto</string>
+    <string name="usertype">Tipo de usuario</string>
+    <string-array name="usertypes">
+        <item>Empleado</item>
+        <item>Encargado de local</item>
+    </string-array>
+
+    <!-- los textos de los botones de cuando se accede al menu empleado -->
+    <string name="button_details_empleado">Gestionar datos de empleado</string>
+    <string name="button_details_pedido">Gestionar datos de los pedidos</string>
+    <string name="button_details_local">Ver locales</string>
+
+    <!-- los textos de los botones del menu de gestionar datos empleado -->
+    <string name="button_facultad">Gestionar facultad</string>
+    <string name="button_ubicacion">Gestionar ubicacion</string>
+    <string name="button_empleado">Gestionar empleado</string>
+
+    <!-- los textos de los botones del crud de facultad -->
+    <string name="button_create_facultad">Insertar Facultad</string>
+    <string name="button_read_facultad">Consultar Facultad</string>
+    <string name="button_update_facultad">Actualizar Facultad</string>
+    <string name="button_delete_facultad">Eliminar Facultad</string>
+
+    <!-- los textos en la pantalla de insertar facultad -->
+    <string name="codfacultad">Codigo de Facultad</string>
+    <string name="nomfacultad">Nombre de Facultad</string>
+
+    <!-- los textos en la pantalla de actualizar facultad -->
+
+    <!-- los textos de los botones del crud de ubicacion -->
+    <string name="button_create_ubicacion">Insertar Ubicacion</string>
+    <string name="button_read_ubicacion">Consultar Ubicacion</string>
+    <string name="button_update_ubicacion">Actualizar Ubicacion</string>
+    <string name="button_delete_ubicacion">Eliminar Ubicacion</string>
+
+    <!-- los textos en la pantalla de actualizar ubicacion -->
+    <string name="codubicacion">Codigo de la ubicacion</string>
+    <string name="descubicacion">Descripcion de la ubicacion exacta</string>
+
+    <!-- los textos de lo botones del crud de empleado -->
+    <string name="button_create_empleado">Insertar Empleado</string>
+    <string name="button_read_empleado">Consultar Empleado</string>
+    <string name="button_update_empleado">Actualizar Empleado</string>
+    <string name="button_delete_empleado">Eliminar Empleado</string>
+
+    <!-- los textos en la pantalla de insertar empleado -->
+    <string name="codempleado">Codigo del empleado</string>
+    <string name="nomempleado">Nombre del empleado</string>
+    <string name="apeempleado">Apellido del empleado</string>
+    <string name="telempleado">Telefono del empleado</string>
+
+    <!-- los textos de los botones cuando se accede como un encargado de local -->
+    <string name="button_details_encargado_local">Gestionar Encargados de Locales</string>
+    <string name="button_details_crud_local">Gestionar Locales</string>
+    <string name="button_details_menu">Gestionar Menus</string>
+    <string name="button_details_producto">Gestionar Productos</string>
+    <string name="button_details_pedidos">Gestionar Pedidos</string>
+
+    <!-- los textos para el menu de encargado local (crud) -->
+    <string name="button_create_encargadolocal">Insertar Encargado de Local</string>
+    <string name="button_read_encargadolocal">Consultar Encargado de Local</string>
+    <string name="button_update_encargadolocal">Actualizar Encargado de Local</string>
+    <string name="button_delete_encargadolocal">Eliminar Encargado de Local</string>
+
+    <!-- los textos para la pantalla de insertar encargadolocal -->
+    <string name="codencargadolocal">Codigo del encargado del local</string>
+    <string name="nomencargadolocal">Nombre del encargado del local</string>
+    <string name="apeencargadolocal">Apellido del encargado del local</string>
+    <string name="telencargadolocal">Telefono del encargado del local</string>
+
+    <!-- los textos para el menu de local (crud) -->
+    <string name="button_create_local">Insertar Local</string>
+    <string name="button_read_local">Consultar Local</string>
+    <string name="button_update_local">Actualizar Local</string>
+    <string name="button_delete_local">Eliminar Local</string>
+
+    <!-- los textos para la pantalla de insertar local -->
+    <string name="codlocal">Codigo del local</string>
+    <string name="nomlocal">Nombre del local</string>
+</resources>
