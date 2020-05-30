@@ -1,0 +1,128 @@
+create table usuario (
+usuario              VARCHAR(7)          NOT NULL PRIMARY KEY,
+constrasena          VARCHAR(10)          NOT NULL,
+nombreusuario        VARCHAR(256)         NOT NULL);
+
+create table opcioncrud (
+idopcion             CHAR(3)              NOT NULL PRIMARY KEY,
+desopcion            VARCHAR(30)          NOT NULL,
+numcrud              INTEGER              NOT NULL);
+
+create table accesousuario (
+usuario              VARCHAR(7)           NOT NULL,
+idopcion             CHAR(3)              NOT NULL,
+PRIMARY KEY (usuario, idopcion)
+CONSTRAINT fk_accesousuario_usuario FOREIGN KEY (usuario) REFERENCES usuario(usuario) ON DELETE RESTRICT,
+CONSTRAINT fk_accesousuario_opcioncrud FOREIGN KEY (idopcion) REFERENCES opcioncrud(idopcion) ON DELETE RESTRICT);
+
+
+
+create table cambioprecios (
+idcambioprecio      INTEGER              NOT NULL PRIMARY KEY,
+fechadesdecambio     DATE                 ,
+fechahastacambio     DATE                 );
+
+create table encargadolocal (
+codencargadolocal    VARCHAR(10)          NOT NULL PRIMARY KEY,
+nomencargadolocal    VARCHAR(30)          ,
+apeencargadolocal    VARCHAR(30)          ,
+telencargado         VARCHAR(8)              );
+
+create table local (
+idlocal              INTEGER              NOT NULL PRIMARY KEY,
+idencargadolocal     CHAR(2)              NOT NULL,
+nombrelocal          VARCHAR(50)          ,
+CONSTRAINT fk_local_encargadolocal FOREIGN KEY (idencargadolocal) REFERENCES encargadolocal(idencargadolocal) ON DELETE RESTRICT);
+
+create table repartidor (
+idrepartidor         CHAR(2)              NOT NULL PRIMARY KEY,
+nomrepartidor        VARCHAR(30)          ,
+aperepartidor        VARCHAR(30)          ,
+telrepartidor        CHAR(8)              );
+
+create table rutapedido (
+idruta               INTEGER              NOT NULL PRIMARY KEY,
+idrepartidor         CHAR(2)              NOT NULL,
+inicioruta           DATE                 ,
+finruta              DATE                 ,
+CONSTRAINT fk_rutapedido_repartidor FOREIGN KEY (idrepartidor) REFERENCES repartidor(idrepartidor) ON DELETE RESTRICT);
+
+
+create table estadopedido (
+idestadopedido       CHAR(2)              NOT NULL PRIMARY KEY,
+descestadopedido     VARCHAR(30)          );
+
+create table pedido (
+idpedido             INTEGER              NOT NULL PRIMARY KEY,
+idruta               INTEGER              NOT NULL,
+idestadopedido       CHAR(2)              NOT NULL,
+idlocal              INTEGER              NOT NULL,
+fechapedido          TIME                 ,
+CONSTRAINT fk_pedido_rutapedido FOREIGN KEY (idruta) REFERENCES rutapedido(idruta) ON DELETE RESTRICT,
+CONSTRAINT fk_pedido_estadopedido FOREIGN KEY (idestadopedido) REFERENCES estadopedido(idestadopedido) ON DELETE RESTRICT,
+CONSTRAINT fk_pedido_local FOREIGN KEY (idlocal) REFERENCES local(idlocal) ON DELETE RESTRICT);
+
+create table detallepedido (
+iddetallepedido      INTEGER              NOT NULL PRIMARY KEY,
+idpedido             INTEGER              NOT NULL,
+cantidad             SMALLINT             ,
+subtotal             REAL                 ,
+CONSTRAINT fk_detallepedido_pedido FOREIGN KEY (idpedido) REFERENCES pedido(idpedido) ON DELETE RESTRICT);
+
+create table ubicacion (
+codubicacion         VARCHAR(7)               NOT NULL PRIMARY KEY,
+descubicacion        VARCHAR(100)         );
+
+create table facultad (
+codfacultad           VARCHAR(7)              NOT NULL PRIMARY KEY,
+nomfacultad          VARCHAR(30)          );
+
+create table empleado (
+codempleado          VARCHAR(4)              NOT NULL PRIMARY KEY,
+codfacultad          VARCHAR(7)              NOT NULL,
+codubicacion         VARCHAR(7)              NOT NULL,
+nomempleado          VARCHAR(30)          ,
+apeemplado           VARCHAR(30)          ,
+telemplado           VARCHAR(8)              ,
+idlocal              INTEGER              ,
+CONSTRAINT fk_empleadoues_facultad FOREIGN KEY (idfacultad) REFERENCES facultad(idfacultad) ON DELETE RESTRICT,
+CONSTRAINT fk_empleadoues_ubicacion FOREIGN KEY (idubicacion) REFERENCES ubicacion(idubicacion) ON DELETE RESTRICT,
+CONSTRAINT fk_empleadoues_local FOREIGN KEY (idlocal) REFERENCES local(idlocal) ON DELETE RESTRICT);
+
+create table pedidosasignados (
+idtrabajador         CHAR(4)              NOT NULL,
+idpedido             INTEGER              NOT NULL,
+PRIMARY KEY (idtrabajador,idpedido)
+CONSTRAINT fk_pedidosasignados_empleadoues FOREIGN KEY (idtrabajador) REFERENCES empleadoues(idtrabajador) ON DELETE RESTRICT,
+CONSTRAINT fk_pedidosasignados_pedido FOREIGN KEY (idpedido) REFERENCES pedido(idpedido) ON DELETE RESTRICT);
+
+create table menu (
+idmenu               INTEGER              NOT NULL PRIMARY KEY,
+idlocal              INTEGER              NOT NULL,
+preciomenu           NUMERIC(12,2)        ,
+fechadesdemenu       DATE                 ,
+fechahastamenu       DATE                 ,
+CONSTRAINT fk_menu_local FOREIGN KEY (idlocal) REFERENCES local(idlocal) ON DELETE RESTRICT);
+
+create table producto (
+idproducto           INTEGER              NOT NULL PRIMARY KEY,
+idmenu               INTEGER              NOT NULL,
+nombreproducto       VARCHAR(50)          ,
+preciounitario       REAL                 ,
+CONSTRAINT fk_producto_menu FOREIGN KEY (idmenu) REFERENCES menu(idmenu) ON DELETE RESTRICT);
+
+create table detalleproductoempleado (
+idtrabajador         CHAR(4)              NOT NULL,
+idproducto           INTEGER              NOT NULL,
+cantidadpedido       INTEGER              ,
+PRIMARY KEY (idtrabajador, idproducto)
+CONSTRAINT fk_detalleproductoempleado_pedidosasignados FOREIGN KEY (idtrabajador) REFERENCES pedidosasignados(idtrabajador) ON DELETE RESTRICT,
+CONSTRAINT fk_detalleproductoempleado_producto FOREIGN KEY (idproducto) REFERENCES producto(idproducto) ON DELETE RESTRICT);
+
+create table detalleproductoprecio (
+idcambioprecio       INTEGER              NOT NULL,
+idproducto           INTEGER              NOT NULL,
+preciocambio         NUMERIC(12,2)        ,
+PRIMARY KEY (idcambioprecio, idproducto)
+CONSTRAINT fk_detalleproductoprecio_cambioprecios FOREIGN KEY (idcambioprecio) REFERENCES cambioprecios(idcambioprecio) ON DELETE RESTRICT,
+CONSTRAINT fk_detalleproductoprecio_producto FOREIGN KEY (idproducto) REFERENCES producto(idproducto) ON DELETE RESTRICT);
