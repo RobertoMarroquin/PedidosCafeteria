@@ -3,15 +3,15 @@ package com.grupo10.pedidoscafeteria;
 import java.util.Date;
 
 public class Menu {
-    private int idmenu;
-    private int idlocal;
+    private String codmenu;
+    private String codlocal;
     private float preciomenu;
-    private Date fechadesdemenu;
-    private Date fechahastamenu;
+    private String fechadesdemenu;
+    private String fechahastamenu;
 
-    public Menu(int idmenu, int idlocal, float preciomenu, Date fechadesdemenu, Date fechahastamenu) {
-        this.idmenu = idmenu;
-        this.idlocal = idlocal;
+    public Menu(String codmenu, String codlocal, float preciomenu, String fechadesdemenu, String fechahastamenu) {
+        this.codmenu = codmenu;
+        this.codlocal = codlocal;
         this.preciomenu = preciomenu;
         this.fechadesdemenu = fechadesdemenu;
         this.fechahastamenu = fechahastamenu;
@@ -20,20 +20,20 @@ public class Menu {
     public Menu() {
     }
 
-    public int getIdmenu() {
-        return idmenu;
+    public String getCodmenu() {
+        return codmenu;
     }
 
-    public void setIdmenu(int idmenu) {
-        this.idmenu = idmenu;
+    public void setCodmenu(String codmenu) {
+        this.codmenu = codmenu;
     }
 
-    public int getIdlocal() {
-        return idlocal;
+    public String getCodlocal() {
+        return codlocal;
     }
 
-    public void setIdlocal(int idlocal) {
-        this.idlocal = idlocal;
+    public void setCodlocal(String codlocal) {
+        this.codlocal = codlocal;
     }
 
     public float getPreciomenu() {
@@ -44,19 +44,19 @@ public class Menu {
         this.preciomenu = preciomenu;
     }
 
-    public Date getFechadesdemenu() {
+    public String getFechadesdemenu() {
         return fechadesdemenu;
     }
 
-    public void setFechadesdemenu(Date fechadesdemenu) {
+    public void setFechadesdemenu(String fechadesdemenu) {
         this.fechadesdemenu = fechadesdemenu;
     }
 
-    public Date getFechahastamenu() {
+    public String getFechahastamenu() {
         return fechahastamenu;
     }
 
-    public void setFechahastamenu(Date fechahastamenu) {
+    public void setFechahastamenu(String fechahastamenu) {
         this.fechahastamenu = fechahastamenu;
     }
 }

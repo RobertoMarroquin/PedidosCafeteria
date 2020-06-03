@@ -30,6 +30,8 @@ public class LocalMenuActivity extends AppCompatActivity {
         btnActualizarLocal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent actualizarLocal = new Intent(v.getContext(), ActualizarLocalActivity.class);
+                startActivity(actualizarLocal);
 
             }
         });
@@ -37,6 +39,8 @@ public class LocalMenuActivity extends AppCompatActivity {
         btnConsultarLocal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent consultarLocal = new Intent(v.getContext(), ConsultarLocalActivity.class);
+                startActivity(consultarLocal);
 
             }
         });
@@ -44,7 +48,8 @@ public class LocalMenuActivity extends AppCompatActivity {
         btnEliminarLocal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent eliminarLocal = new Intent(v.getContext(), EliminarLocalActivity.class);
+                startActivity(eliminarLocal);
             }
         });
     }

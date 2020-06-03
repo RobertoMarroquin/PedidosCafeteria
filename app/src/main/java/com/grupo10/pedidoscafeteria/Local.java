@@ -1,33 +1,34 @@
 package com.grupo10.pedidoscafeteria;
 
 public class Local {
-    private int idlocal;
-    private int idencargadolocal;
+    private String codlocal;
+    private String codencargadolocal;
     private String nombrelocal;
 
-    public Local(int idlocal, int idencargadolocal, String nombrelocal) {
-        this.idlocal = idlocal;
-        this.idencargadolocal = idencargadolocal;
+
+    public Local(String codlocal, String codencargadolocal, String nombrelocal) {
+        this.codlocal = codlocal;
+        this.codencargadolocal = codencargadolocal;
         this.nombrelocal = nombrelocal;
     }
 
     public Local() {
     }
 
-    public int getIdlocal() {
-        return idlocal;
+    public String getCodlocal() {
+        return codlocal;
     }
 
-    public void setIdlocal(int idlocal) {
-        this.idlocal = idlocal;
+    public void setCodlocal(String codlocal) {
+        this.codlocal = codlocal;
     }
 
-    public int getIdencargadolocal() {
-        return idencargadolocal;
+    public String getCodencargadolocal() {
+        return codencargadolocal;
     }
 
-    public void setIdencargadolocal(int idencargadolocal) {
-        this.idencargadolocal = idencargadolocal;
+    public void setCodencargadolocal(String codencargadolocal) {
+        this.codencargadolocal = codencargadolocal;
     }
 
     public String getNombrelocal() {

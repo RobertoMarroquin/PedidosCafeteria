@@ -10,6 +10,8 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 public class CrearUsuarioActivity extends AppCompatActivity {
     EditText editUsuario, editPass;
     Spinner spinner;
@@ -26,6 +28,14 @@ public class CrearUsuarioActivity extends AppCompatActivity {
         spinner = (Spinner) findViewById(R.id.spinner);
         btnCreate = (Button) findViewById(R.id.btnCreateUser);
         btnClean = (Button) findViewById(R.id.btnCleanText);
+
+        ArrayList<String> listausuarios = new ArrayList<String>();
+        listausuarios.add("Empleado");
+        listausuarios.add("Encargado de local");
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, listausuarios);
+        adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        spinner.setPrompt("Seleccione el usuario deseado");
+        spinner.setAdapter(new NothingSelectedSpinnerAdapter(adapter, R.layout.spinner_layout,this));
     }
 
     public void crearUsuario(View v){
@@ -47,6 +57,8 @@ public class CrearUsuarioActivity extends AppCompatActivity {
     public void limpiarTexto(View v){
         editUsuario.setText("");
         editPass.setText("");
+        
+
     }
 
 
