@@ -68,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
                             Bundle user = new Bundle();
                             user.putSerializable("usuario",usuario);
                             Intent menuEmpleado = new Intent(v.getContext(), EmpleadoMenuActivity.class);
+                            menuEmpleado.putExtra("usuario",user);
                             startActivity(menuEmpleado);
                             //Toast.makeText(getApplicationContext(), "Datos de empleado CORRECTOS", Toast.LENGTH_SHORT).show();
                         }

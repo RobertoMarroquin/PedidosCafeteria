@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.SQLException;
+import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -840,6 +841,11 @@ public class ControlBD {
         final String[] Mfechadesdemenu = {"01/06/2020", "01/05/2020"};
         final String[] Mfechahastamenu = {"20/06/2020", "20/05/2020"};
 
+        final String[] Pcodmenu = {"menu1", "menu2","menu1", "menu2","menu1", "menu2"};
+        final String[] Pcodproducto = {"p1", "p2","p3","p4", "p5","p6"};
+        final String[] Pnombreproducto = {"leche","huevos","jamon","pollo","tocino","frijoles"};
+        final float[] Ppreciounitario = {1,3,1,2,1,4};
+
         abrir();
         db.execSQL("DELETE FROM usuario");
         db.execSQL("DELETE FROM facultad");
@@ -847,6 +853,7 @@ public class ControlBD {
         db.execSQL("DELETE FROM encargadolocal");
         db.execSQL("DELETE FROM local");
         db.execSQL("DELETE FROM menu");
+        db.execSQL("DELETE FROM producto");
 
 
         Usuario usuario = new Usuario();
@@ -896,6 +903,15 @@ public class ControlBD {
             menu.setFechadesdemenu(Mfechadesdemenu[i]);
             menu.setFechahastamenu(Mfechahastamenu[i]);
             insertar(menu);
+        }
+
+        Producto producto = new Producto();
+        for(int i = 0;i<6;i++){
+            producto.setCodproducto(Pcodproducto[i]);
+            producto.setNombreproducto(Pnombreproducto[i]);
+            producto.setCodmenu(Pcodmenu[i]);
+            producto.setPreciounitario(Ppreciounitario[i]);
+            insertar(producto);
         }
         cerrar();
         return "Se insertaron datos de prueba";

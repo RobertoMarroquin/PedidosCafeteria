@@ -14,9 +14,9 @@ public class EmpleadoMenuActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_empleado_menu);
+        Bundle objetosRecividos = getIntent().getExtras();
         datosEmpleado = (Button) findViewById(R.id.btnDatosEmpleado);
         datosLocales = (Button) findViewById(R.id.btnLocal);
-        Bundle objetosRecividos = getIntent().getExtras();
         //aqui irian los otros botones de los otros dos menus
         //
 

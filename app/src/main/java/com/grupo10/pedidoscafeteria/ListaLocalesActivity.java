@@ -2,6 +2,7 @@ package com.grupo10.pedidoscafeteria;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -36,8 +37,12 @@ public class ListaLocalesActivity extends AppCompatActivity {
         listViewLocales.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String mensaje = "CodLocal: "+ listaLocales.get(position).getCodlocal()+"\n"+"NombreLocal: "+listaLocales.get(position).getNombrelocal();
-                Toast.makeText(ListaLocalesActivity.this, mensaje, Toast.LENGTH_SHORT).show();
+                Bundle paquete = new Bundle();
+                paquete.putString("codlocal", listaLocales.get(position).getCodlocal());
+                Intent productosLocal = new Intent(parent.getContext(), ProductosLocalActivity.class);
+                productosLocal.putExtras(paquete);
+                Log.d("Paquete enviado", "onItemClick: "+productosLocal.getExtras().getString("codlocal"));
+                startActivity(productosLocal);
             }
         });
 
@@ -65,7 +70,6 @@ public class ListaLocalesActivity extends AppCompatActivity {
 
         for (int i = 0; i < listaLocales.size(); i++){
             listaInfo.add(listaLocales.get(i).getCodlocal() + " - "+ listaLocales.get(i).getNombrelocal());
-            Log.d("index", "obtenerLista: "+listaLocales.get(i).getNombrelocal());
         }
     }
 }
