@@ -1,14 +1,14 @@
 package com.grupo10.pedidoscafeteria;
 
 public class Producto {
-    private int idproducto;
-    private int idmenu;
+    private String codproducto;
+    private String codmenu;
     private String nombreproducto;
     private float preciounitario;
 
-    public Producto(int idproducto, int idmenu, String nombreproducto, float preciounitario) {
-        this.idproducto = idproducto;
-        this.idmenu = idmenu;
+    public Producto(String codproducto, String codmenu, String nombreproducto, float preciounitario) {
+        this.codproducto = codproducto;
+        this.codmenu = codmenu;
         this.nombreproducto = nombreproducto;
         this.preciounitario = preciounitario;
     }
@@ -16,20 +16,20 @@ public class Producto {
     public Producto() {
     }
 
-    public int getIdproducto() {
-        return idproducto;
+    public String getCodproducto() {
+        return codproducto;
     }
 
-    public void setIdproducto(int idproducto) {
-        this.idproducto = idproducto;
+    public void setCodproducto(String codproducto) {
+        this.codproducto = codproducto;
     }
 
-    public int getIdmenu() {
-        return idmenu;
+    public String getCodmenu() {
+        return codmenu;
     }
 
-    public void setIdmenu(int idmenu) {
-        this.idmenu = idmenu;
+    public void setCodmenu(String codmenu) {
+        this.codmenu = codmenu;
     }
 
     public String getNombreproducto() {

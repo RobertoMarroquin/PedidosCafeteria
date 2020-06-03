@@ -40,14 +40,16 @@ public class EncargadoLocalMenuActivity extends AppCompatActivity {
         btnMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent crudMenu = new Intent(v.getContext(), MenuMenuActivity.class);
+                startActivity(crudMenu);
             }
         });
 
         btnProducto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent crudProducto = new Intent(v.getContext(), ProductoMenuActivity.class);
+                startActivity(crudProducto);
             }
         });
 

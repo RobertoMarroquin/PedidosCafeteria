@@ -87,4 +87,35 @@
     <!-- los textos para la pantalla de insertar local -->
     <string name="codlocal">Codigo del local</string>
     <string name="nomlocal">Nombre del local</string>
+
+    <!-- los textos para el menu de menu (crud) -->
+    <string name="button_create_menu">Insertar Menu</string>
+    <string name="button_read_menu">Consultar Menu</string>
+    <string name="button_update_menu">Actualizar Menu</string>
+    <string name="button_delete_menu">Eliminar Menu</string>
+
+    <!-- los textos para la pantalla de insertar menu -->
+    <string name="codmenu">Codigo del Menu</string>
+    <string name="preciomenu">Precio del Menu</string>
+    <string name="fechadesdemenu">Fecha inicial del Menu</string>
+    <string name="fechahastamenu">Fecha final del Menu</string>
+
+    <!-- los textos para el menu de producto (crud) -->
+    <string name="button_create_producto">Insertar Producto</string>
+    <string name="button_read_producto">Consultar Producto</string>
+    <string name="button_update_producto">Actualizar Producto</string>
+    <string name="button_delete_producto">Eliminar Producto</string>
+
+    <!-- lo mas seguro es que se quite -->
+    <string name="button_table_cambioprecios">Cambios de precios</string>
+
+    <!-- para los spinners -->
+    <string name="select_from_spinner">Seleccione el correspondiente</string>
+
+    <!-- los textos para la pantalla de insertar producto -->
+    <string name="codproducto">Codigo del producto</string>
+    <string name="nombreproducto">Nombre del producto</string>
+    <string name="preciounitario">Precio unitario</string>
+
+
 </resources>

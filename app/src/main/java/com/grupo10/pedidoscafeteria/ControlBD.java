@@ -7,9 +7,11 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.SQLException;
 
+import java.util.ArrayList;
+
 public class ControlBD {
     //listas de todos los campos de todas las tablas
-    // ============================================================ahorita solo estan las del login
+    // =====================================================SE USAN PARA LAS CONSULTAS
     private static final String[] camposUsuario = new String[]{"nombreusuario", "pass", "usuario"};
     private static final String[] camposAccesoUsuario = new String[]{"usuario", "idopcion"};
     private static final String[] camposOpcionCRUD = new String[]{"idopcion", "desopcion", "numcrud"};
@@ -17,6 +19,9 @@ public class ControlBD {
     private static final String[] camposUbicacion = new String[]{"codubicacion", "descubicacion"};
     private static final String[] camposEmpleado = new String[]{"codempleado", "codfacultad", "codubicacion", "nomempleado", "apeempleado", "telempleado"};
     private static final String[] camposEncargadoLocal = new String[]{"codencargadolocal", "nomencargadolocal", "apeencargadolocal", "telencargadolocal"};
+    private static final String[] camposLocal = new String[]{"codlocal", "codencargadolocal", "nombrelocal"};
+    private static final String[] camposMenu = new String[]{"codmenu", "codlocal", "preciomenu", "fechadesdemenu", "fechahastamenu"};
+    private static final String[] camposProducto = new String[]{"codproducto", "codmenu", "nombreproducto", "preciounitario"};
 
     private final Context context;
     private DatabaseHelper DBHelper;
@@ -38,7 +43,7 @@ public class ControlBD {
         public void onCreate(SQLiteDatabase db){
             try{
                 //los db.execSQL de crear la base
-                //=============================================bases parA LOGIN / OPCIONCRUD ACCESOUSUARIO / NO SE USAN
+                //=============================================bases parA LOGIN / OPCIONCRUD ACCESOUSUARIO / NO SE USAN aún
                 db.execSQL("CREATE TABLE usuario (nombreusuario VARCHAR(7) NOT NULL PRIMARY KEY, pass VARCHAR(10) NOT NULL, usuario VARCHAR(256) NOT NULL);");
                 db.execSQL("CREATE TABLE opcioncrud (idopcion CHAR(3) NOT NULL PRIMARY KEY, desopcion VARCHAR(30) NOT NULL, numcrud INTEGER NOT NULL);");
                 db.execSQL("CREATE TABLE accesousuario (nombreusuario VARCHAR(7) NOT NULL, idopcion CHAR(3) NOT NULL, PRIMARY KEY (nombreusuario, idopcion));");
@@ -46,6 +51,9 @@ public class ControlBD {
                 db.execSQL("create table ubicacion (codubicacion VARCHAR(7) NOT NULL PRIMARY KEY, descubicacion VARCHAR(100));");
                 db.execSQL("create table empleado (codempleado VARCHAR(15) NOT NULL PRIMARY KEY, codfacultad VARCHAR(7) NOT NULL, codubicacion VARCHAR(7) NOT NULL, nomempleado VARCHAR(30), apeempleado VARCHAR(30), telempleado VARCHAR(8), codlocal VARCHAR(7));");
                 db.execSQL("create table encargadolocal (codencargadolocal VARCHAR(10) NOT NULL PRIMARY KEY, nomencargadolocal VARCHAR(30), apeencargadolocal VARCHAR(30), telencargadolocal VARCHAR(8));");
+                db.execSQL("create table local (codlocal VARCHAR(10) NOT NULL PRIMARY KEY, codencargadolocal VARCHAR(19) NOT NULL, nombrelocal VARCHAR(50));");
+                db.execSQL("create table menu (codmenu VARCHAR(10) NOT NULL PRIMARY KEY, codlocal VARCHAR(10) NOT NULL, preciomenu REAL, fechadesdemenu VARCHAR(15), fechahastamenu VARCHAR(15));");
+                db.execSQL("create table producto (codproducto VARCHAR(10) NOT NULL PRIMARY KEY, codmenu VARCHAR(10) NOT NULL, nombreproducto VARCHAR(50), preciounitario REAL);");
 
             } catch (SQLException e){
                 e.printStackTrace();
@@ -65,6 +73,10 @@ public class ControlBD {
     public void cerrar() {
         DBHelper.close();
     }
+
+
+
+
 
 //============================================================================ CRUD TABLA USUARIO
     //INSERTAR USUARIO
@@ -360,7 +372,7 @@ public class ControlBD {
         int contador = 0;
         /*
         //AL ELIMINAR encargado de local VER SI HAY locales ASOCIADOS......................................
-        if (verificarIntegridad(encargadoLocal,4)){                      SERIA RELACION 8
+        if (verificarIntegridad(encargadoLocal,8)){                      SERIA RELACION 8
             contador+=db.delete("local", "codencargadolocal = '" + encargadolocal.getCodEncargadoLocal() + "'", null);
         }
         */
@@ -369,6 +381,221 @@ public class ControlBD {
         return regAfectados;
     }
 
+//====================================================================================== TABLA LOCAL
+//INSERTAR LOCAL
+    public String insertar(Local local) {
+        String regInsertados = "Registro insertado n° ";
+        long contador = 0;
+
+        if (verificarIntegridad(local,9)){
+            ContentValues loc = new ContentValues();
+            loc.put("codlocal", local.getCodlocal());
+            loc.put("codencargadolocal", local.getCodencargadolocal());
+            loc.put("nombrelocal", local.getNombrelocal());
+
+            contador = db.insert("local", null, loc);
+        }
+
+        if (contador==-1 || contador==0){
+            regInsertados = "Error al insetar el registro, Revisar los datos. Verificar";
+        }
+        else {
+            regInsertados = regInsertados + contador;
+        }
+        return regInsertados;
+    }
+
+
+    //ACTUALIZAR LOCAL
+    public String actualizar(Local local) {
+        if (verificarIntegridad(local, 10)){
+            String[] id = {local.getCodlocal(), local.getCodencargadolocal()};
+            ContentValues cvl = new ContentValues();
+            cvl.put("nombrelocal", local.getNombrelocal());
+
+            db.update("local", cvl, "codlocal = ? AND codencargadolocal = ?", id);
+            return "Registro actualizado correctamente";
+        }
+        else {
+            return "Registro no existe";
+        }
+
+    }
+
+
+    //CONSULTAR LOCAL
+    public Local consultarLocal(String codlocal, String codencargadolocal) {
+        String id [] = {codlocal, codencargadolocal};
+        Cursor cursor = db.query("local", camposLocal, "codlocal = ? AND codencargadolocal = ?", id, null, null, null);
+        if (cursor.moveToFirst()){
+            Local local = new Local();
+            local.setCodlocal(cursor.getString(0));
+            local.setCodencargadolocal(cursor.getString(1));
+            local.setNombrelocal(cursor.getString(2));
+            return local;
+        }
+        else {
+            return null;
+        }
+    }
+
+    //ELIMINAR LOCAL
+    public String eliminar(Local local) {
+        String regAfectados = "filas afectadas = ";
+        int contador = 0;
+        String where ="codlocal = '" + local.getCodlocal() +"'";
+        where = where+" AND codencargadolocal = '" + local.getCodencargadolocal() +"'";
+        contador += db.delete("local", where , null);
+        regAfectados += contador;
+        return regAfectados;
+    }
+
+//=======================================================================================TABLA MENU
+
+    //INSERTAR MENU
+    public String insertar(Menu menu) {
+        String regInsertados = "Registro insertado n° ";
+        long contador = 0;
+
+        if (verificarIntegridad(menu,11)){
+            ContentValues men = new ContentValues();
+            men.put("codmenu", menu.getCodmenu());
+            men.put("codlocal", menu.getCodlocal());
+            men.put("preciomenu", menu.getPreciomenu());
+            men.put("fechadesdemenu", menu.getFechadesdemenu());
+            men.put("fechahastamenu", menu.getFechahastamenu());
+
+            contador = db.insert("menu", null, men);
+        }
+
+        if (contador==-1 || contador==0){
+            regInsertados = "Error al insetar el registro, Revisar los datos. Verificar";
+        }
+        else {
+            regInsertados = regInsertados + contador;
+        }
+        return regInsertados;
+    }
+
+    //CONSULTAR MENU
+    public Menu consultarMenu(String codmenu, String codlocal) {
+        String id [] = {codmenu, codlocal};
+        Cursor cursor = db.query("menu", camposMenu, "codmenu = ? AND codlocal = ?", id, null, null, null);
+        if (cursor.moveToFirst()){
+            Menu menu = new Menu();
+            menu.setCodmenu(cursor.getString(0));
+            menu.setCodlocal(cursor.getString(1));
+            menu.setPreciomenu(cursor.getFloat(2));
+            menu.setFechadesdemenu(cursor.getString(3));
+            menu.setFechahastamenu(cursor.getString(4));
+
+            return menu;
+        }
+        else {
+            return null;
+        }
+    }
+
+    //ACTUALIZAR MENU
+    public String actualizar(Menu menu) {
+        if (verificarIntegridad(menu, 12)){
+            String[] id = {menu.getCodmenu(), menu.getCodlocal()};
+            ContentValues cvm = new ContentValues();
+            cvm.put("preciomenu", menu.getPreciomenu());
+            cvm.put("fechadesdemenu", menu.getFechadesdemenu());
+            cvm.put("fechahastamenu", menu.getFechahastamenu());
+
+            db.update("menu", cvm, "codmenu = ? AND codlocal = ?", id);
+            return "Registro actualizado correctamente";
+        }
+        else {
+            return "Registro no existe";
+        }
+
+    }
+
+    //ELIMINAR MENU
+    public String eliminar(Menu menu) {
+        String regAfectados = "filas afectadas = ";
+        int contador = 0;
+        String where ="codmenu = '" + menu.getCodmenu() +"'";
+        where = where+" AND codlocal = '" + menu.getCodlocal() +"'";
+        contador += db.delete("menu", where , null);
+        regAfectados += contador;
+        return regAfectados;
+    }
+
+//===================================================================================TABLA PRODUCTO
+
+    //INSERTAR PRODUCTO
+    public String insertar(Producto producto) {
+        String regInsertados = "Registro insertado n° ";
+        long contador = 0;
+
+        if (verificarIntegridad(producto,13)){
+            ContentValues prod = new ContentValues();
+            prod.put("codproducto", producto.getCodproducto());
+            prod.put("codmenu", producto.getCodmenu());
+            prod.put("nombreproducto", producto.getNombreproducto());
+            prod.put("preciounitario", producto.getPreciounitario());
+
+            contador = db.insert("producto", null, prod);
+        }
+
+        if (contador==-1 || contador==0){
+            regInsertados = "Error al insetar el registro, Revisar los datos. Verificar";
+        }
+        else {
+            regInsertados = regInsertados + contador;
+        }
+        return regInsertados;
+    }
+
+
+    //CONSULTAR PRODUCTO
+    public Producto consultarProducto(String codproducto, String codmenu) {
+        String id [] = {codproducto, codmenu};
+        Cursor cursor = db.query("producto", camposProducto, "codproducto = ? AND codmenu = ?", id, null, null, null);
+        if (cursor.moveToFirst()){
+            Producto producto = new Producto();
+            producto.setCodproducto(cursor.getString(0));
+            producto.setCodmenu(cursor.getString(1));
+            producto.setNombreproducto(cursor.getString(2));
+            producto.setPreciounitario(cursor.getFloat(3));
+
+            return producto;
+        }
+        else {
+            return null;
+        }
+    }
+
+    //ACTUALIZAR PRODUCTO
+    public String actualizar(Producto producto) {
+        if (verificarIntegridad(producto, 14)){
+            String[] id = {producto.getCodproducto(), producto.getCodmenu()};
+            ContentValues cvp = new ContentValues();
+            cvp.put("nombreproducto", producto.getNombreproducto());
+            cvp.put("preciounitario", producto.getPreciounitario());
+            db.update("producto", cvp, "codproducto = ? AND codmenu = ?", id);
+            return "Registro actualizado correctamente";
+        }
+        else {
+            return "Registro no existe";
+        }
+
+    }
+
+    //ELIMINAR PRODUCTO
+    public String eliminar(Producto producto) {
+        String regAfectados = "filas afectadas = ";
+        int contador = 0;
+        String where ="codproducto = '" + producto.getCodproducto() +"'";
+        where = where+" AND codmenu = '" + producto.getCodmenu() +"'";
+        contador += db.delete("producto", where , null);
+        regAfectados += contador;
+        return regAfectados;
+    }
 
 //=================================================================================================
 //================================================== PARA CONSULTAR SI EXISTE EL USUARIO Y EL PASS
@@ -470,10 +697,109 @@ public class ControlBD {
                 else
                     return false;
             }
+            case 9:
+            {  //PARA REVISAR QUE AL INSERTAR EL LOCAL, EXISTA EL ENCARGADO DE LOCAL
+                Local local = (Local) dato;
+                String[] id1 = {local.getCodencargadolocal()};
+                //abrir();
+                Cursor cursor1 = db.query("encargadolocal", null, "codencargadolocal = ?", id1, null, null, null);
+                if (cursor1.moveToFirst() ) {
+                    //se encontraron datos
+                    return true;
+                }
+                return false;
+            }
+            case 10:
+            {  //AL ACTUALIZAR EMPLEADO QUE EXISTA CODLOCAL Y CODENCARGADOLOCAL ASOCIADOS
+                Local local1 = (Local) dato;
+                String[] ids = {local1.getCodlocal(), local1.getCodencargadolocal()};
+
+                abrir();
+                Cursor cl = db.query("local", null, "codlocal = ? AND codencargadolocal = ?" , ids, null, null, null);
+                if (cl.moveToFirst()) {
+                    //se encontraron datos
+                    return true;
+                }
+                return false;
+            }
+            case 11:
+            {  //PARA REVISAR QUE AL INSERTAR EL MENU, EXISTA EL LOCAL
+                Menu menu = (Menu) dato;
+                String[] id1 = {menu.getCodlocal()};
+                //abrir();
+                Cursor cursor1 = db.query("local", null, "codlocal = ?", id1, null, null, null);
+                if (cursor1.moveToFirst() ) {
+                    //se encontraron datos
+                    return true;
+                }
+                return false;
+            }
+            case 12:
+            {   //AL ACTUALIZAR MENU, QUE EXISTA CODMENU Y CODLOCAL ASOCIADOS
+                Menu menu1 = (Menu) dato;
+                String[] ids = {menu1.getCodmenu(), menu1.getCodlocal()};
+                abrir();
+                Cursor cl = db.query("menu", null, "codmenu = ? AND codlocal = ?" , ids, null, null, null);
+                if (cl.moveToFirst()) {
+                    //se encontraron datos
+                    return true;
+                }
+                return false;
+            }
+            case 13:
+            {   //PARA REVISAR QUE AL INSERTAR UN PRODUCTO, EXISTA EL MENU DONDE SE VA A INSERTAR
+                Producto producto = (Producto) dato;
+                String[] id1 = {producto.getCodmenu()};
+                //abrir();
+                Cursor cursor1 = db.query("menu", null, "codmenu = ?", id1, null, null, null);
+                if (cursor1.moveToFirst() ) {
+                    //se encontraron datos
+                    return true;
+                }
+                return false;
+            }
+            case 14:
+            {   //AL ACTUALIZAR PRODUCTO, QUE EXISTA CODPRODUCTO Y CODMENU
+                Producto producto1 = (Producto) dato;
+                String[] ids = {producto1.getCodproducto(), producto1.getCodmenu()};
+                abrir();
+                Cursor cp = db.query("producto", null, "codproducto = ? AND codmenu = ?" , ids, null, null, null);
+                if (cp.moveToFirst()) {
+                    //se encontraron datos
+                    return true;
+                }
+                return false;
+            }
             default:
                 return false;
         }
     }
+
+//=====================================================================PARA LLENAR LOS SPINNERS
+
+
+    //ARRAY LIST PARA SPINNER DE CODIGOS DE MENU
+
+    public ArrayList<String> getAllCodMenu(){
+        ArrayList<String> list = new ArrayList<String>();
+        db = DBHelper.getReadableDatabase();
+      //  db.beginTransaction();
+        try {
+            Cursor cursor = db.rawQuery("SELECT * FROM menu", null);
+            if (cursor.getCount()>0){
+                while (cursor.moveToNext()){
+                    String codmenu = cursor.getString(cursor.getColumnIndex("codmenu"));
+                    list.add(codmenu);
+                }
+            }
+
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    ///////////////////////////////////////////////////
 
 
 
@@ -494,10 +820,29 @@ public class ControlBD {
         final String[] Ucodubicacion = {"ubi1", "ubi2"};
         final String[] Udescubicacion = {"Entre la facultad de ingenieria y humanidades", "Cerca de la facultad de agronomia"};
 
+        final String[] ELcodenclocal = {"encargado1", "encargado2"};
+        final String[] ELnomenclocal = {"Nestor", "Meli"};
+        final String[] ELapeenclocal = {"Molina", "Moshi"};
+        final String[] ELtelenclocal = {"71179082", "71591724"};
+
+        final String[] Lcodlocal = {"local1", "local2"};
+        final String[] Lcodencargadolocal = {"encargado1", "encargado2"};
+        final String[] Lnombrelocal = {"Lacteos la vaquita", "Lacteos la cabrita"};
+
+        final String[] Mcodmenu = {"menu1", "menu2"};
+        final String[] Mcodlocal = {"local1", "local2"};
+        final float[] Mpreciomenu = {20, 30};
+        final String[] Mfechadesdemenu = {"01/06/2020", "01/05/2020"};
+        final String[] Mfechahastamenu = {"20/06/2020", "20/05/2020"};
+
         abrir();
         db.execSQL("DELETE FROM usuario");
         db.execSQL("DELETE FROM facultad");
         db.execSQL("DELETE FROM ubicacion");
+        db.execSQL("DELETE FROM encargadolocal");
+        db.execSQL("DELETE FROM local");
+        db.execSQL("DELETE FROM menu");
+
 
         Usuario usuario = new Usuario();
         for(int i=0; i<2; i++){
@@ -519,6 +864,33 @@ public class ControlBD {
             ubicacion.setCodubicacion(Ucodubicacion[i]);
             ubicacion.setDescubicacion(Udescubicacion[i]);
             insertar(ubicacion);
+        }
+
+        EncargadoLocal encargado = new EncargadoLocal();
+        for (int i=0; i<2; i++){
+            encargado.setCodencargadolocal(ELcodenclocal[i]);
+            encargado.setNomencargadolocal(ELnomenclocal[i]);
+            encargado.setApeencargadolocal(ELapeenclocal[i]);
+            encargado.setTelencargadolocal(ELtelenclocal[i]);
+            insertar(encargado);
+        }
+
+        Local local = new Local();
+        for (int i=0; i<2; i++){
+            local.setCodlocal(Lcodlocal[i]);
+            local.setCodencargadolocal(Lcodencargadolocal[i]);
+            local.setNombrelocal(Lnombrelocal[i]);
+            insertar(local);
+        }
+
+        Menu menu = new Menu();
+        for (int i=0; i<2; i++){
+            menu.setCodmenu(Mcodmenu[i]);
+            menu.setCodlocal(Mcodlocal[i]);
+            menu.setPreciomenu(Mpreciomenu[i]);
+            menu.setFechadesdemenu(Mfechadesdemenu[i]);
+            menu.setFechahastamenu(Mfechahastamenu[i]);
+            insertar(menu);
         }
         cerrar();
         return "Se insertaron datos de prueba";
