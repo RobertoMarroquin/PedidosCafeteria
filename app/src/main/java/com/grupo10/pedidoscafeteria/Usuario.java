@@ -1,6 +1,8 @@
 package com.grupo10.pedidoscafeteria;
 
-public class Usuario {
+import java.io.Serializable;
+
+public class Usuario implements Serializable {
     private String nombreusuario;
 
     private String contrasena;

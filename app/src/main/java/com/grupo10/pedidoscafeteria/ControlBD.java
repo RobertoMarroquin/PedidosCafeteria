@@ -70,6 +70,11 @@ public class ControlBD {
         return;
     }
 
+    public SQLiteDatabase abrir2() throws SQLException{
+        SQLiteDatabase db = DBHelper.getWritableDatabase();
+        return db;
+    }
+
     public void cerrar() {
         DBHelper.close();
     }

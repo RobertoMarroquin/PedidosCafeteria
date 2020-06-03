@@ -9,7 +9,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".EliminarProductoActivity"></activity>
+        <activity android:name=".ProductosLocalActivity"></activity>
+        <activity android:name=".ListaLocalesActivity" />
+        <activity android:name=".EliminarProductoActivity" />
         <activity android:name=".ActualizarProductoActivity" />
         <activity android:name=".ConsultarProductoActivity" />
         <activity android:name=".InsertarProductoActivity" />

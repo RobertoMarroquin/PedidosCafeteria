@@ -15,6 +15,8 @@ public class EmpleadoMenuActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_empleado_menu);
         datosEmpleado = (Button) findViewById(R.id.btnDatosEmpleado);
+        datosLocales = (Button) findViewById(R.id.btnLocal);
+        Bundle objetosRecividos = getIntent().getExtras();
         //aqui irian los otros botones de los otros dos menus
         //
 
@@ -26,6 +28,15 @@ public class EmpleadoMenuActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent menuFacUbiEmp = new Intent(v.getContext(), FacultadUbicacionEmpleadoMenu.class);
                 startActivity(menuFacUbiEmp);
+            }
+        });
+
+        datosLocales.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent listaLocales = new Intent(v.getContext(),ListaLocalesActivity.class);
+                startActivity(listaLocales);
             }
         });
     }

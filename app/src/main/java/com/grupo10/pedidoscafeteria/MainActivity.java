@@ -65,6 +65,8 @@ public class MainActivity extends AppCompatActivity {
                         Cursor c = helper.ConsultarUsuPass(editNomUsuario.getText().toString(), editPass.getText().toString());
 
                         if (c.getCount()>0){
+                            Bundle user = new Bundle();
+                            user.putSerializable("usuario",usuario);
                             Intent menuEmpleado = new Intent(v.getContext(), EmpleadoMenuActivity.class);
                             startActivity(menuEmpleado);
                             //Toast.makeText(getApplicationContext(), "Datos de empleado CORRECTOS", Toast.LENGTH_SHORT).show();
