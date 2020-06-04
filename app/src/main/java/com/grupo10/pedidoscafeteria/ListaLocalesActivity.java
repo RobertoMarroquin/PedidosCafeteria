@@ -20,6 +20,8 @@ public class ListaLocalesActivity extends AppCompatActivity {
     ArrayList<String> listaInfo;
     ArrayList<Local> listaLocales;
     ControlBD helper;
+    Usuario user;
+    Bundle paquete;
     private static final String[] camposLocal = new String[]{"codlocal", "codencargadolocal", "nombrelocal"};
 
     @Override
@@ -28,7 +30,7 @@ public class ListaLocalesActivity extends AppCompatActivity {
         setContentView(R.layout.activity_lista_locales);
         helper = new ControlBD(this);
         listViewLocales = (ListView) findViewById(R.id.listViewLocales);
-
+        paquete = getIntent().getExtras();
         consultarlocales();
 
         ArrayAdapter adaptador = new ArrayAdapter(this,android.R.layout.simple_list_item_1,listaInfo);
@@ -37,11 +39,13 @@ public class ListaLocalesActivity extends AppCompatActivity {
         listViewLocales.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Bundle paquete = new Bundle();
+
+                user = (Usuario) paquete.getSerializable("usuario");
                 paquete.putString("codlocal", listaLocales.get(position).getCodlocal());
                 Intent productosLocal = new Intent(parent.getContext(), ProductosLocalActivity.class);
                 productosLocal.putExtras(paquete);
                 Log.d("Paquete enviado", "onItemClick: "+productosLocal.getExtras().getString("codlocal"));
+                Log.d("Paquete enviado", "onItemClick: "+user.getNombreusuario());
                 startActivity(productosLocal);
             }
         });

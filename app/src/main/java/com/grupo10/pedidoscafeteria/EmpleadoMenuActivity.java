@@ -9,12 +9,14 @@ import android.widget.Button;
 
 public class EmpleadoMenuActivity extends AppCompatActivity {
     Button datosEmpleado, datosPedidos, datosLocales;
-
+    Usuario user;
+    Bundle objetosRecividos;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_empleado_menu);
-        Bundle objetosRecividos = getIntent().getExtras();
+        objetosRecividos = getIntent().getExtras();
+        user = (Usuario) objetosRecividos.getSerializable("usuario");
         datosEmpleado = (Button) findViewById(R.id.btnDatosEmpleado);
         datosLocales = (Button) findViewById(R.id.btnLocal);
         //aqui irian los otros botones de los otros dos menus
@@ -34,8 +36,9 @@ public class EmpleadoMenuActivity extends AppCompatActivity {
         datosLocales.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 Intent listaLocales = new Intent(v.getContext(),ListaLocalesActivity.class);
+
+                listaLocales.putExtras(objetosRecividos);
                 startActivity(listaLocales);
             }
         });

@@ -2,10 +2,13 @@ package com.grupo10.pedidoscafeteria;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -17,15 +20,21 @@ public class ProductosLocalActivity extends AppCompatActivity {
     ArrayList<String> listaInfo;
     ArrayList<Producto> listaProducto;
     String localId;
-
+    Usuario user;
+    Bundle paqueteR;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_productos_local);
-        Bundle paqueteR = getIntent().getExtras();
-        if (paqueteR != null) localId = paqueteR.getString("codlocal");
-        else localId = "local1";
+        paqueteR = getIntent().getExtras();
+        if (paqueteR != null) {
+            localId = paqueteR.getString("codlocal");
+            user = (Usuario) paqueteR.getSerializable("usuario");
+        }
+        else {
+            localId = "local1";
+        }
         Log.d("paquete", "onCreate: "+localId);
         helper = new ControlBD(this);
         listViewProductos = (ListView) findViewById(R.id.listViewProductos);
@@ -34,6 +43,20 @@ public class ProductosLocalActivity extends AppCompatActivity {
 
         ArrayAdapter adaptador = new ArrayAdapter(this,android.R.layout.simple_list_item_1,listaInfo);
         listViewProductos.setAdapter(adaptador);
+
+        listViewProductos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                user = (Usuario) paqueteR.getSerializable("usuario");
+                paqueteR.putString("codproducto", listaProducto.get(position).getCodproducto());
+                Intent detalleProducto = new Intent(parent.getContext(), DetalleProductoActivity.class);
+                detalleProducto.putExtras(paqueteR);
+                Log.d("Paquete enviado", "onItemClick: "+detalleProducto.getExtras().getString("codproducto"));
+                startActivity(detalleProducto);
+            }
+        });
+
 
     }
 
