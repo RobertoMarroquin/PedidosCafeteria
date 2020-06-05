@@ -6,4 +6,66 @@
     android:layout_height="match_parent"
     tools:context=".DetalleProductoActivity">
 
+
+    <TextView
+        android:id="@+id/TVnomproducto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:text="TextView"
+        android:gravity="center_horizontal"
+        android:textStyle="bold"
+        android:textSize="25sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/cantProducto"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="56dp"
+        android:ems="10"
+        android:inputType="numberDecimal"
+        android:gravity="center_horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/BtnanadirP"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/BtnanadirP"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="100dp"
+        android:text="Anadir"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+    <TextView
+        android:id="@+id/TVprecioUnidad"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="68dp"
+        android:gravity="center_horizontal"
+        android:text="Precio Unitario:"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/TVnomproducto" />
+
+    <TextView
+        android:id="@+id/textView19"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:text="Ingresa cuantas unidades deseas ordenar"
+        android:textSize="18sp"
+        android:gravity="center_horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/cantProducto"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.503"
+        app:layout_constraintStart_toStartOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
