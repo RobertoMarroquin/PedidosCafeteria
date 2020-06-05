@@ -55,6 +55,16 @@ public class ControlBD {
                 db.execSQL("create table local (codlocal VARCHAR(10) NOT NULL PRIMARY KEY, codencargadolocal VARCHAR(19) NOT NULL, nombrelocal VARCHAR(50));");
                 db.execSQL("create table menu (codmenu VARCHAR(10) NOT NULL PRIMARY KEY, codlocal VARCHAR(10) NOT NULL, preciomenu REAL, fechadesdemenu VARCHAR(15), fechahastamenu VARCHAR(15));");
                 db.execSQL("create table producto (codproducto VARCHAR(10) NOT NULL PRIMARY KEY, codmenu VARCHAR(10) NOT NULL, nombreproducto VARCHAR(50), preciounitario REAL);");
+                db.execSQL("create table pedido (idpedido INTEGER NOT NULL  PRIMARY KEY AUTOINCREMENT, codruta VARCHAR(10), codestadopedido VARCHAR(2), codlocal VARCHAR(10) NOT NULL,fechapedido VARCHAR(10));");
+                db.execSQL("create table pedidosasignados (\n" +
+                        "codtrabajador        VARCHAR(4)            NOT NULL,\n" +
+                        "codpedido             INTEGER              NOT NULL,\n" +
+                        "PRIMARY KEY (codtrabajador,codpedido));");
+                db.execSQL("create table detalleproductoempleado (\n" +
+                        "iddpe                INT                      NOT NULL PRIMARY KEY AUTOINCREMENT,\n"+
+                        "codtrabajador         VARCHAR(10)              NOT NULL,\n" +
+                        "codproducto           VARCHAR(10)              NOT NULL,\n" +
+                        "cantidadpedido        INTEGER              );");
 
             } catch (SQLException e){
                 e.printStackTrace();
@@ -854,7 +864,6 @@ public class ControlBD {
         db.execSQL("DELETE FROM local");
         db.execSQL("DELETE FROM menu");
         db.execSQL("DELETE FROM producto");
-
 
         Usuario usuario = new Usuario();
         for(int i=0; i<2; i++){

@@ -1,23 +1,24 @@
 package com.grupo10.pedidoscafeteria;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Pedido {
+public class Pedido implements Serializable {
     private int idpedido;
     private int idruta;
     private int idestadopedido;
-    private int idlocal;
-    private Date fechapedido;
+    private String codlocal;
+    private String fechapedido;
 
-    public Pedido(int idpedido, int idruta, int idestadopedido, int idlocal, Date fechapedido) {
+    public Pedido() {
+    }
+
+    public Pedido(int idpedido, int idruta, int idestadopedido, String codlocal, String fechapedido) {
         this.idpedido = idpedido;
         this.idruta = idruta;
         this.idestadopedido = idestadopedido;
-        this.idlocal = idlocal;
+        this.codlocal = codlocal;
         this.fechapedido = fechapedido;
-    }
-
-    public Pedido() {
     }
 
     public int getIdpedido() {
@@ -44,19 +45,20 @@ public class Pedido {
         this.idestadopedido = idestadopedido;
     }
 
-    public int getIdlocal() {
-        return idlocal;
+    public String getCodlocal() {
+        return codlocal;
     }
 
-    public void setIdlocal(int idlocal) {
-        this.idlocal = idlocal;
+    public void setCodlocal(String codlocal) {
+        this.codlocal = codlocal;
     }
 
-    public Date getFechapedido() {
+    public String getFechapedido() {
         return fechapedido;
     }
 
-    public void setFechapedido(Date fechapedido) {
+    public void setFechapedido(String fechapedido) {
         this.fechapedido = fechapedido;
     }
 }
+

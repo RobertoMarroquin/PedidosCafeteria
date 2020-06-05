@@ -2,6 +2,7 @@ package com.grupo10.pedidoscafeteria;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -12,6 +13,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import java.util.Calendar;
+import java.util.Date;
 
 public class DetalleProductoActivity extends AppCompatActivity {
     Bundle paquete;
@@ -22,6 +25,8 @@ public class DetalleProductoActivity extends AppCompatActivity {
     EditText cantProducto;
     TextView TVnomproducto, TVprecioUnidad;
     ControlBD helper;
+    Pedido pedido;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,16 +49,42 @@ public class DetalleProductoActivity extends AppCompatActivity {
         BtnanadirP.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent regresoListaLocales = new Intent(v.getContext(),ProductosLocalActivity.class);
+                if (paquete.getInt("idPedido",0)==0)paquete.putInt("idPedido",registrarpedido());
+                Log.d("pedido", "idPedido: "+paquete.getInt("idPedido"));
+                regresoListaLocales.putExtras(paquete);
                 Toast.makeText(DetalleProductoActivity.this, "Ordenar: "+cantProducto.getText().toString()+" "+
-                        producto.getNombreproducto()+"(s)", Toast.LENGTH_SHORT).show();
-
-                Intent regresoListaLocales = new Intent(v.getContext(),ListaLocalesActivity.class);
-                if (paquete.getString("idPedido") == null){
+                        producto.getNombreproducto()+"(s)" +
+                        "idPedido"+paquete.getInt("idPedido"), Toast.LENGTH_SHORT).show();
+                startActivity(regresoListaLocales);
 
                 }
-            }
-        });
+            });
 
+    }
+
+    private int registrarpedido() {
+            SQLiteDatabase db =  helper.abrir2();
+            String today = Calendar.getInstance().getTime().toString();
+            //paquete.getString("codlocal") today
+            long idpedido;
+            ContentValues ped = new ContentValues();
+            ped.put("codlocal", paquete.getString("codlocal"));
+            Log.d("Local", "registrarpedido: "+paquete.getString("codlocal"));
+            ped.put("fechapedido", today);
+            idpedido = db.insert("pedido", null, ped);
+            Log.d("id Pedido", "registrarpedido: "+idpedido);
+            String[] argumentos = {"" + idpedido,};
+            String[] campos = {"idpedido", "codlocal", "fechapedido"};
+            Cursor cursor = db.query("pedido", campos, "idpedido=?", argumentos, null, null, null);
+            cursor.moveToLast();
+            pedido = new Pedido();
+            pedido.setIdpedido(cursor.getInt(0));
+            Log.d("pedido idpedido", "registrarpedido: "+pedido.getIdpedido());
+            pedido.setCodlocal(cursor.getString(1));
+            pedido.setFechapedido(cursor.getString(2));
+
+            return pedido.getIdpedido();
     }
 
     private void consultarProducto() {
