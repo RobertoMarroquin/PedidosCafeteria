@@ -43,28 +43,33 @@ public class ControlBD {
 
         public void onCreate(SQLiteDatabase db){
             try{
+                //db.execSQL("drop table if exists usuario");
+                //db.execSQL("drop table if exists opcioncrud");
+                //db.execSQL("drop table if exists accesousuario");
+                //db.execSQL("drop table if exists facultad");
+                //db.execSQL("drop table if exists empleado");
+                //db.execSQL("drop table if exists encargadolocal");
+                //db.execSQL("drop table if exists local");
+                //db.execSQL("drop table if exists menu");
+                //db.execSQL("drop table if exists producto");
+                //db.execSQL("drop table if exists pedido");
+                //db.execSQL("drop table if exists pedidosasignados");
+                //db.execSQL("drop table if exists detalleproductoempleado");
                 //los db.execSQL de crear la base
                 //=============================================bases parA LOGIN / OPCIONCRUD ACCESOUSUARIO / NO SE USAN aún
-                db.execSQL("CREATE TABLE usuario (nombreusuario VARCHAR(7) NOT NULL PRIMARY KEY, pass VARCHAR(10) NOT NULL, usuario VARCHAR(256) NOT NULL);");
-                db.execSQL("CREATE TABLE opcioncrud (idopcion CHAR(3) NOT NULL PRIMARY KEY, desopcion VARCHAR(30) NOT NULL, numcrud INTEGER NOT NULL);");
-                db.execSQL("CREATE TABLE accesousuario (nombreusuario VARCHAR(7) NOT NULL, idopcion CHAR(3) NOT NULL, PRIMARY KEY (nombreusuario, idopcion));");
-                db.execSQL("create table facultad (codfacultad VARCHAR(7) NOT NULL PRIMARY KEY, nomfacultad VARCHAR(30));");
-                db.execSQL("create table ubicacion (codubicacion VARCHAR(7) NOT NULL PRIMARY KEY, descubicacion VARCHAR(100));");
-                db.execSQL("create table empleado (codempleado VARCHAR(15) NOT NULL PRIMARY KEY, codfacultad VARCHAR(7) NOT NULL, codubicacion VARCHAR(7) NOT NULL, nomempleado VARCHAR(30), apeempleado VARCHAR(30), telempleado VARCHAR(8), codlocal VARCHAR(7));");
-                db.execSQL("create table encargadolocal (codencargadolocal VARCHAR(10) NOT NULL PRIMARY KEY, nomencargadolocal VARCHAR(30), apeencargadolocal VARCHAR(30), telencargadolocal VARCHAR(8));");
-                db.execSQL("create table local (codlocal VARCHAR(10) NOT NULL PRIMARY KEY, codencargadolocal VARCHAR(19) NOT NULL, nombrelocal VARCHAR(50));");
-                db.execSQL("create table menu (codmenu VARCHAR(10) NOT NULL PRIMARY KEY, codlocal VARCHAR(10) NOT NULL, preciomenu REAL, fechadesdemenu VARCHAR(15), fechahastamenu VARCHAR(15));");
-                db.execSQL("create table producto (codproducto VARCHAR(10) NOT NULL PRIMARY KEY, codmenu VARCHAR(10) NOT NULL, nombreproducto VARCHAR(50), preciounitario REAL);");
-                db.execSQL("create table pedido (idpedido INTEGER NOT NULL  PRIMARY KEY AUTOINCREMENT, codruta VARCHAR(10), codestadopedido VARCHAR(2), codlocal VARCHAR(10) NOT NULL,fechapedido VARCHAR(10));");
-                db.execSQL("create table pedidosasignados (\n" +
-                        "codtrabajador        VARCHAR(4)            NOT NULL,\n" +
-                        "codpedido             INTEGER              NOT NULL,\n" +
-                        "PRIMARY KEY (codtrabajador,codpedido));");
-                db.execSQL("create table detalleproductoempleado (\n" +
-                        "iddpe                INT                      NOT NULL PRIMARY KEY AUTOINCREMENT,\n"+
-                        "codtrabajador         VARCHAR(10)              NOT NULL,\n" +
-                        "codproducto           VARCHAR(10)              NOT NULL,\n" +
-                        "cantidadpedido        INTEGER              );");
+                db.execSQL("CREATE TABLE if not exists usuario (nombreusuario VARCHAR(7) NOT NULL PRIMARY KEY, pass VARCHAR(10) NOT NULL, usuario VARCHAR(256) NOT NULL);");
+                db.execSQL("CREATE TABLE if not exists opcioncrud (idopcion CHAR(3) NOT NULL PRIMARY KEY, desopcion VARCHAR(30) NOT NULL, numcrud INTEGER NOT NULL);");
+                db.execSQL("CREATE TABLE if not exists accesousuario (nombreusuario VARCHAR(7) NOT NULL, idopcion CHAR(3) NOT NULL, PRIMARY KEY (nombreusuario, idopcion));");
+                db.execSQL("create table if not exists facultad (codfacultad VARCHAR(7) NOT NULL PRIMARY KEY, nomfacultad VARCHAR(30));");
+                db.execSQL("create table if not exists ubicacion (codubicacion VARCHAR(7) NOT NULL PRIMARY KEY, descubicacion VARCHAR(100));");
+                db.execSQL("create table if not exists empleado (codempleado VARCHAR(15) NOT NULL PRIMARY KEY, codfacultad VARCHAR(7) NOT NULL, codubicacion VARCHAR(7) NOT NULL, nomempleado VARCHAR(30), apeempleado VARCHAR(30), telempleado VARCHAR(8), codlocal VARCHAR(7));");
+                db.execSQL("create table if not exists encargadolocal (codencargadolocal VARCHAR(10) NOT NULL PRIMARY KEY, nomencargadolocal VARCHAR(30), apeencargadolocal VARCHAR(30), telencargadolocal VARCHAR(8));");
+                db.execSQL("create table if not exists local (codlocal VARCHAR(10) NOT NULL PRIMARY KEY, codencargadolocal VARCHAR(19) NOT NULL, nombrelocal VARCHAR(50));");
+                db.execSQL("create table if not exists menu (codmenu VARCHAR(10) NOT NULL PRIMARY KEY, codlocal VARCHAR(10) NOT NULL, preciomenu REAL, fechadesdemenu VARCHAR(15), fechahastamenu VARCHAR(15));");
+                db.execSQL("create table if not exists producto (codproducto VARCHAR(10) NOT NULL PRIMARY KEY, codmenu VARCHAR(10) NOT NULL, nombreproducto VARCHAR(50), preciounitario REAL);");
+                db.execSQL("create table if not exists pedido (idpedido INTEGER NOT NULL  PRIMARY KEY AUTOINCREMENT, codruta VARCHAR(10), codestadopedido VARCHAR(2), codlocal VARCHAR(10) NOT NULL,fechapedido VARCHAR(10));");
+                db.execSQL("create table if not exists pedidosasignados (codtrabajador VARCHAR(4) NOT NULL, idpedido INTEGER NOT NULL, PRIMARY KEY (codtrabajador,codpedido));");
+                db.execSQL("create table if not exists detalleproductoempleado ( iddpe INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,idpedido INTEGER NOT NULL,codtrabajador VARCHAR(10) NOT NULL, codproducto VARCHAR(10) NOT NULL, idpedidosasignados INTEGER NOT NULL, cantidadpedido INTEGER );");
 
             } catch (SQLException e){
                 e.printStackTrace();
@@ -78,11 +83,10 @@ public class ControlBD {
 
     public void abrir() throws SQLException{
         db = DBHelper.getWritableDatabase();
-        return;
     }
 
     public SQLiteDatabase abrir2() throws SQLException{
-        SQLiteDatabase db = DBHelper.getWritableDatabase();
+        db = DBHelper.getWritableDatabase();
         return db;
     }
 
@@ -121,6 +125,7 @@ public class ControlBD {
             usuario.setNombreusuario(cursor.getString(0));
             usuario.setContrasena(cursor.getString(1));
             usuario.setUsuario(cursor.getString(2));
+            cursor.close();
             return usuario;
         } else {
             return null;
@@ -182,6 +187,7 @@ public class ControlBD {
             Facultad facultad = new Facultad();
             facultad.setCodfacultad(cursor.getString(0));
             facultad.setNomfacultad(cursor.getString(1));
+            cursor.close();
             return facultad;
         }
         else{
@@ -227,6 +233,7 @@ public class ControlBD {
             Ubicacion ubicacion = new Ubicacion();
             ubicacion.setCodubicacion(cursor.getString(0));
             ubicacion.setDescubicacion(cursor.getString(1));
+            cursor.close();
             return ubicacion;
         }
         else{
@@ -297,7 +304,7 @@ public class ControlBD {
 
     //CONSULTAR EMPLEADO
     public Empleado consultarEmpleado(String codempleado, String codfacultad, String codubicacion) {
-        String id [] = {codempleado,codfacultad,codubicacion};
+        String[] id = {codempleado,codfacultad,codubicacion};
         Cursor cursor = db.query("empleado", camposEmpleado, "codempleado = ? AND codfacultad = ? AND codubicacion = ?", id, null, null, null);
         if (cursor.moveToFirst()){
             Empleado empleado = new Empleado();
@@ -308,6 +315,7 @@ public class ControlBD {
             empleado.setApeempleado(cursor.getString(4));
             empleado.setTelempleado(cursor.getString(5));
 //            empleado.setCodlocal(cursor.getString(6));
+            cursor.close();
             return empleado;
         }
         else {
@@ -374,7 +382,7 @@ public class ControlBD {
             encargadoLocal.setNomencargadolocal(cursor.getString(1));
             encargadoLocal.setApeencargadolocal(cursor.getString(2));
             encargadoLocal.setTelencargadolocal(cursor.getString(3));
-
+            cursor.close();
             return encargadoLocal;
         }
         else{
@@ -441,13 +449,14 @@ public class ControlBD {
 
     //CONSULTAR LOCAL
     public Local consultarLocal(String codlocal, String codencargadolocal) {
-        String id [] = {codlocal, codencargadolocal};
+        String[] id= {codlocal, codencargadolocal};
         Cursor cursor = db.query("local", camposLocal, "codlocal = ? AND codencargadolocal = ?", id, null, null, null);
         if (cursor.moveToFirst()){
             Local local = new Local();
             local.setCodlocal(cursor.getString(0));
             local.setCodencargadolocal(cursor.getString(1));
             local.setNombrelocal(cursor.getString(2));
+            cursor.close();
             return local;
         }
         else {
@@ -495,7 +504,7 @@ public class ControlBD {
 
     //CONSULTAR MENU
     public Menu consultarMenu(String codmenu, String codlocal) {
-        String id [] = {codmenu, codlocal};
+        String[] id = {codmenu, codlocal};
         Cursor cursor = db.query("menu", camposMenu, "codmenu = ? AND codlocal = ?", id, null, null, null);
         if (cursor.moveToFirst()){
             Menu menu = new Menu();
@@ -504,7 +513,7 @@ public class ControlBD {
             menu.setPreciomenu(cursor.getFloat(2));
             menu.setFechadesdemenu(cursor.getString(3));
             menu.setFechahastamenu(cursor.getString(4));
-
+            cursor.close();
             return menu;
         }
         else {
@@ -570,7 +579,7 @@ public class ControlBD {
 
     //CONSULTAR PRODUCTO
     public Producto consultarProducto(String codproducto, String codmenu) {
-        String id [] = {codproducto, codmenu};
+        String[] id= {codproducto, codmenu};
         Cursor cursor = db.query("producto", camposProducto, "codproducto = ? AND codmenu = ?", id, null, null, null);
         if (cursor.moveToFirst()){
             Producto producto = new Producto();
@@ -578,7 +587,7 @@ public class ControlBD {
             producto.setCodmenu(cursor.getString(1));
             producto.setNombreproducto(cursor.getString(2));
             producto.setPreciounitario(cursor.getFloat(3));
-
+            cursor.close();
             return producto;
         }
         else {
@@ -617,7 +626,7 @@ public class ControlBD {
 //================================================== PARA CONSULTAR SI EXISTE EL USUARIO Y EL PASS
 //=================================================================================================
     public Cursor ConsultarUsuPass(String usu, String pass){
-        Cursor cursor = null;
+        Cursor cursor;
         cursor = db.query("usuario", new String[] {"nombreusuario", "pass", "usuario"}, "nombreusuario like '"+usu+"' and pass like'"+pass+"'", null,null,null,null );
         return cursor;
     }
@@ -633,8 +642,10 @@ public class ControlBD {
                 abrir();
                 Cursor cfacu = db.query("facultad", null, "codfacultad = ?", id, null, null, null);
                 if (cfacu.moveToFirst()) {
+                    cfacu.close();
                     return true;  // LA FACULTAD EXISTE
                 }
+                cfacu.close();
                 return false;
             }
             case 2:
@@ -826,6 +837,7 @@ public class ControlBD {
 //==========================================================PARA LLENAR LA BASE CON DATOS INICIALES
 
     public String llenarBase() {
+
         final String[] Unombreusuario = {"emp1", "enc1"};
         final String[] Ucontrasena = {"123", "123"};
         final String[] Uusuario = {"Empleado", "Encargado de local"};
@@ -857,6 +869,8 @@ public class ControlBD {
         final float[] Ppreciounitario = {1,3,1,2,1,4};
 
         abrir();
+        this.DBHelper.onCreate(db);
+
         db.execSQL("DELETE FROM usuario");
         db.execSQL("DELETE FROM facultad");
         db.execSQL("DELETE FROM ubicacion");
@@ -864,6 +878,9 @@ public class ControlBD {
         db.execSQL("DELETE FROM local");
         db.execSQL("DELETE FROM menu");
         db.execSQL("DELETE FROM producto");
+        db.execSQL("delete from pedido");
+        db.execSQL("delete from detalleproductoempleado");
+        db.execSQL("delete from pedidosasignados");
 
         Usuario usuario = new Usuario();
         for(int i=0; i<2; i++){
