@@ -67,7 +67,7 @@ public class ControlBD {
                 db.execSQL("create TABLE local (codlocal VARCHAR(10) NOT NULL PRIMARY KEY, codencargadolocal VARCHAR(19) NOT NULL, nombrelocal VARCHAR(50));");
                 db.execSQL("create TABLE menu (codmenu VARCHAR(10) NOT NULL PRIMARY KEY, codlocal VARCHAR(10) NOT NULL, preciomenu REAL, fechadesdemenu VARCHAR(15), fechahastamenu VARCHAR(15));");
                 db.execSQL("create TABLE producto (codproducto VARCHAR(10) NOT NULL PRIMARY KEY, codmenu VARCHAR(10) NOT NULL, nombreproducto VARCHAR(50), preciounitario REAL);");
-                db.execSQL("create TABLE pedido (idpedido INTEGER NOT NULL  PRIMARY KEY AUTOINCREMENT, codruta VARCHAR(10), codestadopedido VARCHAR(2), codlocal VARCHAR(10) NOT NULL,fechapedido VARCHAR(10));");
+                db.execSQL("create TABLE pedido (idpedido INTEGER NOT NULL  PRIMARY KEY AUTOINCREMENT, idruta VARCHAR(10), codestadopedido VARCHAR(2), codlocal VARCHAR(10) NOT NULL,fechapedido VARCHAR(10));");
                 db.execSQL("create TABLE pedidosasignados (codtrabajador VARCHAR(4) NOT NULL, idpedido INTEGER NOT NULL, PRIMARY KEY (codtrabajador,idpedido));");
                 db.execSQL("create TABLE detalleproductoempleado ( iddpe INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,  idpedido INTEGER NOT NULL, codtrabajador VARCHAR(10) NOT NULL, codproducto VARCHAR(10) NOT NULL, idpedidosasignados INTEGER NOT NULL, cantidadpedido INTEGER );");
 
