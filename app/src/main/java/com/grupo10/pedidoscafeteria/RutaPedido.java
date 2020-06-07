@@ -4,13 +4,13 @@ import java.util.Date;
 
 public class RutaPedido {
     private int idruta;
-    private int idrepartidor;
-    private Date inicioruta;
-    private Date finruta;
+    private String codrepartidor;
+    private String inicioruta;
+    private String finruta;
 
-    public RutaPedido(int idruta, int idrepartidor, Date inicioruta, Date finruta) {
+    public RutaPedido(int idruta, String codrepartidor, String inicioruta, String finruta) {
         this.idruta = idruta;
-        this.idrepartidor = idrepartidor;
+        this.codrepartidor = codrepartidor;
         this.inicioruta = inicioruta;
         this.finruta = finruta;
     }
@@ -26,27 +26,27 @@ public class RutaPedido {
         this.idruta = idruta;
     }
 
-    public int getIdrepartidor() {
-        return idrepartidor;
+    public String getCodrepartidor() {
+        return codrepartidor;
     }
 
-    public void setIdrepartidor(int idrepartidor) {
-        this.idrepartidor = idrepartidor;
+    public void setCodrepartidor(String codrepartidor) {
+        this.codrepartidor = codrepartidor;
     }
 
-    public Date getInicioruta() {
+    public String getInicioruta() {
         return inicioruta;
     }
 
-    public void setInicioruta(Date inicioruta) {
+    public void setInicioruta(String inicioruta) {
         this.inicioruta = inicioruta;
     }
 
-    public Date getFinruta() {
+    public String getFinruta() {
         return finruta;
     }
 
-    public void setFinruta(Date finruta) {
+    public void setFinruta(String finruta) {
         this.finruta = finruta;
     }
 }

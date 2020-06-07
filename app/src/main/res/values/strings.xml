@@ -66,6 +66,12 @@
     <string name="button_details_producto">Gestionar Productos</string>
     <string name="button_details_pedidos">Gestionar Pedidos</string>
 
+    <!-- modificaciones del menu de encargado de local -->
+    <string name="button_details_ruta">Gestionar rutas de los pedidos</string>
+    <string name="button_details_repartidor">Gestionar repartidores</string>
+    <!-- // -->
+
+
     <!-- los textos para el menu de encargado local (crud) -->
     <string name="button_create_encargadolocal">Insertar Encargado de Local</string>
     <string name="button_read_encargadolocal">Consultar Encargado de Local</string>
@@ -216,6 +222,31 @@
 
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+
+
+    <!-- tablas repartidor y ruta -->
+    <!-- para la tabla de repartidor (crud) -->
+    <string name="button_create_repartidor">Insertar Repartidor</string>
+    <string name="button_read_repartidor">Consultar Repartdor</string>
+    <string name="button_update_repartidor">Actualizar Repartidor</string>
+    <string name="button_delete_repartidor">Eliminar Repartidor</string>
+
+    <!-- para insertar repartidor -->
+    <string name="codrepartidor">Codigo del Repartidor</string>
+    <string name="nomrepartidor">Nombre del Repartidor</string>
+    <string name="aperepartidor">Apellido del Repartidor</string>
+    <string name="telrepartidor">Telefono del Repartidor</string>
+
+    <!-- tabla de ruta(crud) -->
+    <string name="button_create_ruta">Insertar ruta del pedido</string>
+    <string name="button_read_ruta">Consultar ruta del pedido</string>
+    <string name="button_update_ruta">Actualizar ruta del pedido</string>
+    <string name="button_delete_ruta">Eliminar ruta del pedido</string>
+
+    <!-- para insertar ruta -->
+    <string name="idruta">Codigo de la ruta del pedido</string>
+    <string name="inicioruta">Inicio de la ruta del pedido</string>
+    <string name="finruta">Fin de la ruta del pedido</string>
 
 
 </resources>

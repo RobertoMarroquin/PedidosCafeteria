@@ -9,6 +9,10 @@ import android.widget.Button;
 
 public class FacultadUbicacionEmpleadoMenu extends AppCompatActivity {
     Button btnFacultad, btnUbicacion, btnEmpleado;
+    Bundle recibido;
+
+    //por si se llegaran a usar los datos del usuario en esta tabla
+    Usuario user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,6 +22,11 @@ public class FacultadUbicacionEmpleadoMenu extends AppCompatActivity {
         btnFacultad = (Button) findViewById(R.id.btnFacultad);
         btnUbicacion = (Button) findViewById(R.id.btnUbicacion);
         btnEmpleado = (Button) findViewById(R.id.btnEmpleado);
+        recibido = getIntent().getExtras();
+
+        //
+        user = (Usuario) recibido.getSerializable("usuario");
+        //
 
         //para ir al menu de facultad.
         btnFacultad.setOnClickListener(new View.OnClickListener() {
@@ -41,6 +50,7 @@ public class FacultadUbicacionEmpleadoMenu extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent crudEmpleado = new Intent(v.getContext(), DatosEmpleadoMenuActivity.class);
+                crudEmpleado.putExtras(recibido);
                 startActivity(crudEmpleado);
             }
         });

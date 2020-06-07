@@ -10,6 +10,10 @@ import android.widget.Button;
 public class DatosEmpleadoMenuActivity extends AppCompatActivity {
     Button btnIngresarEmpleado, btnActualizarEmpleado, btnConsultarEmpleado, btnEliminarEmpleado;
 
+    Bundle recibido;
+    //muy improbable que en esta pantalla se utilice el usuario, asi que no se crea,
+    //el bundle es solo para pasar los datos
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -19,11 +23,18 @@ public class DatosEmpleadoMenuActivity extends AppCompatActivity {
         btnConsultarEmpleado = (Button) findViewById(R.id.btnConsultarEmpleado);
         btnEliminarEmpleado = (Button) findViewById(R.id.btnEliminarEmpleado);
 
+        recibido = getIntent().getExtras();
+
         //PARA INGRESAR UN NUEVO EMPLEADO
         btnIngresarEmpleado.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent insertarEmpleado = new Intent(v.getContext(), InsertarEmpleadoActivity.class);
+
+                //se va a mandar el usuario al menu de crear empleado para que el nombreusuario sea
+                //el codempleado
+
+                insertarEmpleado.putExtras(recibido);
                 startActivity(insertarEmpleado);
             }
         });

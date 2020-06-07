@@ -23,6 +23,10 @@ public class ControlBD {
     private static final String[] camposLocal = new String[]{"codlocal", "codencargadolocal", "nombrelocal"};
     private static final String[] camposMenu = new String[]{"codmenu", "codlocal", "preciomenu", "fechadesdemenu", "fechahastamenu"};
     private static final String[] camposProducto = new String[]{"codproducto", "codmenu", "nombreproducto", "preciounitario"};
+    private static final String[] camposRepartidor = new String[]{"codrepartidor", "nomrepartidor", "aperepartidor", "telrepartidor"};
+    private static final String[] camposRutaPedido = new String[]{"idruta", "codrepartidor", "inicioruta", "finruta"};
+
+
 
     private final Context context;
     private DatabaseHelper DBHelper;
@@ -70,6 +74,8 @@ public class ControlBD {
                 db.execSQL("create TABLE pedido (idpedido INTEGER NOT NULL  PRIMARY KEY AUTOINCREMENT, idruta INTEGER, codestadopedido VARCHAR(2), codlocal VARCHAR(10) NOT NULL,fechapedido VARCHAR(10));");
                 db.execSQL("create TABLE pedidosasignados (codtrabajador VARCHAR(4) NOT NULL, idpedido INTEGER NOT NULL, PRIMARY KEY (codtrabajador,idpedido));");
                 db.execSQL("create TABLE detalleproductoempleado ( iddpe INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,  idpedido INTEGER NOT NULL, codtrabajador VARCHAR(10) NOT NULL, codproducto VARCHAR(10) NOT NULL, idpedidosasignados INTEGER NOT NULL, cantidadpedido INTEGER );");
+                db.execSQL("create table repartidor (codrepartidor VARCHAR(20) NOT NULL PRIMARY KEY, nomrepartidor VARCHAR(30), aperepartidor VARCHAR(30), telrepartidor VARCHAR(10));");
+                db.execSQL("create table rutapedido (idruta INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, codrepartidor VARCHAR(20) NOT NULL, inicioruta VARCHAR(10), finruta VARCHAR(10))");
 
             } catch (SQLException e){
                 e.printStackTrace();
@@ -622,6 +628,149 @@ public class ControlBD {
         return regAfectados;
     }
 
+//=================================================================================TABLA REPARTIDOR
+    //INSERTAR REPARTIDOR
+    public String insertar(Repartidor repartidor)   {
+        String regInsertados ="Registro n. ";
+        long contador;
+        ContentValues rep = new ContentValues();
+        rep.put("codrepartidor", repartidor.getCodrepartidor());
+        rep.put("nomrepartidor", repartidor.getNomrepartidor());
+        rep.put("aperepartidor", repartidor.getAperepartidor());
+        rep.put("telrepartidor", repartidor.getTelrepartidor());
+
+        contador = db.insert("repartidor", null, rep);
+        if (contador==-1 || contador==0){
+            regInsertados = "Error al ingresar datos";
+        } else {
+            regInsertados = regInsertados + contador ;
+        }
+        return regInsertados;
+    }
+
+    //PARA ACTUALIZAR REPARTIDOR
+    public String actualizar(Repartidor repartidor) {
+        if (verificarIntegridad(repartidor,15)){ //verificar si existe el encargado del local
+            String [] id = {repartidor.getCodrepartidor()};
+            ContentValues cr = new ContentValues();
+            cr.put("nomrepartidor", repartidor.getNomrepartidor());
+            cr.put("aperepartidor", repartidor.getAperepartidor());
+            cr.put("telrepartidor", repartidor.getTelrepartidor());
+
+            db.update("repartidor", cr, "codrepartidor = ?", id);
+            return "Registro actualizado correctamente";
+        } else {
+            return "Registro con codigo" + repartidor.getCodrepartidor() + "no existe";
+        }
+    }
+
+    //PARA CONSULTAR REPARTIDOR
+    public Repartidor consultarRepartidor(String codrepartidor) {
+        String [] id = {codrepartidor};
+        Cursor cursor = db.query("repartidor", camposRepartidor, "codrepartidor = ?", id, null, null, null);
+        if(cursor.moveToFirst()){
+            Repartidor repartidor = new Repartidor();
+            repartidor.setCodrepartidor(cursor.getString(0));
+            repartidor.setNomrepartidor(cursor.getString(1));
+            repartidor.setAperepartidor(cursor.getString(2));
+            repartidor.setTelrepartidor(cursor.getString(3));
+
+            return repartidor;
+        }
+        else{
+            return null;
+        }
+    }
+
+    //PARA ELIMINAR REPARTIDOR
+    public String eliminar(Repartidor repartidor) {
+        String regAfectados = "Filas afectadas = ";
+        int contador = 0;
+        /*
+        //AL ELIMINAR repartidor VER SI HAY rutas ASOCIADOS......................................
+        if (verificarIntegridad(repartidor,16)){                      SERIA RELACION 8
+            contador+=db.delete("rutapedido", "codrepartidor = '" + repartidor.getCodrepartidor() + "'", null);
+        }
+        */
+        contador+=db.delete("repartidor", "codrepartidor = '" + repartidor.getCodrepartidor() +"'", null);
+        regAfectados+=contador;
+        return regAfectados;
+    }
+
+
+//=================================================================================TABLA RUTA PEDIDO
+
+    //INSERTAR RUTA PEDIDO
+    public String insertar(RutaPedido rutaPedido) {
+        String regInsertados = "Registro insertado n° ";
+        long contador = 0;
+
+        if (verificarIntegridad(rutaPedido,17)){
+            ContentValues rp = new ContentValues();
+            //rp.put("idruta", rutaPedido.getIdruta());
+            rp.put("codrepartidor", rutaPedido.getCodrepartidor());
+            rp.put("inicioruta", rutaPedido.getInicioruta());
+            rp.put("finruta", rutaPedido.getFinruta());
+
+            contador = db.insert("rutapedido", null, rp);
+        }
+
+        if (contador==-1 || contador==0){
+            regInsertados = "Error al insetar el registro, Revisar los datos. Verificar";
+        }
+        else {
+            regInsertados = regInsertados + contador;
+        }
+        return regInsertados;
+    }
+
+
+    //CONSULTAR RUTA PEDIDO
+    public RutaPedido consultarRutaPedido(int idruta, String codrepartidor) {
+        String id [] = {String.valueOf(idruta), codrepartidor};
+        Cursor cursor = db.query("rutapedido", camposRutaPedido, "idruta = ? AND codrepartidor = ?", id, null, null, null);
+        if (cursor.moveToFirst()){
+            RutaPedido rp = new RutaPedido();
+            rp.setIdruta(cursor.getInt(0));
+            rp.setCodrepartidor(cursor.getString(1));
+            rp.setInicioruta(cursor.getString(2));
+            rp.setFinruta(cursor.getString(3));
+
+            return rp;
+        }
+        else {
+            return null;
+        }
+    }
+
+    //ACTUALIZAR RUTA PEDIDO
+    public String actualizar(RutaPedido rutapedido) {
+        if (verificarIntegridad(rutapedido, 18)){
+            String[] id = {String.valueOf(rutapedido.getIdruta()), rutapedido.getCodrepartidor()};
+            ContentValues cvrp = new ContentValues();
+            cvrp.put("inicioruta", rutapedido.getInicioruta());
+            cvrp.put("finruta", rutapedido.getFinruta());
+
+            db.update("rutapedido", cvrp, "idruta = ? AND codrepartidor = ?", id);
+            return "Registro actualizado correctamente";
+        }
+        else {
+            return "Registro no existe";
+        }
+
+    }
+
+    //ELIMINAR RUTA PEDIDO
+    public String eliminar(RutaPedido rutaPedido) {
+        String regAfectados = "filas afectadas = ";
+        int contador = 0;
+        String where ="idruta = '" + rutaPedido.getIdruta() +"'";
+        where = where+" AND codrepartidor = '" + rutaPedido.getCodrepartidor() +"'";
+        contador += db.delete("rutapedido", where , null);
+        regAfectados += contador;
+        return regAfectados;
+    }
+
 //=================================================================================================
 //================================================== PARA CONSULTAR SI EXISTE EL USUARIO Y EL PASS
 //=================================================================================================
@@ -797,6 +946,50 @@ public class ControlBD {
                 }
                 return false;
             }
+            case 15:
+            {   //PARA SABER SI EL REPARTIDOR EXISTE AL MOMENTO DE ACTUALIZAR
+                Repartidor repartidor = (Repartidor) dato;
+                String[] id = {repartidor.getCodrepartidor()};
+                abrir();
+                Cursor crep = db.query("repartidor", null, "codrepartidor = ?", id, null, null, null);
+                if (crep.moveToFirst()) {
+                    return true;  // ese repartidor si existe
+                }
+                return false;
+            }
+            case 16:
+            {   //PARA VER SI HAY REPARTIDORES ASOCIADOS A LA RUTA AL MOMENTO DE ELIMINAR UN REPARTIDOR
+                Repartidor repartidor1 = (Repartidor) dato;
+                Cursor crep = db.query(true, "rutapedido", new String[]{"codrepartidor"}, "codrepartidor = '" + repartidor1.getCodrepartidor() + "'", null, null, null, null, null);
+                if (crep.moveToFirst())
+                    return true;
+                else
+                    return false;
+            }
+            case 17:
+            {   //para vERIFICAR QUE AL INSERTAR LA RUTA, YA EXISTA EL REPARTIDOR
+                RutaPedido rp = (RutaPedido) dato;
+                String[] id1 = {rp.getCodrepartidor()};
+                //abrir();
+                Cursor cursor1 = db.query("repartidor", null, "codrepartidor = ?", id1, null, null, null);
+                if (cursor1.moveToFirst() ) {
+                    //se encontraron datos
+                    return true;
+                }
+                return false;
+            }
+            case 18:
+            {   //AL ACTUALIZAR RUTAPEDIDO QUE EXISTA CODREPARTIDOR Y IDRUTA
+                RutaPedido rp = (RutaPedido) dato;
+                String[] ids = {String.valueOf(rp.getIdruta()), rp.getCodrepartidor()};
+                abrir();
+                Cursor cl = db.query("rutapedido", null, "idruta = ? AND codrepartidor = ?" , ids, null, null, null);
+                if (cl.moveToFirst()) {
+                    //se encontraron datos
+                    return true;
+                }
+                return false;
+            }
             default:
                 return false;
         }
@@ -828,7 +1021,101 @@ public class ControlBD {
 
     ///////////////////////////////////////////////////
 
+    //ARRAY LIST PARA SPINNER DE CODIGOS DE REPARTIDOR
 
+    public ArrayList<String> getAllCodRepartidor(){
+        ArrayList<String> list = new ArrayList<String>();
+        db = DBHelper.getReadableDatabase();
+        //  db.beginTransaction();
+        try {
+            Cursor cursor = db.rawQuery("SELECT * FROM repartidor", null);
+            if (cursor.getCount()>0){
+                while (cursor.moveToNext()){
+                    String codrepartidor = cursor.getString(cursor.getColumnIndex("codrepartidor"));
+                    list.add(codrepartidor);
+                }
+            }
+
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+
+    ///////////////////////////////////////////////////
+
+    //ARRAYLIST PARA SPINNER DE IDRUTA
+
+    public ArrayList<Integer> getAllIdRutaPedido(){
+        ArrayList<Integer> list = new ArrayList<Integer>();
+        db = DBHelper.getReadableDatabase();
+        //  db.beginTransaction();
+        try {
+            Cursor cursor = db.rawQuery("SELECT * FROM rutapedido", null);
+            if (cursor.getCount()>0){
+                while (cursor.moveToNext()){
+                    int idruta = cursor.getInt(cursor.getColumnIndex("idruta"));
+                    list.add(idruta);
+                }
+            }
+
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+
+    //////////////////////////////////////////////////////
+
+
+    //ARRAYLIST PARA SPINNER DE CODFACULTAD
+
+    public ArrayList<String> getAllCodFacultad(){
+        ArrayList<String> list = new ArrayList<String>();
+        db = DBHelper.getReadableDatabase();
+        //  db.beginTransaction();
+        try {
+            Cursor cursor = db.rawQuery("SELECT * FROM facultad", null);
+            if (cursor.getCount()>0){
+                while (cursor.moveToNext()){
+                    String codfacultad = cursor.getString(cursor.getColumnIndex("codfacultad"));
+                    list.add(codfacultad);
+                }
+            }
+
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    ////////////////////////////////////////////////////
+
+    //ARRAYLIST PARA SPINNER DE CODUBICACION
+
+    public ArrayList<String> getAllCodUbicacion(){
+        ArrayList<String> list = new ArrayList<String>();
+        db = DBHelper.getReadableDatabase();
+        //  db.beginTransaction();
+        try {
+            Cursor cursor = db.rawQuery("SELECT * FROM ubicacion", null);
+            if (cursor.getCount()>0){
+                while (cursor.moveToNext()){
+                    String codubicacion = cursor.getString(cursor.getColumnIndex("codubicacion"));
+                    list.add(codubicacion);
+                }
+            }
+
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+
+    //////////////////////////////////////////////////
 
 
 
@@ -837,7 +1124,6 @@ public class ControlBD {
 //==========================================================PARA LLENAR LA BASE CON DATOS INICIALES
 
     public String llenarBase() {
-
         final String[] Unombreusuario = {"emp1", "enc1"};
         final String[] Ucontrasena = {"123", "123"};
         final String[] Uusuario = {"Empleado", "Encargado de local"};
@@ -868,6 +1154,11 @@ public class ControlBD {
         final String[] Pnombreproducto = {"leche","huevos","jamon","pollo","tocino","frijoles"};
         final float[] Ppreciounitario = {1,3,1,2,1,4};
 
+        final String[] Rcodrepartidor = {"repartidor1", "repartidor2", "repartidor3"};
+        final String[] Rnomrepartidor = {"moshi", "peter", "aaaa"};
+        final String[] Raperepartidor = {"moshi", "parker", "bbb"};
+        final String[] Rtelrepartidor = {"22222222", "22577777", "21212121"};
+
         abrir();
         db.execSQL("DELETE FROM usuario");
         db.execSQL("DELETE FROM facultad");
@@ -879,6 +1170,7 @@ public class ControlBD {
         db.execSQL("delete from pedido");
         db.execSQL("delete from detalleproductoempleado");
         db.execSQL("delete from pedidosasignados");
+        db.execSQL("DELETE FROM repartidor");
 
         Usuario usuario = new Usuario();
         for(int i=0; i<2; i++){
@@ -936,6 +1228,15 @@ public class ControlBD {
             producto.setCodmenu(Pcodmenu[i]);
             producto.setPreciounitario(Ppreciounitario[i]);
             insertar(producto);
+        }
+
+        Repartidor repartidor = new Repartidor();
+        for (int i = 0;i<3; i++){
+            repartidor.setCodrepartidor(Rcodrepartidor[i]);
+            repartidor.setNomrepartidor(Rnomrepartidor[i]);
+            repartidor.setAperepartidor(Raperepartidor[i]);
+            repartidor.setTelrepartidor(Rtelrepartidor[i]);
+            insertar(repartidor);
         }
         cerrar();
         return "Se insertaron datos de prueba";
