@@ -9,6 +9,7 @@ import android.widget.Button;
 
 public class EncargadoLocalMenuActivity extends AppCompatActivity {
     Button btnEncargadoLocal, btnLocal, btnMenu, btnProducto, btnPedido;
+    Button btnRepartidor, btnRuta;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,6 +20,8 @@ public class EncargadoLocalMenuActivity extends AppCompatActivity {
         btnMenu = (Button) findViewById(R.id.btnMenus);
         btnProducto = (Button) findViewById(R.id.btnProducto);
         btnPedido = (Button) findViewById(R.id.btnPedido);
+        btnRepartidor = (Button) findViewById(R.id.btnRepartidor);
+        btnRuta = (Button) findViewById(R.id.btnRutas);
 
 
         btnEncargadoLocal.setOnClickListener(new View.OnClickListener() {
@@ -50,6 +53,22 @@ public class EncargadoLocalMenuActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent crudProducto = new Intent(v.getContext(), ProductoMenuActivity.class);
                 startActivity(crudProducto);
+            }
+        });
+
+        btnRepartidor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent crudRepartidor = new Intent(v.getContext(), RepartidorMenuActivity.class);
+                startActivity(crudRepartidor);
+            }
+        });
+
+        btnRuta.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent crudRuta = new Intent(v.getContext(), RutaPedidoMenuActivity.class);
+                startActivity(crudRuta);
             }
         });
 

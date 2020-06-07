@@ -1,13 +1,13 @@
 package com.grupo10.pedidoscafeteria;
 
 public class Repartidor {
-    private int idrepartidor;
+    private String codrepartidor;
     private String nomrepartidor;
     private String aperepartidor;
     private String telrepartidor;
 
-    public Repartidor(int idrepartidor, String nomrepartidor, String aperepartidor, String telrepartidor) {
-        this.idrepartidor = idrepartidor;
+    public Repartidor(String codrepartidor, String nomrepartidor, String aperepartidor, String telrepartidor) {
+        this.codrepartidor = codrepartidor;
         this.nomrepartidor = nomrepartidor;
         this.aperepartidor = aperepartidor;
         this.telrepartidor = telrepartidor;
@@ -16,12 +16,12 @@ public class Repartidor {
     public Repartidor() {
     }
 
-    public int getIdrepartidor() {
-        return idrepartidor;
+    public String getCodrepartidor() {
+        return codrepartidor;
     }
 
-    public void setIdrepartidor(int idrepartidor) {
-        this.idrepartidor = idrepartidor;
+    public void setCodrepartidor(String codrepartidor) {
+        this.codrepartidor = codrepartidor;
     }
 
     public String getNomrepartidor() {
