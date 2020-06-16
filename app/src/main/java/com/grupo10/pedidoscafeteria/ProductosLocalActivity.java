@@ -1,5 +1,6 @@
 package com.grupo10.pedidoscafeteria;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -10,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -17,11 +19,13 @@ import java.util.ArrayList;
 public class ProductosLocalActivity extends AppCompatActivity {
     ControlBD helper;
     ListView listViewProductos;
+    Button cancelarbtn,comprarbtn;
     ArrayList<String> listaInfo;
     ArrayList<Producto> listaProducto;
     String localId;
     Usuario user;
     Bundle paqueteR;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +42,8 @@ public class ProductosLocalActivity extends AppCompatActivity {
         Log.d("paquete", "onCreate: "+localId);
         helper = new ControlBD(this);
         listViewProductos = (ListView) findViewById(R.id.listViewProductos);
+        cancelarbtn = (Button) findViewById(R.id.cancelarbtn);
+        comprarbtn = (Button) findViewById(R.id.comprarbtn);
 
         consultarProductosLocal();
 
@@ -54,10 +60,36 @@ public class ProductosLocalActivity extends AppCompatActivity {
                 detalleProducto.putExtras(paqueteR);
                 Log.d("Paquete enviado", "onItemClick: "+detalleProducto.getExtras().getString("codproducto"));
                 startActivity(detalleProducto);
+
             }
         });
 
 
+
+        cancelarbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (paqueteR.getInt("idPedido",0)!=0){
+                    int pedido = paqueteR.getInt("idPedido");
+
+                    SQLiteDatabase db = helper.abrir2();
+                    String[] argumentos = {String.valueOf(pedido),};
+                    int cursor = db.delete("pedido","idpedido = ?",argumentos);
+                    paqueteR.remove("idPedido");
+                    Intent intent = new Intent(v.getContext(), ListaLocalesActivity.class);
+                    intent.putExtras(paqueteR);
+                    startActivity(intent);
+                    finish();
+                }
+            }
+        });
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+        Intent intent = new Intent(this, ListaLocalesActivity.class);
+        startActivity(intent);
     }
 
     private void consultarProductosLocal() {

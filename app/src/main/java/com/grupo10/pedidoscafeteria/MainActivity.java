@@ -80,7 +80,10 @@ public class MainActivity extends AppCompatActivity {
                         { // EL USUARIO EXISTE PERO SE TRATA DE UN ENCARGADO DE LOCAL
                         Cursor c2 = helper.ConsultarUsuPass(editNomUsuario.getText().toString(), editPass.getText().toString());
                         if (c2.getCount()>0){
+                            Bundle encargado = new Bundle();
+                            encargado.putSerializable("usuario", usuario);
                             Intent menuEncargadoLocal = new Intent(v.getContext(), EncargadoLocalMenuActivity.class);
+                            menuEncargadoLocal.putExtras(encargado);
                             startActivity(menuEncargadoLocal);
                             //Toast.makeText(getApplicationContext(), "Datos de encargado de local CORRECTOS", Toast.LENGTH_SHORT).show();
                         }

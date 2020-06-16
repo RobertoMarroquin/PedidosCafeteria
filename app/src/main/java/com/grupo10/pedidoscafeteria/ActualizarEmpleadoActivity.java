@@ -12,6 +12,9 @@ public class ActualizarEmpleadoActivity extends AppCompatActivity {
     EditText editCodEmpleado, editCodFacultad, editCodUbicacion;
     EditText editNomEmpleado, editApeEmpleado, editTelEmpleado;
 
+    Bundle recibido;
+    Usuario user;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,6 +26,14 @@ public class ActualizarEmpleadoActivity extends AppCompatActivity {
         editNomEmpleado = (EditText) findViewById(R.id.editNomEmpleado);
         editApeEmpleado = (EditText) findViewById(R.id.editApeEmpleado);
         editTelEmpleado = (EditText) findViewById(R.id.editTelEmpleado);
+
+        //obteniendo el bundle y usando el objeto usuario que trae
+        recibido = getIntent().getExtras();
+        user = (Usuario) recibido.getSerializable("usuario");
+
+
+        //para que el campo de codempleado ya quede con el mismo de nombreusuario
+        editCodEmpleado.setText(user.getNombreusuario());
     }
 
     public void actualizarEmpleado(View v) {
@@ -35,7 +46,9 @@ public class ActualizarEmpleadoActivity extends AppCompatActivity {
         empleado.setTelempleado(editTelEmpleado.getText().toString());
 
         helper.abrir();
-        String estado = helper.actualizar(empleado);
+        //existe actualizar(empleado) pero ese ya no se ocupa porque no es necesario que
+        //el codfacultad y codubicacion sean los mismos antes y despues de la actualizacion
+        String estado = helper.actualizar2(empleado);
         helper.cerrar();
 
         Toast.makeText(this, estado, Toast.LENGTH_SHORT).show();

@@ -299,6 +299,25 @@ public class ControlBD {
             return "Registro actualizado correctamente";
         }
         else {
+            return "Algunos datos que se están actualizando no existen!";
+        }
+
+    }
+
+    //para actualizar el empleado escribiendo solo el codempleado.
+    public String actualizar2(Empleado empleado) {
+        if (verificarIntegridad(empleado, 19)){
+            String[] id = {empleado.getCodempleado()};
+            ContentValues cve = new ContentValues();
+            cve.put("codfacultad", empleado.getCodfacultad());
+            cve.put("codubicacion", empleado.getCodubicacion());
+            cve.put("nomempleado", empleado.getNomempleado());
+            cve.put("apeempleado", empleado.getApeempleado());
+            cve.put("telempleado", empleado.getTelempleado());
+            db.update("empleado", cve, "codempleado = ?", id);
+            return "Registro actualizado correctamente";
+        }
+        else {
             return "Registro no existe";
         }
 
@@ -325,6 +344,28 @@ public class ControlBD {
         }
     }
 
+    //para consultar empleado solo con el codempleado.
+
+    public Empleado consultarEmpleado2(String codempleado) {
+        String[] id = {codempleado};
+        Cursor cursor = db.query("empleado", camposEmpleado, "codempleado = ?", id, null, null, null);
+        if (cursor.moveToFirst()){
+            Empleado empleado = new Empleado();
+            empleado.setCodempleado(cursor.getString(0));
+            empleado.setCodfacultad(cursor.getString(1));
+            empleado.setCodubicacion(cursor.getString(2));
+            empleado.setNomempleado(cursor.getString(3));
+            empleado.setApeempleado(cursor.getString(4));
+            empleado.setTelempleado(cursor.getString(5));
+
+            cursor.close();
+            return empleado;
+        }
+        else {
+            return null;
+        }
+    }
+
     //PARA ELIMINAR EMPLEADO
     public String eliminar(Empleado empleado) {
         String regAfectados = "filas afectadas = ";
@@ -334,6 +375,21 @@ public class ControlBD {
         where = where+" AND codubicacion = '" + empleado.getCodubicacion() +"'";
         contador += db.delete("empleado", where , null);
         regAfectados += contador;
+        return regAfectados;
+    }
+
+    //QUE SE ELIMINE EL USUARIO JUNTO AL EMPLEADO
+    public String eliminar2(Empleado empleado) {
+        String regAfectados = "Filas afectadas = ";
+        int contador = 0;
+
+        //AL ELIMINAR empleado VER SI HAY usuarios ASOCIADOS, y que los elimine.....................
+        if (verificarIntegridad(empleado,20)){   //SERIA RELACION 4
+            contador+=db.delete("usuario", "nombreusuario = '" + empleado.getCodempleado() + "'", null);
+        }
+
+        contador+=db.delete("empleado", "codempleado = '" + empleado.getCodempleado() +"'", null);
+        regAfectados+=contador;
         return regAfectados;
     }
 
@@ -985,6 +1041,35 @@ public class ControlBD {
                     return true;
                 }
                 return false;
+            }
+            //CAMBIOS EN ACTUALIZAR EMPLEADO.
+            case 19:
+            {   //AL ACTUALIZAR EL EMPLEADO QUE EXISTA EL EMPLEADO, LA UBICACION Y LA FACULTAD
+                //NO NECESARIAMENTE ESTAN ASOCIADOS.
+                Empleado emp = (Empleado) dato;
+                String[] idcodemp = {emp.getCodempleado()};
+                String[] idcodfac = {emp.getCodfacultad()};
+                String[] idcodubi = {emp.getCodubicacion()};
+                abrir();
+                Cursor cEmp = db.query("empleado", null, "codempleado = ?", idcodemp, null, null, null);
+                Cursor cFac = db.query("facultad", null, "codfacultad = ?", idcodfac, null, null, null);
+                Cursor cUbi = db.query("ubicacion", null, "codubicacion = ?", idcodubi, null, null, null);
+                if (cEmp.moveToFirst() && cFac.moveToFirst() && cUbi.moveToFirst()) {
+                    //se encontraron datos
+                    //los datos de emp, fac y ubi si existen!
+                    return true;
+                }
+                return false;
+            }
+            case 20:
+            {
+                //PARA REVISAR SI EXISTEN EMPLEADOS ASOCIADOS A LA UBICACION
+                Empleado emp = (Empleado) dato;
+                Cursor c = db.query(true, "usuario", new String[]{"nombreusuario"}, "nombreusuario = '" + emp.getCodempleado() + "'", null, null, null, null, null);
+                if (c.moveToFirst())
+                    return true;
+                else
+                    return false;
             }
             default:
                 return false;
