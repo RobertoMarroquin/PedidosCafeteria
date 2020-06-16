@@ -62,6 +62,7 @@ public class DetalleProductoActivity extends AppCompatActivity {
                         "idPedido"+paquete.getInt("idPedido")+"\n" +
                         "idpedidoasignados"+ paquete.getInt("idpa"), Toast.LENGTH_SHORT).show();
                 startActivity(regresoListaLocales);
+                finish();
 
                 }
             });
