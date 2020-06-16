@@ -11,6 +11,10 @@ public class EncargadoLocalMenuActivity extends AppCompatActivity {
     Button btnEncargadoLocal, btnLocal, btnMenu, btnProducto, btnPedido;
     Button btnRepartidor, btnRuta;
 
+    Usuario user;
+
+    Bundle objetosRecibidos;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,6 +26,13 @@ public class EncargadoLocalMenuActivity extends AppCompatActivity {
         btnPedido = (Button) findViewById(R.id.btnPedido);
         btnRepartidor = (Button) findViewById(R.id.btnRepartidor);
         btnRuta = (Button) findViewById(R.id.btnRutas);
+
+        //en el bundle recien creado se colocan las extras que trae del menu anterior
+        objetosRecibidos = getIntent().getExtras();
+
+        //se asigna a un objeto usuario los datos del bundle ========================
+        user = (Usuario) objetosRecibidos.getSerializable("usuario");
+        //no usado en esta pantalla =================================================
 
 
         btnEncargadoLocal.setOnClickListener(new View.OnClickListener() {

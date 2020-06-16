@@ -12,6 +12,9 @@ public class ConsultarEmpleadoActivity extends AppCompatActivity {
     EditText editCodEmpleado, editCodFacultad, editCodUbicacion;
     EditText editNomEmpleado, editApeEmpleado, editTelEmpleado;
 
+    Bundle recibido;
+    Usuario user;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,16 +26,27 @@ public class ConsultarEmpleadoActivity extends AppCompatActivity {
         editNomEmpleado = (EditText) findViewById(R.id.editNomEmpleado);
         editApeEmpleado = (EditText) findViewById(R.id.editApeEmpleado);
         editTelEmpleado = (EditText) findViewById(R.id.editTelEmpleado);
+
+        //obteniendo el bundle y usando el objeto usuario que trae
+        recibido = getIntent().getExtras();
+        user = (Usuario) recibido.getSerializable("usuario");
+
+
+        //para que el campo de codempleado ya quede con el mismo de nombreusuario
+        editCodEmpleado.setText(user.getNombreusuario());
     }
 
-    public void consultarEmpleado(View v){
+    public void consultarEmpleado2(View v){
         helper.abrir();
-        Empleado empleado = helper.consultarEmpleado(editCodEmpleado.getText().toString(), editCodFacultad.getText().toString(), editCodUbicacion.getText().toString());
+        //Empleado empleado = helper.consultarEmpleado(editCodEmpleado.getText().toString(), editCodFacultad.getText().toString(), editCodUbicacion.getText().toString());
+        Empleado empleado = helper.consultarEmpleado2(editCodEmpleado.getText().toString());
         helper.cerrar();
         if (empleado==null){
             Toast.makeText(this, "Empleado no registrado", Toast.LENGTH_LONG).show();
         }
         else {
+            editCodFacultad.setText(empleado.getCodfacultad());
+            editCodUbicacion.setText(empleado.getCodubicacion());
             editNomEmpleado.setText(empleado.getNomempleado());
             editApeEmpleado.setText(empleado.getApeempleado());
             editTelEmpleado.setText(empleado.getTelempleado());
