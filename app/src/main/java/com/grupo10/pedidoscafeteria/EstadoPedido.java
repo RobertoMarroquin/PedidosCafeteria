@@ -1,23 +1,23 @@
 package com.grupo10.pedidoscafeteria;
 
 public class EstadoPedido {
-    private int idestadopedido;
+    private String codestadopedido;
     private String Descestadopedido;
 
-    public EstadoPedido(int idestadopedido, String descestadopedido) {
-        this.idestadopedido = idestadopedido;
-        Descestadopedido = descestadopedido;
+    public EstadoPedido(String codestadopedido, String descestadopedido) {
+        this.codestadopedido = codestadopedido;
+        this.Descestadopedido = descestadopedido;
     }
 
     public EstadoPedido() {
     }
 
-    public int getIdestadopedido() {
-        return idestadopedido;
+    public String getCodestadopedido() {
+        return codestadopedido;
     }
 
-    public void setIdestadopedido(int idestadopedido) {
-        this.idestadopedido = idestadopedido;
+    public void setCodestadopedido(String codestadopedido) {
+        this.codestadopedido = codestadopedido;
     }
 
     public String getDescestadopedido() {
