@@ -7,7 +7,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.SQLException;
 import android.util.Log;
-
 import java.util.ArrayList;
 
 public class ControlBD {
@@ -99,9 +98,6 @@ public class ControlBD {
     public void cerrar() {
         DBHelper.close();
     }
-
-
-
 
 
 //============================================================================ CRUD TABLA USUARIO
