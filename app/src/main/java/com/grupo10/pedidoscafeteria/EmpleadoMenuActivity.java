@@ -36,7 +36,7 @@ public class EmpleadoMenuActivity extends AppCompatActivity {
 
         datosEmpleado = (Button) findViewById(R.id.btnDatosEmpleado);
         datosLocales = (Button) findViewById(R.id.btnLocal);
-
+        datosPedidos = (Button) findViewById(R.id.btnPedidos);
 
         //PARA GESTIONAR EL EMPLEADO.
         //tablas de FACULTAD, UBICACION Y EMPLEADO
@@ -50,9 +50,16 @@ public class EmpleadoMenuActivity extends AppCompatActivity {
             }
         });
 
-
-
-
+        //
+        // PARA INGRESAR A LOS PEDIDOS
+        datosPedidos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent listaPedidos = new Intent(v.getContext(),ListaPedidosActivity.class);
+                listaPedidos.putExtras(objetosRecibidos);
+                startActivity(listaPedidos);
+            }
+        });
 
         //
         // PARA INGRESAR A LOS LOCALES
