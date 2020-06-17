@@ -78,6 +78,8 @@
     <string name="button_update_encargadolocal">Actualizar Encargado de Local</string>
     <string name="button_delete_encargadolocal">Eliminar Encargado de Local</string>
 
+    <string name="button_delete_encargadolocalANDlocal">Eliminar Encargado de Local y sus Locales</string>
+
     <!-- los textos para la pantalla de insertar encargadolocal -->
     <string name="codencargadolocal">Codigo del encargado del local</string>
     <string name="nomencargadolocal">Nombre del encargado del local</string>

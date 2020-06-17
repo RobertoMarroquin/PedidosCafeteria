@@ -8,10 +8,13 @@ import android.app.DatePickerDialog;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 public class InsertarMenuActivity extends AppCompatActivity {
@@ -20,6 +23,11 @@ public class InsertarMenuActivity extends AppCompatActivity {
 
     Calendar calendario;
     DatePickerDialog datepicker;
+
+    Spinner spCodLocal;
+
+    Bundle recibido;
+    Usuario usuarioRecibido;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +39,16 @@ public class InsertarMenuActivity extends AppCompatActivity {
         editPrecioMenu = (EditText) findViewById(R.id.editPrecioMenu);
         editFechaDesdeMenu = (EditText) findViewById(R.id.editFechaDesdeMenu);
         editFechaHastaMenu = (EditText) findViewById(R.id.editFechaHastaMenu);
+        spCodLocal = (Spinner) findViewById(R.id.spCodLocal);
+
+        //obteniendo el bundle y usando el objeto usuario que trae
+        recibido = getIntent().getExtras();
+        usuarioRecibido = (Usuario) recibido.getSerializable("usuario");
+
+
+        //para que el campo de codempleado ya quede con el mismo de nombreusuario
+        //editCodEncargadoLocal.setText(usuarioRecibido.getNombreusuario());
+
 
         //para las fechas
         editFechaDesdeMenu.setOnClickListener(new View.OnClickListener() {
@@ -74,6 +92,15 @@ public class InsertarMenuActivity extends AppCompatActivity {
             }
         });
 
+
+
+        //para el spinner de codigos de local
+        ArrayList<String> listacodlocal = helper.getAllCodLocal(usuarioRecibido);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, listacodlocal);
+        adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        spCodLocal.setPrompt("Seleccione el codigo de local deseado");
+        spCodLocal.setAdapter(new NothingSelectedSpinnerAdapter(adapter, R.layout.spinner_layout,this));
+
     }
 
 
@@ -81,7 +108,8 @@ public class InsertarMenuActivity extends AppCompatActivity {
     public void insertarMenu(View v){
         String regInsertados;
         String codmenu = editCodMenu.getText().toString();
-        String codlocal = editCodLocal.getText().toString();
+        //String codlocal = editCodLocal.getText().toString();
+        String codlocal = spCodLocal.getSelectedItem().toString();
         Float preciomenu = Float.valueOf(editPrecioMenu.getText().toString());
         String fechadesde = editFechaDesdeMenu.getText().toString();
         String fechahasta = editFechaHastaMenu.getText().toString();

@@ -467,6 +467,41 @@ public class ControlBD {
         return regAfectados;
     }
 
+    //QUE SE ELIMINE EL USUARIO JUNTO AL ENCARGADOLOCAL
+    public String eliminar2(EncargadoLocal encargado) {
+        String regAfectados = "Filas afectadas = ";
+        int contador = 0;
+
+        //AL ELIMINAR encargado VER SI HAY usuarios ASOCIADOS, y que los elimine.....................
+        if (verificarIntegridad(encargado,21)){   //SERIA RELACION 21
+            contador+=db.delete("usuario", "nombreusuario = '" + encargado.getCodencargadolocal() + "'", null);
+        }
+
+        contador+=db.delete("encargadolocal", "codencargadolocal = '" + encargado.getCodencargadolocal() +"'", null);
+        regAfectados+=contador;
+        return regAfectados;
+    }
+
+    //QUE SE ELIMINE EL USUARIO JUNTO AL ENCARGADOLOCAL y A LOS LOCALES CREADOS POR ESTE ENCARGADO
+    public String eliminar3(EncargadoLocal encargado) {
+        String regAfectados = "Filas afectadas = ";
+        int contador = 0;
+
+        //AL ELIMINAR encargado VER SI HAY usuarios ASOCIADOS, y que los elimine.....................
+        if (verificarIntegridad(encargado,21)){   //RELACION 21
+            contador+=db.delete("usuario", "nombreusuario = '" + encargado.getCodencargadolocal() + "'", null);
+        }
+
+        //AL ELIMINAR encargado de local VER SI HAY locales ASOCIADOS......................................
+        if (verificarIntegridad(encargado,8)){   // relacion 8
+            contador+=db.delete("local", "codencargadolocal = '" + encargado.getCodencargadolocal() + "'", null);
+        }
+
+        contador+=db.delete("encargadolocal", "codencargadolocal = '" + encargado.getCodencargadolocal() +"'", null);
+        regAfectados+=contador;
+        return regAfectados;
+    }
+
 //====================================================================================== TABLA LOCAL
 //INSERTAR LOCAL
     public String insertar(Local local) {
@@ -1067,13 +1102,24 @@ public class ControlBD {
             }
             case 20:
             {
-                //PARA REVISAR SI EXISTEN EMPLEADOS ASOCIADOS A LA UBICACION
+                //PARA REVISAR SI EXISTEN EMPLEADOS ASOCIADOS AL USUARIO
                 Empleado emp = (Empleado) dato;
                 Cursor c = db.query(true, "usuario", new String[]{"nombreusuario"}, "nombreusuario = '" + emp.getCodempleado() + "'", null, null, null, null, null);
                 if (c.moveToFirst())
                     return true;
                 else
                     return false;
+            }
+            case 21:
+            {
+                //PARA REVISAR SI EXISTEN EMPLEADOS ASOCIADOS AL USUARIO
+                EncargadoLocal encargado = (EncargadoLocal) dato;
+                Cursor c = db.query(true, "usuario", new String[]{"nombreusuario"}, "nombreusuario = '" + encargado.getCodencargadolocal() + "'", null, null, null, null, null);
+                if (c.moveToFirst())
+                    return true;
+                else
+                    return false;
+
             }
             default:
                 return false;
@@ -1201,6 +1247,30 @@ public class ControlBD {
 
 
     //////////////////////////////////////////////////
+
+    //ARRAY LIST PARA SPINNER DE CODIGOS DE local dependiendo del encargado de local
+
+    public ArrayList<String> getAllCodLocal(Usuario usuario){
+        ArrayList<String> list = new ArrayList<String>();
+        String [] id = {usuario.getNombreusuario()};
+        db = DBHelper.getReadableDatabase();
+        //  db.beginTransaction();
+        try {
+            Cursor cursor = db.rawQuery("SELECT * FROM local where codencargadolocal = ?", id);
+            if (cursor.getCount()>0){
+                while (cursor.moveToNext()){
+                    String codlocal = cursor.getString(cursor.getColumnIndex("codlocal"));
+                    list.add(codlocal);
+                }
+            }
+
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    //////////////////////////////////////////////
 
 
 
