@@ -71,7 +71,7 @@ public class ControlBD {
                 db.execSQL("create TABLE menu (codmenu VARCHAR(10) NOT NULL PRIMARY KEY, codlocal VARCHAR(10) NOT NULL, preciomenu REAL, fechadesdemenu VARCHAR(15), fechahastamenu VARCHAR(15));");
                 db.execSQL("create TABLE producto (codproducto VARCHAR(10) NOT NULL PRIMARY KEY, codmenu VARCHAR(10) NOT NULL, nombreproducto VARCHAR(50), preciounitario REAL);");
                 db.execSQL("create TABLE pedido (idpedido INTEGER NOT NULL  PRIMARY KEY AUTOINCREMENT, idruta INTEGER, codestadopedido VARCHAR(2), codlocal VARCHAR(10) NOT NULL,fechapedido VARCHAR(10));");
-                db.execSQL("create TABLE pedidosasignados (codtrabajador VARCHAR(4) NOT NULL, idpedido INTEGER NOT NULL, PRIMARY KEY (codtrabajador,idpedido));");
+                db.execSQL("create TABLE pedidosasignados (codtrabajador VARCHAR(15) NOT NULL, idpedido INTEGER NOT NULL, PRIMARY KEY (codtrabajador,idpedido));");
                 db.execSQL("create TABLE detalleproductoempleado ( iddpe INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,  idpedido INTEGER NOT NULL, codtrabajador VARCHAR(10) NOT NULL, codproducto VARCHAR(10) NOT NULL, idpedidosasignados INTEGER NOT NULL, cantidadpedido INTEGER );");
                 db.execSQL("create table repartidor (codrepartidor VARCHAR(20) NOT NULL PRIMARY KEY, nomrepartidor VARCHAR(30), aperepartidor VARCHAR(30), telrepartidor VARCHAR(10));");
                 db.execSQL("create table rutapedido (idruta INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, codrepartidor VARCHAR(20) NOT NULL, inicioruta VARCHAR(10), finruta VARCHAR(10))");
@@ -771,6 +771,79 @@ public class ControlBD {
     }
 
 
+    //=================================================================================TABLA PEDIDO
+
+    //INSERTAR PEDIDO
+    public String insertar(Pedido pedido) {
+        String regInsertados = "Registro insertado n° ";
+        long contador = 0;
+
+            ContentValues rp = new ContentValues();
+            rp.put("idpedido", pedido.getIdpedido());
+            rp.put("idruta", pedido.getIdruta());
+            rp.put("codestadopedido", pedido.getIdestadopedido());
+            rp.put("codlocal", pedido.getCodlocal());
+            rp.put("fechapedido", pedido.getFechapedido());
+
+            contador = db.insert("pedido", null, rp);
+
+        if (contador==-1 || contador==0){
+            regInsertados = "Error al insetar el registro, Revisar los datos. Verificar";
+        }
+        else {
+            regInsertados = regInsertados + contador;
+        }
+        return regInsertados;
+    }
+
+    //=================================================================================TABLA PEDIDOASIGNADO
+    //INSERTAR PEDIDOASIGNADO
+    public String insertar(PedidosAsignados pedidoasignado) {
+        String regInsertados = "Registro insertado n° ";
+        long contador = 0;
+
+        ContentValues rp = new ContentValues();
+        rp.put("idpedido", pedidoasignado.getIdpedido());
+        rp.put("codtrabajador", pedidoasignado.getIdtrabajador());
+
+        contador = db.insert("pedidosasignados", null, rp);
+
+        if (contador==-1 || contador==0){
+            regInsertados = "Error al insetar el registro, Revisar los datos. Verificar";
+        }
+        else {
+            regInsertados = regInsertados + contador;
+        }
+        return regInsertados;
+    }
+
+
+
+    //=================================================================================TABLA DETALLEPRODUCTOEMPLEADO
+    //INSERTAR DETALLEPRODUCTOEMPLEADO
+    public String insertar(DetalleProductoEmpleado detalleProdEmp) {
+        String regInsertados = "Registro insertado n° ";
+        long contador = 0;
+
+        ContentValues rp = new ContentValues();
+        rp.put("idpedido", detalleProdEmp.getIdpedido());
+        rp.put("codtrabajador", detalleProdEmp.getIdtrabajador());
+        rp.put("codproducto", detalleProdEmp.getIdproducto());
+        rp.put("cantidadpedido", detalleProdEmp.getCantidadpedido());
+        rp.put("idpedidosasignados", detalleProdEmp.getIdpedido());
+        contador = db.insert("detalleproductoempleado", null, rp);
+
+        if (contador==-1 || contador==0){
+            regInsertados = "Error al insetar el registro, Revisar los datos. Verificar";
+        }
+        else {
+            regInsertados = regInsertados + contador;
+        }
+        return regInsertados;
+    }
+
+
+
 //=================================================================================TABLA RUTA PEDIDO
 
     //INSERTAR RUTA PEDIDO
@@ -1261,7 +1334,7 @@ public class ControlBD {
         final String[] EstPedCodEstado = {"PE", "CO","PR","RU","FI"};
         final String[] EstPedDescEstado = {"PENDIENTE", "CONFIRMADO","PROCESO","EN RUTA","FINALIZADO"};
 
-        final String[] EmpCodEmpleado = {"111", "222","333"};
+        final String[] EmpCodEmpleado = {"111", "222","emp1"};
         final String[] EmpCodFacultad = {"ing", "ing","mate"};
         final String[] EmpCodUbicacion = {"ubi1", "ubi1","ubi2"};
         final String[] EmpNomEmpleado = {"ROBERTO", "NESTOR","SANTIAGO"};
@@ -1273,6 +1346,22 @@ public class ControlBD {
         final String[] RutIdRepartidor = {"repartidor1","repartidor2","repartidor3"};
         final String[] RutFechaInicio = {"01/06/2020", "01/05/2020","01/02/2020"};
         final String[] RutFechaFin = {"20/09/2020", "20/10/2020","01/12/2020"};
+
+        final Integer[] PedIdPedido = {1,2,3,4,5,6,7};
+        final Integer[] PedIdRuta = {1,2,3,1,2,3,4};
+        final String[] PedCodEstadoPedido = {"PE","CO","PR","RU","FI","PE","CO"};
+        final String[] PedCodLocal = {"local1", "local2","local1","local2","local1","local2","local1"};
+        final String[] PedFechaPedido = {"18/06/2020", "18/06/2020","18/06/2020","18/06/2020", "18/06/2020","19/06/2020","19/06/2020"};
+
+        final String[] PedCodTrabajador = {"emp1","emp1","222","111","emp1","emp1","emp1"};
+        final Integer[] PedAsigIdPedido = {1,2,3,4,5,6,7};
+
+        final Integer[] ProdEmpIdPed = {1,2,3,4,5,6,7};
+        final Integer[] ProdEmpIdPedido = {1,2,3,4,5,6,7};
+        final String[] ProdEmpCodTrabajador = {"emp1","emp1","222","111","emp1","emp1","emp1"};
+        final String[] ProdEmpcodproducto = {"p1", "p2","p3","p4", "p5","p6","p1"};
+        final Integer[] ProdEmpIdPedidoasignados = {1,2,3,4,5,6,7};
+        final Integer[] ProdEmpCantidad = {1,2,3,4,2,2,3};
 
         abrir();
         db.execSQL("DELETE FROM estadopedido ");
@@ -1383,6 +1472,32 @@ public class ControlBD {
             rutapedido.setInicioruta(RutFechaInicio[i]);
             rutapedido.setFinruta(RutFechaFin[i]);
             insertar(rutapedido);
+        }
+
+        Pedido pedido = new Pedido();
+        for (int i=0; i<7; i++){
+            pedido.setIdpedido(PedIdPedido[i]);
+            pedido.setIdruta(PedIdRuta[i]);
+            pedido.setIdestadopedido(PedCodEstadoPedido[i]);
+            pedido.setCodlocal(PedCodLocal[i]);
+            pedido.setFechapedido(PedFechaPedido[i]);
+            insertar(pedido);
+        }
+
+        PedidosAsignados pedidoasignado = new PedidosAsignados();
+        for (int i=0; i<7; i++){
+            pedidoasignado.setIdpedido(PedAsigIdPedido[i]);
+            pedidoasignado.setIdtrabajador(PedCodTrabajador[i]);
+            insertar(pedidoasignado);
+        }
+
+        DetalleProductoEmpleado detalleprodeempleado = new DetalleProductoEmpleado();
+        for (int i=0; i<7; i++){
+            detalleprodeempleado.setIdpedido(ProdEmpIdPedido[i]);
+            detalleprodeempleado.setIdtrabajador(ProdEmpCodTrabajador[i]);
+            detalleprodeempleado.setIdproducto(ProdEmpcodproducto[i]);
+            detalleprodeempleado.setCantidadpedido(ProdEmpCantidad[i]);
+            insertar(detalleprodeempleado);
         }
 
         cerrar();
