@@ -83,6 +83,14 @@ public class ProductosLocalActivity extends AppCompatActivity {
                 }
             }
         });
+
+        comprarbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
     }
 
     @Override
