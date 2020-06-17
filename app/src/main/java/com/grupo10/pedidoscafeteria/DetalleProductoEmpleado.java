@@ -1,12 +1,12 @@
 package com.grupo10.pedidoscafeteria;
 
 public class DetalleProductoEmpleado {
-    private int idtrabajador;
+    private String idtrabajador;
     private int idpedido;
-    private int idproducto;
+    private String idproducto;
     private int cantidadpedido;
 
-    public DetalleProductoEmpleado(int idtrabajador, int idpedido, int idproducto, int cantidadpedido) {
+    public DetalleProductoEmpleado(String idtrabajador, int idpedido, String idproducto, int cantidadpedido) {
         this.idtrabajador = idtrabajador;
         this.idpedido = idpedido;
         this.idproducto = idproducto;
@@ -16,11 +16,11 @@ public class DetalleProductoEmpleado {
     public DetalleProductoEmpleado() {
     }
 
-    public int getIdtrabajador() {
+    public String getIdtrabajador() {
         return idtrabajador;
     }
 
-    public void setIdtrabajador(int idtrabajador) {
+    public void setIdtrabajador(String idtrabajador) {
         this.idtrabajador = idtrabajador;
     }
 
@@ -32,11 +32,11 @@ public class DetalleProductoEmpleado {
         this.idpedido = idpedido;
     }
 
-    public int getIdproducto() {
+    public String getIdproducto() {
         return idproducto;
     }
 
-    public void setIdproducto(int idproducto) {
+    public void setIdproducto(String idproducto) {
         this.idproducto = idproducto;
     }
 
