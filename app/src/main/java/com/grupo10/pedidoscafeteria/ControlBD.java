@@ -7,7 +7,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.SQLException;
 import android.util.Log;
-
 import java.util.ArrayList;
 
 public class ControlBD {
@@ -76,6 +75,7 @@ public class ControlBD {
                 db.execSQL("create TABLE detalleproductoempleado ( iddpe INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,  idpedido INTEGER NOT NULL, codtrabajador VARCHAR(10) NOT NULL, codproducto VARCHAR(10) NOT NULL, idpedidosasignados INTEGER NOT NULL, cantidadpedido INTEGER );");
                 db.execSQL("create table repartidor (codrepartidor VARCHAR(20) NOT NULL PRIMARY KEY, nomrepartidor VARCHAR(30), aperepartidor VARCHAR(30), telrepartidor VARCHAR(10));");
                 db.execSQL("create table rutapedido (idruta INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, codrepartidor VARCHAR(20) NOT NULL, inicioruta VARCHAR(10), finruta VARCHAR(10))");
+                db.execSQL("create table estadopedido (codestadopedido VARCHAR(2) NOT NULL PRIMARY KEY, descestadopedido VARCHAR(30));");
 
             } catch (SQLException e){
                 e.printStackTrace();
@@ -99,9 +99,6 @@ public class ControlBD {
     public void cerrar() {
         DBHelper.close();
     }
-
-
-
 
 
 //============================================================================ CRUD TABLA USUARIO
@@ -139,6 +136,26 @@ public class ControlBD {
     }
     //ELIMINAR USUARIO
     //ACTUALIZAR USUARIO
+
+
+    //==================================================================================TABLA ESTADO PEDIDO
+    //INSERTAR ESTADO PEDIDO
+    public String insertar(EstadoPedido estado){
+        String regInsertados ="Registro n. ";
+        long contador;
+        ContentValues esta = new ContentValues();
+        esta.put("codestadopedido", estado.getCodestadopedido());
+        esta.put("descestadopedido", estado.getDescestadopedido());
+        contador = db.insert("estadopedido", null, esta);
+        if (contador==-1 || contador==0){
+            regInsertados = "Error";
+        } else {
+            regInsertados = regInsertados + contador ;
+        }
+        return regInsertados;
+    }
+
+
 
 //==================================================================================TABLA FACULTAD
     //INSERTAR FACULTAD
@@ -763,7 +780,7 @@ public class ControlBD {
 
         if (verificarIntegridad(rutaPedido,17)){
             ContentValues rp = new ContentValues();
-            //rp.put("idruta", rutaPedido.getIdruta());
+            rp.put("idruta", rutaPedido.getIdruta());
             rp.put("codrepartidor", rutaPedido.getCodrepartidor());
             rp.put("inicioruta", rutaPedido.getInicioruta());
             rp.put("finruta", rutaPedido.getFinruta());
@@ -1203,9 +1220,6 @@ public class ControlBD {
     //////////////////////////////////////////////////
 
 
-
-
-
 //==========================================================PARA LLENAR LA BASE CON DATOS INICIALES
 
     public String llenarBase() {
@@ -1244,7 +1258,24 @@ public class ControlBD {
         final String[] Raperepartidor = {"moshi", "parker", "bbb"};
         final String[] Rtelrepartidor = {"22222222", "22577777", "21212121"};
 
+        final String[] EstPedCodEstado = {"PE", "CO","PR","RU","FI"};
+        final String[] EstPedDescEstado = {"PENDIENTE", "CONFIRMADO","PROCESO","EN RUTA","FINALIZADO"};
+
+        final String[] EmpCodEmpleado = {"111", "222","333"};
+        final String[] EmpCodFacultad = {"ing", "ing","mate"};
+        final String[] EmpCodUbicacion = {"ubi1", "ubi1","ubi2"};
+        final String[] EmpNomEmpleado = {"ROBERTO", "NESTOR","SANTIAGO"};
+        final String[] EmpApeEmpleado = {"MARROQUIN", "MOLINA","LARA"};
+        final String[] EmpTelEmpleado = {"61199001", "71179082","77463008"};
+        final String[] EmpCodLocal = {"local1", "local2","local1"};
+
+        final Integer[] RutIdRuta = {1, 2,3};
+        final String[] RutIdRepartidor = {"repartidor1","repartidor2","repartidor3"};
+        final String[] RutFechaInicio = {"01/06/2020", "01/05/2020","01/02/2020"};
+        final String[] RutFechaFin = {"20/09/2020", "20/10/2020","01/12/2020"};
+
         abrir();
+        db.execSQL("DELETE FROM estadopedido ");
         db.execSQL("DELETE FROM usuario");
         db.execSQL("DELETE FROM facultad");
         db.execSQL("DELETE FROM ubicacion");
@@ -1256,6 +1287,8 @@ public class ControlBD {
         db.execSQL("delete from detalleproductoempleado");
         db.execSQL("delete from pedidosasignados");
         db.execSQL("DELETE FROM repartidor");
+        db.execSQL("DELETE FROM empleado");
+        db.execSQL("DELETE FROM rutapedido");
 
         Usuario usuario = new Usuario();
         for(int i=0; i<2; i++){
@@ -1323,6 +1356,35 @@ public class ControlBD {
             repartidor.setTelrepartidor(Rtelrepartidor[i]);
             insertar(repartidor);
         }
+
+        EstadoPedido estado = new EstadoPedido();
+        for(int i=0; i<5; i++){
+            estado.setCodestadopedido(EstPedCodEstado[i]);
+            estado.setDescestadopedido(EstPedDescEstado[i]);
+            insertar(estado);
+        }
+
+        Empleado empleado = new Empleado();
+        for (int i=0; i<3; i++){
+            empleado.setCodempleado(EmpCodEmpleado[i]);
+            empleado.setCodfacultad(EmpCodFacultad[i]);
+            empleado.setCodubicacion(EmpCodUbicacion[i]);
+            empleado.setNomempleado(EmpNomEmpleado[i]);
+            empleado.setApeempleado(EmpApeEmpleado[i]);
+            empleado.setTelempleado(EmpTelEmpleado[i]);
+            empleado.setCodlocal(EmpCodLocal[i]);
+            insertar(empleado);
+        }
+
+        RutaPedido rutapedido = new RutaPedido();
+        for (int i=0; i<3; i++){
+            rutapedido.setIdruta(RutIdRuta[i]);
+            rutapedido.setCodrepartidor(RutIdRepartidor[i]);
+            rutapedido.setInicioruta(RutFechaInicio[i]);
+            rutapedido.setFinruta(RutFechaFin[i]);
+            insertar(rutapedido);
+        }
+
         cerrar();
         return "Se insertaron datos de prueba";
 
