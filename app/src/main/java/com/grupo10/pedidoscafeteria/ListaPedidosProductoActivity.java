@@ -42,6 +42,25 @@ public class ListaPedidosProductoActivity extends AppCompatActivity {
 
         ArrayAdapter adaptador = new ArrayAdapter(this,android.R.layout.simple_list_item_1,listaInfo);
         listViewPedidosProducto.setAdapter(adaptador);
+
+        listViewPedidosProducto.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent,View view,int position,long id) {
+                SQLiteDatabase db = helper.abrir2();
+                Integer IdPed;
+                String CodProducto;
+                IdPed=listaPedidosProducto.get(position).getIdpedido();
+                CodProducto=listaPedidosProducto.get(position).getIdproducto();
+                String[] argumentos = {IdPed.toString(),CodProducto};
+
+                db.execSQL("DELETE FROM detalleproductoempleado where idpedido =? AND codproducto=? ",argumentos);
+                Toast.makeText(ListaPedidosProductoActivity.this, "Eliminado Producto No.: "+CodProducto, Toast.LENGTH_SHORT).show();
+                finish();
+                return false;
+            }
+        });
+
+
     }
 
     private void consultarPedidosProducto() {
@@ -63,7 +82,7 @@ public class ListaPedidosProductoActivity extends AppCompatActivity {
             detalle.setIdpedido(cursor.getInt(0));
             detalle.setIdproducto(cursor.getString(1));
             listaPedidosProducto.add(detalle);
-            listaInfo.add(cursor.getString(1) + " - "+ cursor.getString(2) + " - "+ cursor.getString(3) );
+            listaInfo.add("Producto: "+ cursor.getString(1) + " - "+ cursor.getString(2) +"\n"+ "Cantidad : "+ cursor.getString(3)+"      Precio: "+cursor.getString(4) );
         }
     }
 
