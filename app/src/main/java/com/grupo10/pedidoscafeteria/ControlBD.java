@@ -1356,12 +1356,12 @@ public class ControlBD {
         final String[] PedCodTrabajador = {"emp1","emp1","222","111","emp1","emp1","emp1"};
         final Integer[] PedAsigIdPedido = {1,2,3,4,5,6,7};
 
-        final Integer[] ProdEmpIdPed = {1,2,3,4,5,6,7};
-        final Integer[] ProdEmpIdPedido = {1,2,3,4,5,6,7};
-        final String[] ProdEmpCodTrabajador = {"emp1","emp1","222","111","emp1","emp1","emp1"};
-        final String[] ProdEmpcodproducto = {"p1", "p2","p3","p4", "p5","p6","p1"};
-        final Integer[] ProdEmpIdPedidoasignados = {1,2,3,4,5,6,7};
-        final Integer[] ProdEmpCantidad = {1,2,3,4,2,2,3};
+        final Integer[] ProdEmpIdPed = {1,2,3,4,5,6,7,1,2};
+        final Integer[] ProdEmpIdPedido = {1,2,3,4,5,6,7,1,2};
+        final String[] ProdEmpCodTrabajador = {"emp1","emp1","222","111","emp1","emp1","emp1","emp1","emp1"};
+        final String[] ProdEmpcodproducto = {"p1", "p2","p3","p4", "p5","p6","p1","p4","p6"};
+        final Integer[] ProdEmpIdPedidoasignados = {1,2,3,4,5,6,7,2,3};
+        final Integer[] ProdEmpCantidad = {1,2,3,4,2,2,3,4,5};
 
         abrir();
         db.execSQL("DELETE FROM estadopedido ");
@@ -1492,7 +1492,7 @@ public class ControlBD {
         }
 
         DetalleProductoEmpleado detalleprodeempleado = new DetalleProductoEmpleado();
-        for (int i=0; i<7; i++){
+        for (int i=0; i<9; i++){
             detalleprodeempleado.setIdpedido(ProdEmpIdPedido[i]);
             detalleprodeempleado.setIdtrabajador(ProdEmpCodTrabajador[i]);
             detalleprodeempleado.setIdproducto(ProdEmpcodproducto[i]);
