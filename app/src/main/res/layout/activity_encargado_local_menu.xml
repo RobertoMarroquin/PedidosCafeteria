@@ -1,78 +1,56 @@
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<TableLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".EncargadoLocalMenuActivity">
-
+    tools:ignore="LabelFor">
+    <TableRow>
     <Button
         android:id="@+id/btnEncargadoLocal"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:text="@string/button_details_encargado_local"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
+        android:text="@string/button_details_encargado_local" />
+    </TableRow>
+    <TableRow>
     <Button
         android:id="@+id/btnLocales"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:text="@string/button_details_crud_local"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnEncargadoLocal" />
-
+        android:text="@string/button_details_crud_local" />
+    </TableRow>
+    <TableRow>
     <Button
         android:id="@+id/btnPedido"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:text="@string/button_details_pedidos"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnRutas" />
-
+        android:text="@string/button_details_pedidos"/>
+    </TableRow>
+    <TableRow>
     <Button
         android:id="@+id/btnProducto"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:text="@string/button_details_producto"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnMenus" />
-
+        android:text="@string/button_details_producto" />
+    </TableRow>
+    <TableRow>
     <Button
         android:id="@+id/btnMenus"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:text="@string/button_details_menu"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnLocales" />
-
+        android:text="@string/button_details_menu" />
+    </TableRow>
+    <TableRow>
     <Button
         android:id="@+id/btnRepartidor"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:text="@string/button_details_repartidor"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnProducto" />
-
+        android:text="@string/button_details_repartidor" />
+    </TableRow>
+    <TableRow>
     <Button
         android:id="@+id/btnRutas"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:text="@string/button_details_ruta"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnRepartidor" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:text="@string/button_details_ruta" />
+    </TableRow>
+</TableLayout>
