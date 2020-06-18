@@ -1,6 +1,9 @@
 package com.grupo10.pedidoscafeteria;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -21,6 +24,7 @@ public class ListaPedidosActivity extends AppCompatActivity {
     ControlBD helper;
     Usuario user;
     Bundle paquete;
+    public int eliminar;
     private static final String[] camposPedido = new String[]{"IdPedido", "fechapedido", "codestadopedido","codfacultad","nomempleado","apeempleado","telempleado"};
 
     @Override
@@ -32,29 +36,46 @@ public class ListaPedidosActivity extends AppCompatActivity {
         paquete = getIntent().getExtras();
         if (paquete != null) {
             user = (Usuario) paquete.getSerializable("usuario");
-        }
-        else {
+        } else {
             user = null;
         }
         consultarPedidos();
 
-        ArrayAdapter adaptador = new ArrayAdapter(this,android.R.layout.simple_list_item_1,listaInfo);
+        ArrayAdapter adaptador = new ArrayAdapter(this, android.R.layout.simple_list_item_1, listaInfo);
         listViewPedidos.setAdapter(adaptador);
 
-        listViewPedidos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+       listViewPedidos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 user = (Usuario) paquete.getSerializable("usuario");
                 paquete.putInt("idpedido", listaPedidos.get(position).getIdpedido());
                 Intent pedidosproducto = new Intent(parent.getContext(), ListaPedidosProductoActivity.class);
                 pedidosproducto.putExtras(paquete);
-                Log.d("Paquete enviado", "onItemClick: "+pedidosproducto.getExtras().getInt("idpedido"));
-                Log.d("Paquete enviado", "onItemClick: "+user.getNombreusuario());
+                Log.d("Paquete enviado", "onItemClick: " + pedidosproducto.getExtras().getInt("idpedido"));
+                Log.d("Paquete enviado", "onItemClick: " + user.getNombreusuario());
                 startActivity(pedidosproducto);
             }
         });
 
+        listViewPedidos.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent,View view,int position,long id) {
+                    SQLiteDatabase db = helper.abrir2();
+                    Integer IdPed;
+                    IdPed=listaPedidos.get(position).getIdpedido();
+                    String[] argumentos = {IdPed.toString(),};
+
+                      db.execSQL("DELETE FROM pedido where idpedido =? ",argumentos);
+                      db.execSQL("DELETE FROM pedidosasignados where idpedido =? ",argumentos);
+                      db.execSQL("DELETE FROM detalleproductoempleado where idpedido =? ",argumentos);
+                     Toast.makeText(ListaPedidosActivity.this, "Eliminado Pedido No.: "+IdPed.toString(), Toast.LENGTH_SHORT).show();
+                    finish();
+                return false;
+            }
+        });
+
     }
+
     private void consultarPedidos() {
         SQLiteDatabase db = helper.abrir2();
         listaPedidos = new ArrayList<Pedido>();
