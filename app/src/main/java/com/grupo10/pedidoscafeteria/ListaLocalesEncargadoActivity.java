@@ -55,7 +55,7 @@ public class ListaLocalesEncargadoActivity extends AppCompatActivity {
         listaLocalesEncargado = new ArrayList<Local>();
         Local local = null;
 
-        Cursor cursor = db.rawQuery("SELECT * FROM local where codlocal = ?",id);
+        Cursor cursor = db.rawQuery("SELECT * FROM local where codencargadolocal = ?",id);
 
         while (cursor.moveToNext()){
             local = new Local();
