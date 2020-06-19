@@ -81,6 +81,14 @@ public class EmpleadoMenuActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onBackPressed()
+    {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
     public boolean estaVacio(Usuario usuario){
         String[] id = {usuario.getNombreusuario()};
         SQLiteDatabase db = helper.abrir2();

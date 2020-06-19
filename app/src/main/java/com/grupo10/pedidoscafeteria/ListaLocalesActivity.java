@@ -52,6 +52,15 @@ public class ListaLocalesActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onBackPressed()
+    {
+        Intent intent = new Intent(this, EmpleadoMenuActivity.class);
+        intent.putExtras(paquete);
+        startActivity(intent);
+        finish();
+    }
+
     private void consultarlocales() {
         SQLiteDatabase db = helper.abrir2();
         listaLocales = new ArrayList<Local>();
