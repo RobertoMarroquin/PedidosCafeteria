@@ -3,10 +3,10 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical"
-    tools:context=".ListaPedidosActivity">
+    tools:context=".ListaPedidosProductoActivity">
 
     <ListView
-        android:id="@+id/lstPedidos"
+        android:id="@+id/lstPedidosProducto"
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
     </ListView>

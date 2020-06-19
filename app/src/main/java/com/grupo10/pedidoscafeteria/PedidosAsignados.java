@@ -1,10 +1,10 @@
 package com.grupo10.pedidoscafeteria;
 
 public class PedidosAsignados {
-    private int idtrabajador;
+    private String idtrabajador;
     private int idpedido;
 
-    public PedidosAsignados(int idtrabajador, int idpedido) {
+    public PedidosAsignados(String idtrabajador, int idpedido) {
         this.idtrabajador = idtrabajador;
         this.idpedido = idpedido;
     }
@@ -12,11 +12,11 @@ public class PedidosAsignados {
     public PedidosAsignados() {
     }
 
-    public int getIdtrabajador() {
+    public String getIdtrabajador() {
         return idtrabajador;
     }
 
-    public void setIdtrabajador(int idtrabajador) {
+    public void setIdtrabajador(String idtrabajador) {
         this.idtrabajador = idtrabajador;
     }
 

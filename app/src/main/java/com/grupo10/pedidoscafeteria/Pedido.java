@@ -6,14 +6,14 @@ import java.util.Date;
 public class Pedido implements Serializable {
     private int idpedido;
     private int idruta;
-    private int idestadopedido;
+    private String idestadopedido;
     private String codlocal;
     private String fechapedido;
 
     public Pedido() {
     }
 
-    public Pedido(int idpedido, int idruta, int idestadopedido, String codlocal, String fechapedido) {
+    public Pedido(int idpedido, int idruta, String idestadopedido, String codlocal, String fechapedido) {
         this.idpedido = idpedido;
         this.idruta = idruta;
         this.idestadopedido = idestadopedido;
@@ -37,11 +37,11 @@ public class Pedido implements Serializable {
         this.idruta = idruta;
     }
 
-    public int getIdestadopedido() {
+    public String getIdestadopedido() {
         return idestadopedido;
     }
 
-    public void setIdestadopedido(int idestadopedido) {
+    public void setIdestadopedido(String idestadopedido) {
         this.idestadopedido = idestadopedido;
     }
 

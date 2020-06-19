@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 public class EncargadoLocalMenuActivity extends AppCompatActivity {
     Button btnEncargadoLocal, btnLocal, btnMenu, btnProducto, btnPedido;
@@ -86,7 +87,9 @@ public class EncargadoLocalMenuActivity extends AppCompatActivity {
         btnPedido.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent listaLocalesEcargado = new Intent(v.getContext(),ListaLocalesEncargadoActivity.class);
+                listaLocalesEcargado.putExtras(objetosRecibidos);
+                startActivity(listaLocalesEcargado);
             }
         });
     }
