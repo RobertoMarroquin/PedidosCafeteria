@@ -10,30 +10,18 @@
         android:id="@+id/textView8"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="162dp"
-        android:layout_marginBottom="159dp"
+
+        android:layout_marginTop="60dp"
         android:text="@string/codfacultad"
-        app:layout_constraintBottom_toTopOf="@+id/textView9"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <EditText
-        android:id="@+id/editCodFacultad"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="26dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView8" />
 
     <TextView
         android:id="@+id/textView9"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="340dp"
+        android:layout_marginTop="185dp"
         android:text="@string/nomfacultad"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -43,7 +31,6 @@
         android:id="@+id/editNomFacultad"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="27dp"
         android:ems="10"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
@@ -56,17 +43,16 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="13dp"
         android:layout_marginLeft="13dp"
+
+        android:layout_marginTop="50dp"
         android:layout_marginEnd="14dp"
         android:layout_marginRight="14dp"
-        android:layout_marginBottom="120dp"
         android:onClick="actualizarFacultad"
         android:text="@string/button_update_facultad"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/button2"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editNomFacultad"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintTop_toBottomOf="@+id/editNomFacultad" />
 
     <Button
         android:id="@+id/button2"
@@ -77,4 +63,12 @@
         app:layout_constraintBaseline_toBaselineOf="@+id/btnActualizarFacultad"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/btnActualizarFacultad" />
+
+    <Spinner
+        android:id="@+id/spCodFacultad"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView8" />
 </androidx.constraintlayout.widget.ConstraintLayout>

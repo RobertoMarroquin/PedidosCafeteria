@@ -8,12 +8,10 @@
 
     <Button
         android:id="@+id/btnDatosEmpleado"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="154dp"
-        android:layout_marginBottom="114dp"
+        android:layout_marginTop="50dp"
         android:text="@string/button_details_empleado"
-        app:layout_constraintBottom_toTopOf="@+id/btnPedidos"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -22,22 +20,36 @@
         android:id="@+id/btnPedidos"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="101dp"
+        android:layout_marginTop="50dp"
+
         android:text="@string/button_details_pedido"
-        app:layout_constraintBottom_toTopOf="@+id/btnLocal"
-        app:layout_constraintEnd_toEndOf="parent"
+
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnDatosEmpleado" />
 
     <Button
         android:id="@+id/btnLocal"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="167dp"
+        android:layout_marginTop="50dp"
+
         android:text="@string/button_details_local"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnPedidos" />
+
+    <Button
+        android:id="@+id/btnCerrarSesion"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="80dp"
+
+        android:text="CERRAR SESION"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnLocal" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

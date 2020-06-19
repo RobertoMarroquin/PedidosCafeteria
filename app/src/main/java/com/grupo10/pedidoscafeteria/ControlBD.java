@@ -474,14 +474,14 @@ public class ControlBD {
     public String eliminar(EncargadoLocal encargadoLocal) {
         String regAfectados = "Filas afectadas = ";
         int contador = 0;
-        /*
+
         
         //
         //AL ELIMINAR encargado de local VER SI HAY locales ASOCIADOS......................................
-        if (verificarIntegridad(encargadoLocal,8)){                      SERIA RELACION 8
-            contador+=db.delete("local", "codencargadolocal = '" + encargadolocal.getCodEncargadoLocal() + "'", null);
+        if (verificarIntegridad(encargadoLocal,8)){                      //SERIA RELACION 8
+            contador+=db.delete("local", "codencargadolocal = '" + encargadoLocal.getCodencargadolocal() + "'", null);
         }
-        */
+
         contador+=db.delete("encargadolocal", "codencargadolocal = '" + encargadoLocal.getCodencargadolocal() +"'", null);
         regAfectados+=contador;
         return regAfectados;
@@ -1303,8 +1303,11 @@ public class ControlBD {
         final String[] Ucontrasena = {"123", "123"};
         final String[] Uusuario = {"Empleado", "Encargado de local"};
 
-        final String[] Fcodfacultad = {"mate", "ing"};
-        final String[] Fnomfacultad = {"Facultad de matematica", "Facultad de ingenieria"};
+        final String[] Fcodfacultad = {"mate", "ing", "huma", "agro", "odonto", "medi", "juri", "quimica", "eco"};
+        final String[] Fnomfacultad = {"Facultad de Ciencias y Matematica", "Facultad de Ingeniera y Arquitectura",
+                                        "Facultad de ciencias y Humaniddes", "Facultad de agronomia ",
+                                        "Facultad de odontologia", "Facultad de medicina", "Facultad de Jurisprudencia",
+                                        "Facultad de quimica y farmacia", "Facultad de economia"};
 
         final String[] Ucodubicacion = {"ubi1", "ubi2"};
         final String[] Udescubicacion = {"Entre la facultad de ingenieria y humanidades", "Cerca de la facultad de agronomia"};
@@ -1391,7 +1394,7 @@ public class ControlBD {
         }
 
         Facultad facultad = new Facultad();
-        for(int i=0; i<2; i++){
+        for(int i=0; i<9; i++){
             facultad.setCodfacultad(Fcodfacultad[i]);
             facultad.setNomfacultad(Fnomfacultad[i]);
             insertar(facultad);

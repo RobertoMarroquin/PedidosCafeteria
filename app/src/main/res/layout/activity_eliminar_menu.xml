@@ -52,15 +52,16 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="33dp"
         android:layout_marginLeft="33dp"
-        android:layout_marginBottom="370dp"
+        android:layout_marginTop="60dp"
+
         android:onClick="eliminarMenu"
         android:text="@string/button_delete_menu"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/button6"
-        app:layout_constraintHorizontal_bias="0.303"
+        app:layout_constraintHorizontal_bias="0.4"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editCodLocal"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="0.204" />
 
     <Button
         android:id="@+id/button6"
@@ -68,9 +69,12 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="68dp"
         android:layout_marginRight="68dp"
-        android:layout_marginBottom="370dp"
+        android:layout_marginTop="60dp"
+
         android:onClick="limpiarTexto"
         android:text="@string/cleantext"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editCodLocal"
+        app:layout_constraintVertical_bias="0.204" />
 </androidx.constraintlayout.widget.ConstraintLayout>

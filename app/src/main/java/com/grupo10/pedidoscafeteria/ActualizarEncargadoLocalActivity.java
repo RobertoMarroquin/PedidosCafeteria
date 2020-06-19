@@ -11,6 +11,9 @@ public class ActualizarEncargadoLocalActivity extends AppCompatActivity {
     ControlBD helper;
     EditText editCodEncargadoLocal, editNomEncargadoLocal, editApeEncargadoLocal, editTelEncargadoLocal;
 
+    Bundle recibido;
+    Usuario user;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -20,6 +23,14 @@ public class ActualizarEncargadoLocalActivity extends AppCompatActivity {
         editNomEncargadoLocal = (EditText) findViewById(R.id.editNomEncargadoLocal);
         editApeEncargadoLocal = (EditText) findViewById(R.id.editApeEncargadoLocal);
         editTelEncargadoLocal = (EditText) findViewById(R.id.editTelEncargadoLocal);
+
+        //obteniendo el bundle y usando el objeto usuario que trae
+        recibido = getIntent().getExtras();
+        user = (Usuario) recibido.getSerializable("usuario");
+
+
+        //para que el campo de codempleado ya quede con el mismo de nombreusuario
+        editCodEncargadoLocal.setText(user.getNombreusuario());
     }
 
     public void actualizarEncargadoLocal(View v){

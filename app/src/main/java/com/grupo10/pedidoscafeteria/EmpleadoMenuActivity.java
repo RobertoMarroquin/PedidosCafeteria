@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 public class EmpleadoMenuActivity extends AppCompatActivity {
     Button datosEmpleado, datosPedidos, datosLocales;
+    Button btnCerrarSesion;
     Usuario user;
 
     Bundle objetosRecibidos;
@@ -37,6 +38,8 @@ public class EmpleadoMenuActivity extends AppCompatActivity {
         datosEmpleado = (Button) findViewById(R.id.btnDatosEmpleado);
         datosLocales = (Button) findViewById(R.id.btnLocal);
         datosPedidos = (Button) findViewById(R.id.btnPedidos);
+
+        btnCerrarSesion = (Button) findViewById(R.id.btnCerrarSesion);
 
         //PARA GESTIONAR EL EMPLEADO.
         //tablas de FACULTAD, UBICACION Y EMPLEADO
@@ -79,8 +82,17 @@ public class EmpleadoMenuActivity extends AppCompatActivity {
                 //startActivity(listaLocales);
             }
         });
+
+        btnCerrarSesion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent cerrarSesion = new Intent(v.getContext(), MainActivity.class);
+                startActivity(cerrarSesion);
+            }
+        });
     }
 
+    /*
     @Override
     public void onBackPressed()
     {
@@ -88,6 +100,8 @@ public class EmpleadoMenuActivity extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
+
+     */
 
     public boolean estaVacio(Usuario usuario){
         String[] id = {usuario.getNombreusuario()};

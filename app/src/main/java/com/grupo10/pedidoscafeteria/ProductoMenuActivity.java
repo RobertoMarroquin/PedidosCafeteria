@@ -21,7 +21,7 @@ public class ProductoMenuActivity extends AppCompatActivity {
         btnConsultarProducto = (Button) findViewById(R.id.btnConsultarProducto);
         btnEliminarProducto = (Button) findViewById(R.id.btnEliminarProducto);
 
-        btnTablaCambioPrecios = (Button) findViewById(R.id.btnCambioPrecios);
+        //btnTablaCambioPrecios = (Button) findViewById(R.id.btnCambioPrecios);
 
 
         btnIngresarProducto.setOnClickListener(new View.OnClickListener() {
@@ -59,12 +59,15 @@ public class ProductoMenuActivity extends AppCompatActivity {
 
 
         //el boton de cambio precios
+        /*
         btnTablaCambioPrecios.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
             }
         });
+
+         */
 
 
     }

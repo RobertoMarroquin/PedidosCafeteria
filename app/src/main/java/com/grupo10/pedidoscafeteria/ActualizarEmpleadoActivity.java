@@ -4,8 +4,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
+
+import java.util.ArrayList;
 
 public class ActualizarEmpleadoActivity extends AppCompatActivity {
     ControlBD helper;
@@ -14,6 +18,8 @@ public class ActualizarEmpleadoActivity extends AppCompatActivity {
 
     Bundle recibido;
     Usuario user;
+
+    Spinner spCodFacultad, spCodUbicacion;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +33,9 @@ public class ActualizarEmpleadoActivity extends AppCompatActivity {
         editApeEmpleado = (EditText) findViewById(R.id.editApeEmpleado);
         editTelEmpleado = (EditText) findViewById(R.id.editTelEmpleado);
 
+        spCodFacultad = (Spinner) findViewById(R.id.spCodFacultad);
+        spCodUbicacion = (Spinner) findViewById(R.id.spCodUbicacion);
+
         //obteniendo el bundle y usando el objeto usuario que trae
         recibido = getIntent().getExtras();
         user = (Usuario) recibido.getSerializable("usuario");
@@ -34,13 +43,29 @@ public class ActualizarEmpleadoActivity extends AppCompatActivity {
 
         //para que el campo de codempleado ya quede con el mismo de nombreusuario
         editCodEmpleado.setText(user.getNombreusuario());
+
+        //para el spinner de codfacultad
+        ArrayList<String> listacodfacultad = helper.getAllCodFacultad();
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, listacodfacultad);
+        adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        spCodFacultad.setPrompt("Seleccione el codigo de facultad deseado");
+        spCodFacultad.setAdapter(new NothingSelectedSpinnerAdapter(adapter, R.layout.spinner_layout,this));
+
+        //para el spinner de codubicacion
+        ArrayList<String> listacodubi = helper.getAllCodUbicacion();
+        ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, listacodubi);
+        adapter2.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        spCodUbicacion.setPrompt("Seleccione el codigo de ubicacion deseado");
+        spCodUbicacion.setAdapter(new NothingSelectedSpinnerAdapter(adapter2, R.layout.spinner_layout,this));
     }
 
     public void actualizarEmpleado(View v) {
         Empleado empleado = new Empleado();
         empleado.setCodempleado(editCodEmpleado.getText().toString());
-        empleado.setCodfacultad(editCodFacultad.getText().toString());
-        empleado.setCodubicacion(editCodUbicacion.getText().toString());
+        //empleado.setCodfacultad(editCodFacultad.getText().toString());
+        empleado.setCodfacultad(spCodFacultad.getSelectedItem().toString());
+        //empleado.setCodubicacion(editCodUbicacion.getText().toString());
+        empleado.setCodubicacion(spCodUbicacion.getSelectedItem().toString());
         empleado.setNomempleado(editNomEmpleado.getText().toString());
         empleado.setApeempleado(editApeEmpleado.getText().toString());
         empleado.setTelempleado(editTelEmpleado.getText().toString());

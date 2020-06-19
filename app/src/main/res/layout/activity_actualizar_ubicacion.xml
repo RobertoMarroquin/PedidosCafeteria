@@ -10,10 +10,10 @@
         android:id="@+id/textView8"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="162dp"
+        android:layout_marginTop="40dp"
         android:layout_marginBottom="159dp"
         android:text="@string/codubicacion"
-        app:layout_constraintBottom_toTopOf="@+id/textView9"
+
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -22,7 +22,7 @@
         android:id="@+id/editCodUbicacion"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="26dp"
+        android:layout_marginTop="15dp"
         android:ems="10"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
@@ -33,17 +33,18 @@
         android:id="@+id/textView9"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="340dp"
+        android:layout_marginTop="40dp"
         android:text="@string/descubicacion"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/editCodUbicacion" />
 
     <EditText
         android:id="@+id/editDescUbicacion"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="27dp"
+        android:layout_marginTop="15dp"
         android:ems="10"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
@@ -56,17 +57,17 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="13dp"
         android:layout_marginLeft="13dp"
+        android:layout_marginTop="50dp"
         android:layout_marginEnd="14dp"
+
         android:layout_marginRight="14dp"
-        android:layout_marginBottom="120dp"
         android:onClick="actualizarUbicacion"
+
         android:text="@string/button_update_facultad"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/button2"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editDescUbicacion"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintTop_toBottomOf="@+id/editDescUbicacion" />
 
     <Button
         android:id="@+id/button2"
