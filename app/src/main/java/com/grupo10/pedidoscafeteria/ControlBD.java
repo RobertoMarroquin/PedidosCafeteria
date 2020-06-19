@@ -1220,6 +1220,34 @@ public class ControlBD {
 
     ///////////////////////////////////////////////////
 
+
+    //ARRAY LIST PARA SPINNER DE CODIGOS DE ESTADO
+
+    public ArrayList<String> getAllCodEstado(){
+        ArrayList<String> list = new ArrayList<String>();
+        db = DBHelper.getReadableDatabase();
+        //  db.beginTransaction();
+        try {
+            Cursor cursor = db.rawQuery("SELECT * FROM estadopedido", null);
+            if (cursor.getCount()>0){
+                while (cursor.moveToNext()){
+                    String codestadopedido = cursor.getString(cursor.getColumnIndex("codestadopedido"));
+                    list.add(codestadopedido);
+                }
+            }
+
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+
+    ///////////////////////////////////////////////////
+
+
+
+
     //ARRAYLIST PARA SPINNER DE IDRUTA
 
     public ArrayList<Integer> getAllIdRutaPedido(){
@@ -1348,7 +1376,7 @@ public class ControlBD {
         final String[] RutFechaFin = {"20/09/2020", "20/10/2020","01/12/2020"};
 
         final Integer[] PedIdPedido = {1,2,3,4,5,6,7};
-        final Integer[] PedIdRuta = {1,2,3,1,2,3,4};
+        final Integer[] PedIdRuta = {1,2,3,1,1,2,4};
         final String[] PedCodEstadoPedido = {"PE","CO","PR","RU","FI","PE","CO"};
         final String[] PedCodLocal = {"local1", "local2","local1","local2","local1","local2","local1"};
         final String[] PedFechaPedido = {"18/06/2020", "18/06/2020","18/06/2020","18/06/2020", "18/06/2020","19/06/2020","19/06/2020"};
