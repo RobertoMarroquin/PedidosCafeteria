@@ -97,6 +97,7 @@ public class ControlBD {
     }
 
     public void cerrar() {
+
         DBHelper.close();
     }
 
@@ -457,6 +458,8 @@ public class ControlBD {
         String regAfectados = "Filas afectadas = ";
         int contador = 0;
         /*
+        
+        //
         //AL ELIMINAR encargado de local VER SI HAY locales ASOCIADOS......................................
         if (verificarIntegridad(encargadoLocal,8)){                      SERIA RELACION 8
             contador+=db.delete("local", "codencargadolocal = '" + encargadolocal.getCodEncargadoLocal() + "'", null);
