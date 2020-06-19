@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ListaPedidosLocalActivity"></activity>
+        <activity android:name=".ActualizarPedidoActivity"></activity>
+        <activity android:name=".ListaPedidosLocalActivity" />
         <activity android:name=".ListaLocalesEncargadoActivity" />
         <activity android:name=".ListaPedidosProductoActivity" />
         <activity android:name=".ListaPedidosActivity" />
