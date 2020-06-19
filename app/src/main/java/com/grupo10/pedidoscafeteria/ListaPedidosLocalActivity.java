@@ -45,6 +45,21 @@ public class ListaPedidosLocalActivity extends AppCompatActivity {
 
         ArrayAdapter adaptador = new ArrayAdapter(this, android.R.layout.simple_list_item_1, listaInfo);
         listViewPedidoslocal.setAdapter(adaptador);
+
+        listViewPedidoslocal.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                user = (Usuario) paquete.getSerializable("usuario");
+                paquete.putInt("idpedido", listaPedidoslocal.get(position).getIdpedido());
+                Intent Actualizarpedidoslocal = new Intent(parent.getContext(), ActualizarPedidoActivity.class);
+                Actualizarpedidoslocal.putExtras(paquete);
+                Log.d("Paquete enviado", "onItemClick: " + Actualizarpedidoslocal.getExtras().getInt("idpedido"));
+                Log.d("Paquete enviado", "onItemClick: " + user.getNombreusuario());
+                startActivity(Actualizarpedidoslocal);
+            }
+        });
+
+
     }
 
     private void consultarPedidos() {
@@ -58,8 +73,8 @@ public class ListaPedidosLocalActivity extends AppCompatActivity {
                 "inner join pedidosasignados s on p.idpedido = s.idpedido " +
                 "inner join empleado e on s.codtrabajador = e.codempleado " +
                 "inner join ubicacion u on e.codubicacion = u.codubicacion " +
-                "inner join rutapedido rp on p.idruta = rp.idruta " +
-                "inner join repartidor r on rp.codrepartidor = r.codrepartidor " +
+                "left join rutapedido rp on p.idruta = rp.idruta " +
+                "left join repartidor r on rp.codrepartidor = r.codrepartidor " +
                 "inner join estadopedido es on p.codestadopedido = es.codestadopedido " +
                 "where p.codlocal =? ",argumentos);
 
