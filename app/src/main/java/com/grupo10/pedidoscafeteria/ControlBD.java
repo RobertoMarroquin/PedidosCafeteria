@@ -1035,7 +1035,7 @@ public class ControlBD {
                 return false;
             }
             case 10:
-            {  //AL ACTUALIZAR EMPLEADO QUE EXISTA CODLOCAL Y CODENCARGADOLOCAL ASOCIADOS
+            {  //AL ACTUALIZAR local QUE EXISTA CODLOCAL Y CODENCARGADOLOCAL ASOCIADOS
                 Local local1 = (Local) dato;
                 String[] ids = {local1.getCodlocal(), local1.getCodencargadolocal()};
 
@@ -1179,11 +1179,12 @@ public class ControlBD {
     //ARRAY LIST PARA SPINNER DE CODIGOS DE MENU
 
     public ArrayList<String> getAllCodMenu(){
+        //String[] id = {usuario.getNombreusuario()};
         ArrayList<String> list = new ArrayList<String>();
         db = DBHelper.getReadableDatabase();
       //  db.beginTransaction();
         try {
-            Cursor cursor = db.rawQuery("SELECT * FROM menu", null);
+            Cursor cursor = db.rawQuery("SELECT * FROM menu ", null);
             if (cursor.getCount()>0){
                 while (cursor.moveToNext()){
                     String codmenu = cursor.getString(cursor.getColumnIndex("codmenu"));
@@ -1312,13 +1313,13 @@ public class ControlBD {
         final String[] Ucodubicacion = {"ubi1", "ubi2"};
         final String[] Udescubicacion = {"Entre la facultad de ingenieria y humanidades", "Cerca de la facultad de agronomia"};
 
-        final String[] ELcodenclocal = {"encargado1", "encargado2"};
+        final String[] ELcodenclocal = {"enc1", "enc2"};
         final String[] ELnomenclocal = {"Nestor", "Meli"};
         final String[] ELapeenclocal = {"Molina", "Moshi"};
         final String[] ELtelenclocal = {"71179082", "71591724"};
 
         final String[] Lcodlocal = {"local1", "local2"};
-        final String[] Lcodencargadolocal = {"encargado1", "encargado2"};
+        final String[] Lcodencargadolocal = {"enc1", "enc2"};
         final String[] Lnombrelocal = {"Lacteos la vaquita", "Lacteos la cabrita"};
 
         final String[] Mcodmenu = {"menu1", "menu2"};

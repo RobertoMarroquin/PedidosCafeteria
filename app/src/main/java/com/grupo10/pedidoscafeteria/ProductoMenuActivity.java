@@ -12,6 +12,10 @@ public class ProductoMenuActivity extends AppCompatActivity {
 
     Button btnTablaCambioPrecios;
 
+    Usuario user;
+
+    Bundle objetosRecibidos;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,11 +27,19 @@ public class ProductoMenuActivity extends AppCompatActivity {
 
         //btnTablaCambioPrecios = (Button) findViewById(R.id.btnCambioPrecios);
 
+        //en el bundle recien creado se colocan las extras que trae del menu anterior
+        objetosRecibidos = getIntent().getExtras();
+
+        //se asigna a un objeto usuario los datos del bundle ========================
+        user = (Usuario) objetosRecibidos.getSerializable("usuario");
+        //no usado en esta pantalla =================================================
+
 
         btnIngresarProducto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent ingresarProducto = new Intent(v.getContext(), InsertarProductoActivity.class);
+                ingresarProducto.putExtras(objetosRecibidos);
                 startActivity(ingresarProducto);
             }
         });
@@ -36,6 +48,7 @@ public class ProductoMenuActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent consultarProducto = new Intent(v.getContext(), ConsultarProductoActivity.class);
+                consultarProducto.putExtras(objetosRecibidos);
                 startActivity(consultarProducto);
             }
         });
@@ -44,6 +57,7 @@ public class ProductoMenuActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent actualizarProducto = new Intent(v.getContext(), ActualizarProductoActivity.class);
+                actualizarProducto.putExtras(objetosRecibidos);
                 startActivity(actualizarProducto);
             }
         });
@@ -52,6 +66,7 @@ public class ProductoMenuActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent eliminarProducto = new Intent(v.getContext(), EliminarProductoActivity.class);
+                eliminarProducto.putExtras(objetosRecibidos);
                 startActivity(eliminarProducto);
             }
         });

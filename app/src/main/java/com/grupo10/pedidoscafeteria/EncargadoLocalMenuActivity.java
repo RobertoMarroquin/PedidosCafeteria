@@ -74,6 +74,7 @@ public class EncargadoLocalMenuActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent crudProducto = new Intent(v.getContext(), ProductoMenuActivity.class);
+                crudProducto.putExtras(objetosRecibidos);
                 startActivity(crudProducto);
             }
         });

@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 public class ActualizarProductoActivity extends AppCompatActivity {
     ControlBD helper;
-    EditText editCodProducto, editNombreProducto, editPrecioUnitario;
+    EditText editCodProducto, editNombreProducto, editPrecioUnitario, editCodMenu;
 
     Spinner spCodMenu;
 
@@ -25,8 +25,9 @@ public class ActualizarProductoActivity extends AppCompatActivity {
         editCodProducto = (EditText) findViewById(R.id.editCodProducto);
         editNombreProducto = (EditText) findViewById(R.id.editNombreProducto);
         editPrecioUnitario = (EditText) findViewById(R.id.editPrecioUnitario);
+        editCodMenu = (EditText) findViewById(R.id.editCodMenu);
 
-        spCodMenu = (Spinner) findViewById(R.id.spinnercodmenu);
+        //spCodMenu = (Spinner) findViewById(R.id.spCodMenu);
 
         ArrayList<String> listacodmenu = helper.getAllCodMenu();
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, listacodmenu);
@@ -38,7 +39,8 @@ public class ActualizarProductoActivity extends AppCompatActivity {
     public void actualizarProducto(View v) {
         Producto producto = new Producto();
         producto.setCodproducto(editCodProducto.getText().toString());
-        producto.setCodmenu(spCodMenu.getSelectedItem().toString());
+        //producto.setCodmenu(spCodMenu.getSelectedItem().toString());
+        producto.setCodmenu(editCodMenu.getText().toString());
         producto.setNombreproducto(editNombreProducto.getText().toString());
         producto.setPreciounitario(Float.valueOf(editPrecioUnitario.getText().toString()));
 
