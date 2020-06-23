@@ -45,6 +45,19 @@ public class ListaPedidosLocalActivity extends AppCompatActivity {
 
         ArrayAdapter adaptador = new ArrayAdapter(this, android.R.layout.simple_list_item_1, listaInfo);
         listViewPedidoslocal.setAdapter(adaptador);
+
+        listViewPedidoslocal.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                user = (Usuario) paquete.getSerializable("usuario");
+                paquete.putInt("idpedido", listaPedidoslocal.get(position).getIdpedido());
+                Intent Actualizarpedidoslocal = new Intent(parent.getContext(), ActualizarPedidoActivity.class);
+                Actualizarpedidoslocal.putExtras(paquete);
+                Log.d("Paquete enviado", "onItemClick: " + Actualizarpedidoslocal.getExtras().getInt("idpedido"));
+                Log.d("Paquete enviado", "onItemClick: " + user.getNombreusuario());
+                startActivity(Actualizarpedidoslocal);
+            }
+        });
     }
 
     private void consultarPedidos() {
