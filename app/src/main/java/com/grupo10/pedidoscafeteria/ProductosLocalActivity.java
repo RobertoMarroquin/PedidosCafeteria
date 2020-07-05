@@ -2,18 +2,23 @@ package com.grupo10.pedidoscafeteria;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
+import android.Manifest;
 import android.content.ContentValues;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.telephony.SmsManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -45,6 +50,17 @@ public class ProductosLocalActivity extends AppCompatActivity {
         listViewProductos = (ListView) findViewById(R.id.listViewProductos);
         cancelarbtn = (Button) findViewById(R.id.cancelarbtn);
         comprarbtn = (Button) findViewById(R.id.comprarbtn);
+
+        if(ActivityCompat.checkSelfPermission(
+                ProductosLocalActivity.this, Manifest.permission.SEND_SMS)
+                != PackageManager.PERMISSION_GRANTED&& ActivityCompat.checkSelfPermission(
+                ProductosLocalActivity.this,Manifest
+                        .permission.SEND_SMS)!= PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(ProductosLocalActivity.this,new String[]
+                    { Manifest.permission.SEND_SMS,},1000);
+        }else{
+
+        };
 
         consultarProductosLocal();
 
@@ -95,7 +111,26 @@ public class ProductosLocalActivity extends AppCompatActivity {
                     values.put("codestadopedido","CO");
                     String[] argumentos = {String.valueOf(pedido),};
                     int cursor = db.update("pedido",values,"idpedido = ?",argumentos);
-                    Intent intent = new Intent(v.getContext(), ListaLocalesActivity.class);
+                   // obtengo el codigo de encargado
+                    String[] camposlocal = {"codencargadolocal"};
+                    String [] argumentoslocal = {localId,};
+                    String  varEncargado ="";
+                    Cursor curlocal = db.query("local", camposlocal, "codlocal=?", argumentoslocal, null, null, null);
+                    curlocal.moveToLast();
+                    varEncargado=curlocal.getString(0);
+
+                    //Obtengo el telefono del encargado
+                    String[] camposEncargado = {"telencargadolocal"};
+                    String [] argumentosEncargado = {varEncargado,};
+                    String  varTelefono ="";
+                    Cursor curEncargado = db.query("encargadolocal", camposEncargado, "codencargadolocal=?", argumentosEncargado, null, null, null);
+                    curEncargado.moveToLast();
+                    varTelefono=curEncargado.getString(0);
+
+
+                    enviarmensaje(varTelefono,"Favor Revisar Pedido Procesado "+pedido );
+
+                Intent intent = new Intent(v.getContext(), ListaLocalesActivity.class);
                     intent.putExtra("usuario",user);
                     startActivity(intent);
                     finish();
@@ -138,6 +173,19 @@ public class ProductosLocalActivity extends AppCompatActivity {
         obtenerlista();
         cursor.close();
     }
+
+    public void enviarmensaje(String numero,String mensaje){
+        try {
+            SmsManager sms = SmsManager.getDefault();
+            sms.sendTextMessage(numero,null,mensaje,null,null);
+            Toast.makeText(getApplicationContext(),"mensaje enviado",Toast.LENGTH_LONG).show();
+        } catch (Exception e){
+            Toast.makeText(getApplicationContext(),"mensaje no enviado, Datos incorrectos",Toast.LENGTH_LONG).show();
+            e.printStackTrace();
+        }
+    }
+
+
 
     private void obtenerlista() {
         listaInfo = new ArrayList<String>();
