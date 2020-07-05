@@ -1321,31 +1321,6 @@ public class ControlBD {
         return list;
     }
 
-
-    //////////////////////////////////////////////////
-
-    //ARRAY LIST PARA SPINNER DE CODIGOS DE ESTADO
-
-    public ArrayList<String> getAllCodEstado(){
-        ArrayList<String> list = new ArrayList<String>();
-        db = DBHelper.getReadableDatabase();
-        //  db.beginTransaction();
-        try {
-            Cursor cursor = db.rawQuery("SELECT * FROM estadopedido", null);
-            if (cursor.getCount()>0){
-                while (cursor.moveToNext()){
-                    String codestadopedido = cursor.getString(cursor.getColumnIndex("codestadopedido"));
-                    list.add(codestadopedido);
-                }
-            }
-
-        } catch (SQLException e){
-            e.printStackTrace();
-        }
-        return list;
-    }
-
-
 //==========================================================PARA LLENAR LA BASE CON DATOS INICIALES
 
     public String llenarBase() {
