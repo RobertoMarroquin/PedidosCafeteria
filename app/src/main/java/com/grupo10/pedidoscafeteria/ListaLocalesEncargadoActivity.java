@@ -29,7 +29,8 @@ public class ListaLocalesEncargadoActivity extends AppCompatActivity {
         helper = new ControlBD(this);
         listViewLocalesEncargado = (ListView) findViewById(R.id.listViewLocalesEncargado);
         paquete = getIntent().getExtras();
-        consultarlocales();
+        user = (Usuario) paquete.getSerializable("usuario");
+        consultarlocales(user);
 
         ArrayAdapter adaptador = new ArrayAdapter(this,android.R.layout.simple_list_item_1,listaInfo);
         listViewLocalesEncargado.setAdapter(adaptador);
@@ -48,12 +49,13 @@ public class ListaLocalesEncargadoActivity extends AppCompatActivity {
         });
 
     }
-    private void consultarlocales() {
+    public void consultarlocales(Usuario user) {
+        String[] id = {user.getNombreusuario()};
         SQLiteDatabase db = helper.abrir2();
         listaLocalesEncargado = new ArrayList<Local>();
         Local local = null;
 
-        Cursor cursor = db.rawQuery("SELECT * FROM local",null);
+        Cursor cursor = db.rawQuery("SELECT * FROM local where codencargadolocal = ?",id);
 
         while (cursor.moveToNext()){
             local = new Local();

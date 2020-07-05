@@ -3,6 +3,7 @@ package com.grupo10.pedidoscafeteria;
 import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -83,13 +84,35 @@ public class ProductosLocalActivity extends AppCompatActivity {
                 }
             }
         });
+
+        comprarbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (paqueteR.getInt("idPedido",0)!=0){
+                    int pedido = paqueteR.getInt("idPedido");
+                    SQLiteDatabase db = helper.abrir2();
+                    ContentValues values = new ContentValues();
+                    values.put("codestadopedido","CO");
+                    String[] argumentos = {String.valueOf(pedido),};
+                    int cursor = db.update("pedido",values,"idpedido = ?",argumentos);
+                    Intent intent = new Intent(v.getContext(), ListaLocalesActivity.class);
+                    intent.putExtra("usuario",user);
+                    startActivity(intent);
+                    finish();
+                }
+            }
+        });
+
     }
 
     @Override
     public void onBackPressed()
     {
+
         Intent intent = new Intent(this, ListaLocalesActivity.class);
+        intent.putExtra("usuario",user);
         startActivity(intent);
+        finish();
     }
 
     private void consultarProductosLocal() {

@@ -2,6 +2,7 @@ package com.grupo10.pedidoscafeteria;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -44,6 +45,9 @@ public class EliminarEmpleadoActivity extends AppCompatActivity {
         regEliminadas = helper.eliminar2(empleado);
         helper.cerrar();
         Toast.makeText(this, regEliminadas, Toast.LENGTH_SHORT).show();
+
+        Intent inicio = new Intent(v.getContext(), MainActivity.class);
+        startActivity(inicio);
     }
 
     public void limpiarTexto(View v){

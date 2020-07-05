@@ -70,11 +70,13 @@ public class MainActivity extends AppCompatActivity {
                             Intent menuEmpleado = new Intent(v.getContext(), EmpleadoMenuActivity.class);
                             menuEmpleado.putExtras(user);
                             startActivity(menuEmpleado);
+                            finish();  //finalizar la actividad, para que no vuelva atr[as
                             //Toast.makeText(getApplicationContext(), "Datos de empleado CORRECTOS", Toast.LENGTH_SHORT).show();
                         }
                         else{
                             Toast.makeText(getApplicationContext(), "Dato de empleado ERRONEOS", Toast.LENGTH_SHORT).show();
                         }
+
 
                     } else
                         { // EL USUARIO EXISTE PERO SE TRATA DE UN ENCARGADO DE LOCAL
@@ -85,6 +87,7 @@ public class MainActivity extends AppCompatActivity {
                             Intent menuEncargadoLocal = new Intent(v.getContext(), EncargadoLocalMenuActivity.class);
                             menuEncargadoLocal.putExtras(encargado);
                             startActivity(menuEncargadoLocal);
+                            finish(); // finalizar la actividad, para que no vuelva atras
                             //Toast.makeText(getApplicationContext(), "Datos de encargado de local CORRECTOS", Toast.LENGTH_SHORT).show();
                         }
                         else {
@@ -95,7 +98,8 @@ public class MainActivity extends AppCompatActivity {
                     //Toast.makeText(getApplicationContext(), "Si hay datos", Toast.LENGTH_SHORT).show();
                     //Intent intent = new Intent(v.getContext(), EmpleadoMenuActivity.class);
                     //startActivity(intent);
-                helper.cerrar();
+                     helper.cerrar();
+                     finish();
                 }
 
 
@@ -105,6 +109,8 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+
+
 
 
 

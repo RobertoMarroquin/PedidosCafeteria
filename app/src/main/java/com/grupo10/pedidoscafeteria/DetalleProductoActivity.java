@@ -13,8 +13,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.TimeZone;
 
 public class DetalleProductoActivity extends AppCompatActivity {
     Bundle paquete;
@@ -85,13 +89,16 @@ public class DetalleProductoActivity extends AppCompatActivity {
 
     private int registrarpedido() {
             SQLiteDatabase db =  helper.abrir2();
-            String today = Calendar.getInstance().getTime().toString();
+            Date date = Calendar.getInstance().getTime();
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+            String today = dateFormat.format(date);
             //paquete.getString("codlocal") today
             long idpedido;
             ContentValues ped = new ContentValues();
             ped.put("codlocal", paquete.getString("codlocal"));
             Log.d("Local", "registrarpedido: "+paquete.getString("codlocal"));
             ped.put("fechapedido", today);
+            ped.put("codestadopedido","PE");
             idpedido = db.insert("pedido", null, ped);
             Log.d("id Pedido", "registrarpedido: "+idpedido);
             String[] argumentos = {"" + idpedido,};

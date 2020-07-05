@@ -6,22 +6,11 @@
     android:layout_height="match_parent"
     tools:context=".EliminarFacultadActivity">
 
-    <EditText
-        android:id="@+id/editCodFacultad"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="13dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView11" />
-
     <TextView
         android:id="@+id/textView11"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="198dp"
+        android:layout_marginTop="80dp"
         android:text="@string/codfacultad"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -31,10 +20,21 @@
         android:id="@+id/button4"
         android:layout_width="411dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="132dp"
-        android:text="@string/button_delete_facultad"
+        android:layout_marginTop="60dp"
         android:onClick="eliminarFacultad"
+        android:text="@string/button_delete_facultad"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editCodFacultad" />
+        app:layout_constraintTop_toBottomOf="@+id/spCodFacultad" />
+
+    <Spinner
+        android:id="@+id/spCodFacultad"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textView11" />
 </androidx.constraintlayout.widget.ConstraintLayout>

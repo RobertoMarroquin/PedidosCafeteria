@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 public class ConsultarProductoActivity extends AppCompatActivity {
     ControlBD helper;
-    EditText editCodProducto, editNombreProducto, editPrecioUnitario;
+    EditText editCodProducto, editNombreProducto, editPrecioUnitario, editCodMenu;
 
     Spinner spCodMenu;
 
@@ -25,8 +25,9 @@ public class ConsultarProductoActivity extends AppCompatActivity {
         editCodProducto = (EditText) findViewById(R.id.editCodProducto);
         editNombreProducto = (EditText) findViewById(R.id.editNombreProducto);
         editPrecioUnitario = (EditText) findViewById(R.id.editPrecioUnitario);
+        editCodMenu = (EditText) findViewById(R.id.editCodMenu);
 
-        spCodMenu = (Spinner) findViewById(R.id.spinnercodmenu);
+        //spCodMenu = (Spinner) findViewById(R.id.spinnercodmenu);
 
         ArrayList<String> listacodmenu = helper.getAllCodMenu();
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, listacodmenu);
@@ -38,7 +39,7 @@ public class ConsultarProductoActivity extends AppCompatActivity {
 
     public void consultarProducto(View v){
         helper.abrir();
-        Producto producto = helper.consultarProducto(editCodProducto.getText().toString(), spCodMenu.getSelectedItem().toString());
+        Producto producto = helper.consultarProducto(editCodProducto.getText().toString(), editCodMenu.getText().toString());
         helper.cerrar();
         if (producto==null){
             Toast.makeText(this, "Producto no registrado", Toast.LENGTH_LONG).show();

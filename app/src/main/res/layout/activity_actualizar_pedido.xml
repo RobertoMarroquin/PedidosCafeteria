@@ -5,23 +5,23 @@
     android:layout_height="match_parent"
     tools:ignore="LabelFor">
     <TableRow>
-    <Spinner
-        android:id="@+id/spCodEstado"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        <Spinner
+            android:id="@+id/spCodEstado"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
     </TableRow>
     <TableRow>
-    <Spinner
-        android:id="@+id/spIdRuta"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        <Spinner
+            android:id="@+id/spIdRuta"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
     </TableRow>
     <TableRow>
-    <Button
-        android:id="@+id/button5"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:onClick="actualizarpedido"
-        android:text="@string/button_update_ruta" />
+        <Button
+            android:id="@+id/button5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="actualizarpedido"
+            android:text="@string/button_update_ruta" />
     </TableRow>
 </TableLayout>

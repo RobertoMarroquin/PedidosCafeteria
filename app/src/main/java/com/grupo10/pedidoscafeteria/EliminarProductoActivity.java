@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 public class EliminarProductoActivity extends AppCompatActivity {
     ControlBD helper;
-    EditText editCodProducto;
+    EditText editCodProducto, editCodMenu;
 
     Spinner spCodMenu;
 
@@ -25,8 +25,9 @@ public class EliminarProductoActivity extends AppCompatActivity {
         helper = new ControlBD(this);
 
         editCodProducto = (EditText) findViewById(R.id.editCodProducto);
+        editCodMenu = (EditText) findViewById(R.id.editCodMenu);
 
-        spCodMenu = (Spinner) findViewById(R.id.spinnercodmenu);
+        //spCodMenu = (Spinner) findViewById(R.id.spinnercodmenu);
 
         ArrayList<String> listacodmenu = helper.getAllCodMenu();
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, listacodmenu);
@@ -40,7 +41,7 @@ public class EliminarProductoActivity extends AppCompatActivity {
         String regEliminadas;
         Producto producto = new Producto();
         producto.setCodproducto(editCodProducto.getText().toString());
-        producto.setCodmenu(spCodMenu.getSelectedItem().toString());
+        producto.setCodmenu(editCodMenu.getText().toString());
 
         helper.abrir();
         regEliminadas = helper.eliminar(producto);

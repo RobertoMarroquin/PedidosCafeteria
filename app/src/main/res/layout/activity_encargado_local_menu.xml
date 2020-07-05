@@ -5,11 +5,12 @@
     android:layout_height="match_parent"
     tools:ignore="LabelFor">
     <TableRow>
-    <Button
-        android:id="@+id/btnEncargadoLocal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/button_details_encargado_local" />
+
+        <Button
+            android:id="@+id/btnEncargadoLocal"
+            android:layout_width="412dp"
+            android:layout_height="wrap_content"
+            android:text="@string/button_details_encargado_local" />
     </TableRow>
     <TableRow>
     <Button
@@ -52,5 +53,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/button_details_ruta" />
+    </TableRow>
+    <TableRow>
+        <TextView
+            android:layout_height="70dp"
+            android:layout_width="match_parent">
+
+        </TextView>
+    </TableRow>
+    <TableRow>
+        <Button
+            android:id="@+id/btnCerrarSesion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="CERRAR SESION"/>
     </TableRow>
 </TableLayout>

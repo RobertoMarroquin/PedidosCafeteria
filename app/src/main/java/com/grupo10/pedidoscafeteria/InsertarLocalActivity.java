@@ -16,6 +16,8 @@ public class InsertarLocalActivity extends AppCompatActivity {
     EditText editCodLocal, editNomLocal, editCodEncargadoLocal;
     ControlBD helper;
 
+    Bundle recibido;
+    Usuario usuarioRecibido;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +28,14 @@ public class InsertarLocalActivity extends AppCompatActivity {
         editCodLocal = (EditText) findViewById(R.id.editCodLocal);
         editNomLocal = (EditText) findViewById(R.id.editNomLocal);
         editCodEncargadoLocal = (EditText) findViewById(R.id.editCodEncargadoLocal);
+
+        //obteniendo el bundle y usando el objeto usuario que trae
+        recibido = getIntent().getExtras();
+        usuarioRecibido = (Usuario) recibido.getSerializable("usuario");
+
+
+        //para que el campo de codempleado ya quede con el mismo de nombreusuario
+        editCodEncargadoLocal.setText(usuarioRecibido.getNombreusuario());
     }
 
     public void insertarLocal(View v){

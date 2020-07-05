@@ -10,6 +10,10 @@ import android.widget.Button;
 public class LocalMenuActivity extends AppCompatActivity {
     Button btnIngresarLocal, btnActualizarLocal, btnConsultarLocal, btnEliminarLocal;
 
+    Usuario user;
+
+    Bundle objetosRecibidos;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -19,10 +23,18 @@ public class LocalMenuActivity extends AppCompatActivity {
         btnConsultarLocal = (Button) findViewById(R.id.btnConsultarLocal);
         btnEliminarLocal = (Button) findViewById(R.id.btnEliminarLocal);
 
+        //en el bundle recien creado se colocan las extras que trae del menu anterior
+        objetosRecibidos = getIntent().getExtras();
+
+        //se asigna a un objeto usuario los datos del bundle ========================
+        user = (Usuario) objetosRecibidos.getSerializable("usuario");
+
+
         btnIngresarLocal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent insertarLocal = new Intent(v.getContext(), InsertarLocalActivity.class);
+                insertarLocal.putExtras(objetosRecibidos);
                 startActivity(insertarLocal);
             }
         });
@@ -31,6 +43,7 @@ public class LocalMenuActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent actualizarLocal = new Intent(v.getContext(), ActualizarLocalActivity.class);
+                actualizarLocal.putExtras(objetosRecibidos);
                 startActivity(actualizarLocal);
 
             }
@@ -40,6 +53,7 @@ public class LocalMenuActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent consultarLocal = new Intent(v.getContext(), ConsultarLocalActivity.class);
+                consultarLocal.putExtras(objetosRecibidos);
                 startActivity(consultarLocal);
 
             }
@@ -49,6 +63,7 @@ public class LocalMenuActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent eliminarLocal = new Intent(v.getContext(), EliminarLocalActivity.class);
+                eliminarLocal.putExtras(objetosRecibidos);
                 startActivity(eliminarLocal);
             }
         });

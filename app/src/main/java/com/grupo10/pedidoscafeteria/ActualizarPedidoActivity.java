@@ -63,9 +63,9 @@ public class ActualizarPedidoActivity extends AppCompatActivity {
         SQLiteDatabase db = helper.abrir2();
         String CodEstado;
         Integer Idruta;
-       Idruta = (Integer) spIdRuta.getSelectedItem();
-       CodEstado = spCodEstado.getSelectedItem().toString();
-       String[] argumentos = {Idruta.toString(),CodEstado,IdPedido.toString()};
+        Idruta = (Integer) spIdRuta.getSelectedItem();
+        CodEstado = spCodEstado.getSelectedItem().toString();
+        String[] argumentos = {Idruta.toString(),CodEstado,IdPedido.toString()};
 
         db.execSQL("UPDATE pedido SET idruta=?,codestadopedido=? where idpedido =?",argumentos);
         Toast.makeText(ActualizarPedidoActivity.this, "Pedido Actualizado No.: "+ IdPedido.toString(), Toast.LENGTH_SHORT).show();

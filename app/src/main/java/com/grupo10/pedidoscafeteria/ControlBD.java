@@ -97,6 +97,7 @@ public class ControlBD {
     }
 
     public void cerrar() {
+
         DBHelper.close();
     }
 
@@ -473,12 +474,14 @@ public class ControlBD {
     public String eliminar(EncargadoLocal encargadoLocal) {
         String regAfectados = "Filas afectadas = ";
         int contador = 0;
-        /*
+
+        
+        //
         //AL ELIMINAR encargado de local VER SI HAY locales ASOCIADOS......................................
-        if (verificarIntegridad(encargadoLocal,8)){                      SERIA RELACION 8
-            contador+=db.delete("local", "codencargadolocal = '" + encargadolocal.getCodEncargadoLocal() + "'", null);
+        if (verificarIntegridad(encargadoLocal,8)){                      //SERIA RELACION 8
+            contador+=db.delete("local", "codencargadolocal = '" + encargadoLocal.getCodencargadolocal() + "'", null);
         }
-        */
+
         contador+=db.delete("encargadolocal", "codencargadolocal = '" + encargadoLocal.getCodencargadolocal() +"'", null);
         regAfectados+=contador;
         return regAfectados;
@@ -1032,7 +1035,7 @@ public class ControlBD {
                 return false;
             }
             case 10:
-            {  //AL ACTUALIZAR EMPLEADO QUE EXISTA CODLOCAL Y CODENCARGADOLOCAL ASOCIADOS
+            {  //AL ACTUALIZAR local QUE EXISTA CODLOCAL Y CODENCARGADOLOCAL ASOCIADOS
                 Local local1 = (Local) dato;
                 String[] ids = {local1.getCodlocal(), local1.getCodencargadolocal()};
 
@@ -1176,11 +1179,12 @@ public class ControlBD {
     //ARRAY LIST PARA SPINNER DE CODIGOS DE MENU
 
     public ArrayList<String> getAllCodMenu(){
+        //String[] id = {usuario.getNombreusuario()};
         ArrayList<String> list = new ArrayList<String>();
         db = DBHelper.getReadableDatabase();
       //  db.beginTransaction();
         try {
-            Cursor cursor = db.rawQuery("SELECT * FROM menu", null);
+            Cursor cursor = db.rawQuery("SELECT * FROM menu ", null);
             if (cursor.getCount()>0){
                 while (cursor.moveToNext()){
                     String codmenu = cursor.getString(cursor.getColumnIndex("codmenu"));
@@ -1320,6 +1324,27 @@ public class ControlBD {
 
     //////////////////////////////////////////////////
 
+    //ARRAY LIST PARA SPINNER DE CODIGOS DE ESTADO
+
+    public ArrayList<String> getAllCodEstado(){
+        ArrayList<String> list = new ArrayList<String>();
+        db = DBHelper.getReadableDatabase();
+        //  db.beginTransaction();
+        try {
+            Cursor cursor = db.rawQuery("SELECT * FROM estadopedido", null);
+            if (cursor.getCount()>0){
+                while (cursor.moveToNext()){
+                    String codestadopedido = cursor.getString(cursor.getColumnIndex("codestadopedido"));
+                    list.add(codestadopedido);
+                }
+            }
+
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+        return list;
+    }
+
 
 //==========================================================PARA LLENAR LA BASE CON DATOS INICIALES
 
@@ -1328,19 +1353,22 @@ public class ControlBD {
         final String[] Ucontrasena = {"123", "123"};
         final String[] Uusuario = {"Empleado", "Encargado de local"};
 
-        final String[] Fcodfacultad = {"mate", "ing"};
-        final String[] Fnomfacultad = {"Facultad de matematica", "Facultad de ingenieria"};
+        final String[] Fcodfacultad = {"mate", "ing", "huma", "agro", "odonto", "medi", "juri", "quimica", "eco"};
+        final String[] Fnomfacultad = {"Facultad de Ciencias y Matematica", "Facultad de Ingeniera y Arquitectura",
+                                        "Facultad de ciencias y Humaniddes", "Facultad de agronomia ",
+                                        "Facultad de odontologia", "Facultad de medicina", "Facultad de Jurisprudencia",
+                                        "Facultad de quimica y farmacia", "Facultad de economia"};
 
         final String[] Ucodubicacion = {"ubi1", "ubi2"};
         final String[] Udescubicacion = {"Entre la facultad de ingenieria y humanidades", "Cerca de la facultad de agronomia"};
 
-        final String[] ELcodenclocal = {"encargado1", "encargado2"};
+        final String[] ELcodenclocal = {"enc1", "enc2"};
         final String[] ELnomenclocal = {"Nestor", "Meli"};
         final String[] ELapeenclocal = {"Molina", "Moshi"};
         final String[] ELtelenclocal = {"71179082", "71591724"};
 
         final String[] Lcodlocal = {"local1", "local2"};
-        final String[] Lcodencargadolocal = {"encargado1", "encargado2"};
+        final String[] Lcodencargadolocal = {"enc1", "enc2"};
         final String[] Lnombrelocal = {"Lacteos la vaquita", "Lacteos la cabrita"};
 
         final String[] Mcodmenu = {"menu1", "menu2"};
@@ -1416,7 +1444,7 @@ public class ControlBD {
         }
 
         Facultad facultad = new Facultad();
-        for(int i=0; i<2; i++){
+        for(int i=0; i<9; i++){
             facultad.setCodfacultad(Fcodfacultad[i]);
             facultad.setNomfacultad(Fnomfacultad[i]);
             insertar(facultad);
