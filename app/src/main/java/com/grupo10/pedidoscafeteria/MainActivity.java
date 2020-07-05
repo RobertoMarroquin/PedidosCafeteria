@@ -4,27 +4,54 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.MediaController;
 import android.widget.Toast;
+import android.widget.VideoView;
+
+import java.io.File;
 
 public class MainActivity extends AppCompatActivity {
     EditText editNomUsuario, editPass;
     Button btnRegister, btnLogin, btnLlenarBase;
     ControlBD helper;
 
+    //para el video
+    Button play;
+    Button stop;
+    VideoView video;
+    MediaController mediacontrol;
+    //
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        video = (VideoView) findViewById(R.id.video);
+        File f = new File(Environment.getExternalStorageDirectory().getAbsolutePath()+
+                "/Download/", "comida.3gp");
+        if (f.exists()){
+            Uri uri = Uri.fromFile(f);
+            video.setVideoURI(uri);
+            mediacontrol = new MediaController(this);
+            video.setMediaController(mediacontrol);
+            mediacontrol.show();
+        }
+
+
         helper = new ControlBD(this);
         editNomUsuario = (EditText) findViewById(R.id.editNomusuario);
         editPass = (EditText) findViewById(R.id.editPass);
         btnRegister = (Button) findViewById(R.id.btnRegister);
         btnLogin = (Button) findViewById(R.id.btnLogin);
         btnLlenarBase = (Button) findViewById(R.id.btnFillDB);
+
 
         //PARA LLENAR LA BASE CON ALGUNOS USUARIOS
         btnLlenarBase.setOnClickListener(new View.OnClickListener() {
