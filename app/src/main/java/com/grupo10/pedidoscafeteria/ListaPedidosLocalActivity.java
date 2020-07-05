@@ -69,12 +69,12 @@ public class ListaPedidosLocalActivity extends AppCompatActivity {
 
 
         String[] argumentos = {localId};
-        Cursor cursor = db.rawQuery("Select p.idpedido,p.fechapedido,e.nomempleado,e.apeempleado,e.telempleado,u.descubicacion,rp.Idruta,r.nomrepartidor,r.telrepartidor, es.descestadopedido from pedido p " +
+        Cursor cursor = db.rawQuery("Select p.idpedido,p.fechapedido,e.nomempleado,e.apeempleado,e.telempleado,u.descubicacion,rp.Idruta,ifnull(r.nomrepartidor,'NO ASIGNADO') as nomrepartidor,ifnull(r.telrepartidor,'NO ASIGNADO') as telrepartidor , es.descestadopedido from pedido p " +
                 "inner join pedidosasignados s on p.idpedido = s.idpedido " +
                 "inner join empleado e on s.codtrabajador = e.codempleado " +
                 "inner join ubicacion u on e.codubicacion = u.codubicacion " +
-                "inner join rutapedido rp on p.idruta = rp.idruta " +
-                "inner join repartidor r on rp.codrepartidor = r.codrepartidor " +
+                "left  join rutapedido rp on p.idruta = rp.idruta " +
+                "left join repartidor r on rp.codrepartidor = r.codrepartidor " +
                 "inner join estadopedido es on p.codestadopedido = es.codestadopedido " +
                 "where p.codlocal =? ",argumentos);
 
