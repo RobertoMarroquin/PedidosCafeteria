@@ -3,19 +3,24 @@ package com.grupo10.pedidoscafeteria;
 import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
+import android.app.DownloadManager;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.speech.tts.TextToSpeech;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class ProductosLocalActivity extends AppCompatActivity {
     ControlBD helper;
@@ -26,6 +31,10 @@ public class ProductosLocalActivity extends AppCompatActivity {
     String localId;
     Usuario user;
     Bundle paqueteR;
+
+
+    Button leer;
+    TextToSpeech tts;
 
 
     @Override
@@ -45,6 +54,10 @@ public class ProductosLocalActivity extends AppCompatActivity {
         listViewProductos = (ListView) findViewById(R.id.listViewProductos);
         cancelarbtn = (Button) findViewById(R.id.cancelarbtn);
         comprarbtn = (Button) findViewById(R.id.comprarbtn);
+
+        leer = (Button) findViewById(R.id.leer);
+        tts = new TextToSpeech(this, OnInit);
+
 
         consultarProductosLocal();
 
@@ -103,6 +116,13 @@ public class ProductosLocalActivity extends AppCompatActivity {
             }
         });
 
+        leer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tts.speak(listaInfo.toString(), TextToSpeech.QUEUE_ADD, null);
+            }
+        });
+
     }
 
     @Override
@@ -145,4 +165,55 @@ public class ProductosLocalActivity extends AppCompatActivity {
             listaInfo.add(listaProducto.get(i).getCodproducto() + " - "+ listaProducto.get(i).getNombreproducto());
         }
     }
+
+    //para el tts
+    TextToSpeech.OnInitListener OnInit = new TextToSpeech.OnInitListener() {
+        @Override
+        public void onInit(int status) {
+            if (TextToSpeech.SUCCESS==status){
+                tts.setLanguage(new Locale("spa","ESP"));
+            }
+            else
+            {
+                Toast.makeText(getApplicationContext(), "TTS no disponible",
+                        Toast.LENGTH_SHORT).show();
+            }
+        }
+    };
+    View.OnClickListener onClick=new View.OnClickListener() {
+
+
+
+
+        @SuppressLint("SdCardPath")
+        public void onClick(View v) {
+            // TODO Auto-generated method stub
+            if (v.getId()==R.id.leer){
+                tts.speak("hola", TextToSpeech.QUEUE_ADD, null);
+            }
+            /*
+            if (v.getId()==R.id.btnText2SpeechSave){
+                tts.speak(Texto.getText().toString(), TextToSpeech.QUEUE_ADD, null);
+                HashMap<String, String> myHashRender = new HashMap<String, String>();
+                String Texto_tts =Texto.getText().toString();
+                //Cada vez que guarde hara un nuevo archivo wav
+                numarch=numarch+1;
+                String destFileName =
+                        Environment.getExternalStorageDirectory().getAbsolutePath() +
+                                "/Download/tts"+numarch+".wav";
+                myHashRender.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID,Texto_tts);
+                tts.synthesizeToFile(Texto_tts, myHashRender, destFileName);
+            }
+
+             */
+        }
+    };
+
+    public void onDestroy(){
+        tts.shutdown();
+        super.onDestroy();
+    }
+
+
+
 }

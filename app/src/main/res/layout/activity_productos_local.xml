@@ -16,6 +16,13 @@
         android:layout_height="0dp"
         android:layout_weight="80"/>
     <Button
+        android:id="@+id/leer"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="10"
+        android:text="Leer Menu"
+        />
+    <Button
         android:id="@+id/comprarbtn"
         android:layout_width="match_parent"
         android:layout_height="0dp"
