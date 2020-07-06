@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.Bundle;
 import android.telephony.SmsManager;
 import android.util.Log;
@@ -127,8 +128,17 @@ public class ProductosLocalActivity extends AppCompatActivity {
                     curEncargado.moveToLast();
                     varTelefono=curEncargado.getString(0);
 
+                    //Obtengo el correo del encargado
+                    String[] camposEmpleado = {"correoempleado"};
+                    String [] argumentosEmpleado = {user.getNombreusuario(),};
+                    String  varCorreo ="";
+                    Cursor curEmpleado = db.query("empleado", camposEmpleado, "codempleado=?", argumentosEmpleado, null, null, null);
+                    curEmpleado.moveToLast();
+                    varCorreo=curEmpleado.getString(0);
+
 
                     enviarmensaje(varTelefono,"Favor Revisar Pedido Procesado "+pedido );
+                    sendMail(varCorreo,"Su Pedido fue Procesado No"+pedido+"  ... Espere pronto su entrega, Gracias por su compra ","confirmacion Pedido No."+pedido);
 
                 Intent intent = new Intent(v.getContext(), ListaLocalesActivity.class);
                     intent.putExtra("usuario",user);
@@ -183,6 +193,15 @@ public class ProductosLocalActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(),"mensaje no enviado, Datos incorrectos",Toast.LENGTH_LONG).show();
             e.printStackTrace();
         }
+    }
+
+
+    private void sendMail(String mail,String message,String subject) {
+        //Send Mail
+        JavaMailAPI javaMailAPI = new JavaMailAPI(this,mail,subject,message);
+
+        javaMailAPI.execute();
+
     }
 
 
