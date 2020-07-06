@@ -14,7 +14,7 @@ import java.util.ArrayList;
 public class ActualizarEmpleadoActivity extends AppCompatActivity {
     ControlBD helper;
     EditText editCodEmpleado, editCodFacultad, editCodUbicacion;
-    EditText editNomEmpleado, editApeEmpleado, editTelEmpleado;
+    EditText editNomEmpleado, editApeEmpleado, editTelEmpleado,editCorreoEmpleado;
 
     Bundle recibido;
     Usuario user;
@@ -32,6 +32,7 @@ public class ActualizarEmpleadoActivity extends AppCompatActivity {
         editNomEmpleado = (EditText) findViewById(R.id.editNomEmpleado);
         editApeEmpleado = (EditText) findViewById(R.id.editApeEmpleado);
         editTelEmpleado = (EditText) findViewById(R.id.editTelEmpleado);
+        editCorreoEmpleado = (EditText) findViewById(R.id.editCorreoEmpleado);
 
         spCodFacultad = (Spinner) findViewById(R.id.spCodFacultad);
         spCodUbicacion = (Spinner) findViewById(R.id.spCodUbicacion);
@@ -69,6 +70,7 @@ public class ActualizarEmpleadoActivity extends AppCompatActivity {
         empleado.setNomempleado(editNomEmpleado.getText().toString());
         empleado.setApeempleado(editApeEmpleado.getText().toString());
         empleado.setTelempleado(editTelEmpleado.getText().toString());
+        empleado.setCorreoempleado(editCorreoEmpleado.getText().toString());
 
         helper.abrir();
         //existe actualizar(empleado) pero ese ya no se ocupa porque no es necesario que
@@ -86,5 +88,6 @@ public class ActualizarEmpleadoActivity extends AppCompatActivity {
         editNomEmpleado.setText("");
         editApeEmpleado.setText("");
         editTelEmpleado.setText("");
+        editCorreoEmpleado.setText("");
     }
 }
