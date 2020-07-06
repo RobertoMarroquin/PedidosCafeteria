@@ -35,5 +35,12 @@
         android:layout_height="0dp"
         android:layout_weight="10"
         android:text="Cancelar"/>
+    <Button
+        android:id="@+id/llamar"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="10"
+        android:text="Llamar al Local"/>
+
     </LinearLayout>
 
