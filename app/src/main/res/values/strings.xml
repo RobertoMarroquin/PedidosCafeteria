@@ -58,6 +58,7 @@
     <string name="nomempleado">Nombre del empleado</string>
     <string name="apeempleado">Apellido del empleado</string>
     <string name="telempleado">Telefono del empleado</string>
+    <string name="correoempleado">Correo del empleado</string>
 
     <!-- los textos de los botones cuando se accede como un encargado de local -->
     <string name="button_details_encargado_local">Gestionar Encargados de Locales</string>

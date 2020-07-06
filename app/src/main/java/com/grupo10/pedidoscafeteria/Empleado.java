@@ -8,8 +8,9 @@ public class Empleado {
     private String nomempleado;
     private String apeempleado;
     private String telempleado;
+    private String correoempleado;
 
-    public Empleado(String codempleado, String codfacultad, String codubicacion, String codlocal, String nomempleado, String apeempleado, String telempleado) {
+    public Empleado(String codempleado, String codfacultad, String codubicacion, String codlocal, String nomempleado, String apeempleado, String telempleado,String correoempleado) {
         this.codempleado = codempleado;
         this.codfacultad = codfacultad;
         this.codubicacion = codubicacion;
@@ -17,6 +18,7 @@ public class Empleado {
         this.nomempleado = nomempleado;
         this.apeempleado = apeempleado;
         this.telempleado = telempleado;
+        this.correoempleado = correoempleado;
     }
 
     public Empleado() {
@@ -77,5 +79,14 @@ public class Empleado {
     public void setTelempleado(String telempleado) {
         this.telempleado = telempleado;
     }
+
+    public String getCorreoempleado() {
+        return correoempleado;
+    }
+
+    public void setCorreoempleado(String correoempleado) {
+        this.correoempleado = correoempleado;
+    }
+
 }
 

@@ -2,15 +2,17 @@ package com.grupo10.pedidoscafeteria;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
-import android.annotation.SuppressLint;
-import android.app.DownloadManager;
+import android.Manifest;
 import android.content.ContentValues;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.Bundle;
-import android.speech.tts.TextToSpeech;
+import android.telephony.SmsManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -20,7 +22,6 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.Locale;
 
 public class ProductosLocalActivity extends AppCompatActivity {
     ControlBD helper;
@@ -31,10 +32,6 @@ public class ProductosLocalActivity extends AppCompatActivity {
     String localId;
     Usuario user;
     Bundle paqueteR;
-
-
-    Button leer;
-    TextToSpeech tts;
 
 
     @Override
@@ -55,9 +52,16 @@ public class ProductosLocalActivity extends AppCompatActivity {
         cancelarbtn = (Button) findViewById(R.id.cancelarbtn);
         comprarbtn = (Button) findViewById(R.id.comprarbtn);
 
-        leer = (Button) findViewById(R.id.leer);
-        tts = new TextToSpeech(this, OnInit);
+        if(ActivityCompat.checkSelfPermission(
+                ProductosLocalActivity.this, Manifest.permission.SEND_SMS)
+                != PackageManager.PERMISSION_GRANTED&& ActivityCompat.checkSelfPermission(
+                ProductosLocalActivity.this,Manifest
+                        .permission.SEND_SMS)!= PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(ProductosLocalActivity.this,new String[]
+                    { Manifest.permission.SEND_SMS,},1000);
+        }else{
 
+        };
 
         consultarProductosLocal();
 
@@ -108,18 +112,39 @@ public class ProductosLocalActivity extends AppCompatActivity {
                     values.put("codestadopedido","CO");
                     String[] argumentos = {String.valueOf(pedido),};
                     int cursor = db.update("pedido",values,"idpedido = ?",argumentos);
-                    Intent intent = new Intent(v.getContext(), ListaLocalesActivity.class);
+                   // obtengo el codigo de encargado
+                    String[] camposlocal = {"codencargadolocal"};
+                    String [] argumentoslocal = {localId,};
+                    String  varEncargado ="";
+                    Cursor curlocal = db.query("local", camposlocal, "codlocal=?", argumentoslocal, null, null, null);
+                    curlocal.moveToLast();
+                    varEncargado=curlocal.getString(0);
+
+                    //Obtengo el telefono del encargado
+                    String[] camposEncargado = {"telencargadolocal"};
+                    String [] argumentosEncargado = {varEncargado,};
+                    String  varTelefono ="";
+                    Cursor curEncargado = db.query("encargadolocal", camposEncargado, "codencargadolocal=?", argumentosEncargado, null, null, null);
+                    curEncargado.moveToLast();
+                    varTelefono=curEncargado.getString(0);
+
+                    //Obtengo el correo del encargado
+                    String[] camposEmpleado = {"correoempleado"};
+                    String [] argumentosEmpleado = {user.getNombreusuario(),};
+                    String  varCorreo ="";
+                    Cursor curEmpleado = db.query("empleado", camposEmpleado, "codempleado=?", argumentosEmpleado, null, null, null);
+                    curEmpleado.moveToLast();
+                    varCorreo=curEmpleado.getString(0);
+
+
+                    enviarmensaje(varTelefono,"Favor Revisar Pedido Procesado "+pedido );
+                    sendMail(varCorreo,"Su Pedido fue Procesado No"+pedido+"  ... Espere pronto su entrega, Gracias por su compra ","confirmacion Pedido No."+pedido);
+
+                Intent intent = new Intent(v.getContext(), ListaLocalesActivity.class);
                     intent.putExtra("usuario",user);
                     startActivity(intent);
                     finish();
                 }
-            }
-        });
-
-        leer.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                tts.speak(listaInfo.toString(), TextToSpeech.QUEUE_ADD, null);
             }
         });
 
@@ -159,61 +184,32 @@ public class ProductosLocalActivity extends AppCompatActivity {
         cursor.close();
     }
 
+    public void enviarmensaje(String numero,String mensaje){
+        try {
+            SmsManager sms = SmsManager.getDefault();
+            sms.sendTextMessage(numero,null,mensaje,null,null);
+            Toast.makeText(getApplicationContext(),"mensaje enviado",Toast.LENGTH_LONG).show();
+        } catch (Exception e){
+            Toast.makeText(getApplicationContext(),"mensaje no enviado, Datos incorrectos",Toast.LENGTH_LONG).show();
+            e.printStackTrace();
+        }
+    }
+
+
+    private void sendMail(String mail,String message,String subject) {
+        //Send Mail
+        JavaMailAPI javaMailAPI = new JavaMailAPI(this,mail,subject,message);
+
+        javaMailAPI.execute();
+
+    }
+
+
+
     private void obtenerlista() {
         listaInfo = new ArrayList<String>();
         for (int i = 0; i < listaProducto.size(); i++){
             listaInfo.add(listaProducto.get(i).getCodproducto() + " - "+ listaProducto.get(i).getNombreproducto());
         }
     }
-
-    //para el tts
-    TextToSpeech.OnInitListener OnInit = new TextToSpeech.OnInitListener() {
-        @Override
-        public void onInit(int status) {
-            if (TextToSpeech.SUCCESS==status){
-                tts.setLanguage(new Locale("spa","ESP"));
-            }
-            else
-            {
-                Toast.makeText(getApplicationContext(), "TTS no disponible",
-                        Toast.LENGTH_SHORT).show();
-            }
-        }
-    };
-    View.OnClickListener onClick=new View.OnClickListener() {
-
-
-
-
-        @SuppressLint("SdCardPath")
-        public void onClick(View v) {
-            // TODO Auto-generated method stub
-            if (v.getId()==R.id.leer){
-                tts.speak("hola", TextToSpeech.QUEUE_ADD, null);
-            }
-            /*
-            if (v.getId()==R.id.btnText2SpeechSave){
-                tts.speak(Texto.getText().toString(), TextToSpeech.QUEUE_ADD, null);
-                HashMap<String, String> myHashRender = new HashMap<String, String>();
-                String Texto_tts =Texto.getText().toString();
-                //Cada vez que guarde hara un nuevo archivo wav
-                numarch=numarch+1;
-                String destFileName =
-                        Environment.getExternalStorageDirectory().getAbsolutePath() +
-                                "/Download/tts"+numarch+".wav";
-                myHashRender.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID,Texto_tts);
-                tts.synthesizeToFile(Texto_tts, myHashRender, destFileName);
-            }
-
-             */
-        }
-    };
-
-    public void onDestroy(){
-        tts.shutdown();
-        super.onDestroy();
-    }
-
-
-
 }

@@ -17,7 +17,7 @@ public class ControlBD {
     private static final String[] camposOpcionCRUD = new String[]{"idopcion", "desopcion", "numcrud"};
     private static final String[] camposFacultad = new String[]{"codfacultad", "nomfacultad"};
     private static final String[] camposUbicacion = new String[]{"codubicacion", "descubicacion"};
-    private static final String[] camposEmpleado = new String[]{"codempleado", "codfacultad", "codubicacion", "nomempleado", "apeempleado", "telempleado"};
+    private static final String[] camposEmpleado = new String[]{"codempleado", "codfacultad", "codubicacion", "nomempleado", "apeempleado", "telempleado","correoempleado"};
     private static final String[] camposEncargadoLocal = new String[]{"codencargadolocal", "nomencargadolocal", "apeencargadolocal", "telencargadolocal"};
     private static final String[] camposLocal = new String[]{"codlocal", "codencargadolocal", "nombrelocal"};
     private static final String[] camposMenu = new String[]{"codmenu", "codlocal", "preciomenu", "fechadesdemenu", "fechahastamenu"};
@@ -65,7 +65,7 @@ public class ControlBD {
                 db.execSQL("CREATE TABLE accesousuario (nombreusuario VARCHAR(7) NOT NULL, idopcion CHAR(3) NOT NULL, PRIMARY KEY (nombreusuario, idopcion));");
                 db.execSQL("create TABLE facultad (codfacultad VARCHAR(7) NOT NULL PRIMARY KEY, nomfacultad VARCHAR(30));");
                 db.execSQL("create TABLE ubicacion (codubicacion VARCHAR(7) NOT NULL PRIMARY KEY, descubicacion VARCHAR(100));");
-                db.execSQL("create TABLE empleado (codempleado VARCHAR(15) NOT NULL PRIMARY KEY, codfacultad VARCHAR(7) NOT NULL, codubicacion VARCHAR(7) NOT NULL, nomempleado VARCHAR(30), apeempleado VARCHAR(30), telempleado VARCHAR(8), codlocal VARCHAR(7));");
+                db.execSQL("create TABLE empleado (codempleado VARCHAR(15) NOT NULL PRIMARY KEY, codfacultad VARCHAR(7) NOT NULL, codubicacion VARCHAR(7) NOT NULL, nomempleado VARCHAR(30), apeempleado VARCHAR(30), telempleado VARCHAR(8), codlocal VARCHAR(7),correoempleado VARCHAR(150));");
                 db.execSQL("create TABLE encargadolocal (codencargadolocal VARCHAR(10) NOT NULL PRIMARY KEY, nomencargadolocal VARCHAR(30), apeencargadolocal VARCHAR(30), telencargadolocal VARCHAR(8));");
                 db.execSQL("create TABLE local (codlocal VARCHAR(10) NOT NULL PRIMARY KEY, codencargadolocal VARCHAR(19) NOT NULL, nombrelocal VARCHAR(50));");
                 db.execSQL("create TABLE menu (codmenu VARCHAR(10) NOT NULL PRIMARY KEY, codlocal VARCHAR(10) NOT NULL, preciomenu REAL, fechadesdemenu VARCHAR(15), fechahastamenu VARCHAR(15));");
@@ -296,6 +296,7 @@ public class ControlBD {
             emp.put("nomempleado", empleado.getNomempleado());
             emp.put("apeempleado", empleado.getApeempleado());
             emp.put("telempleado", empleado.getTelempleado());
+            emp.put("correoempleado", empleado.getCorreoempleado());
           //  emp.put("codlocal", empleado.getCodlocal());
             contador = db.insert("empleado", null, emp);
         }
@@ -317,6 +318,7 @@ public class ControlBD {
             cve.put("nomempleado", empleado.getNomempleado());
             cve.put("apeempleado", empleado.getApeempleado());
             cve.put("telempleado", empleado.getTelempleado());
+            cve.put("correoempleado", empleado.getCorreoempleado());
             db.update("empleado", cve, "codempleado = ? AND codfacultad = ? AND codubicacion = ?", id);
             return "Registro actualizado correctamente";
         }
@@ -336,6 +338,7 @@ public class ControlBD {
             cve.put("nomempleado", empleado.getNomempleado());
             cve.put("apeempleado", empleado.getApeempleado());
             cve.put("telempleado", empleado.getTelempleado());
+            cve.put("correoempleado", empleado.getCorreoempleado());
             db.update("empleado", cve, "codempleado = ?", id);
             return "Registro actualizado correctamente";
         }
@@ -357,6 +360,7 @@ public class ControlBD {
             empleado.setNomempleado(cursor.getString(3));
             empleado.setApeempleado(cursor.getString(4));
             empleado.setTelempleado(cursor.getString(5));
+            empleado.setCorreoempleado(cursor.getString(6));
 //            empleado.setCodlocal(cursor.getString(6));
             cursor.close();
             return empleado;
@@ -1372,6 +1376,7 @@ public class ControlBD {
         final String[] EmpApeEmpleado = {"MARROQUIN", "MOLINA","LARA"};
         final String[] EmpTelEmpleado = {"61199001", "71179082","77463008"};
         final String[] EmpCodLocal = {"local1", "local2","local1"};
+        final String[] EmpCorreoEmpleado = {"nestor.mln@googlemail.com", "nestor.mln@googlemail.com","pizzaconfresco@gmail.com"};
 
         final Integer[] RutIdRuta = {1, 2,3};
         final String[] RutIdRepartidor = {"repartidor1","repartidor2","repartidor3"};
@@ -1493,6 +1498,7 @@ public class ControlBD {
             empleado.setApeempleado(EmpApeEmpleado[i]);
             empleado.setTelempleado(EmpTelEmpleado[i]);
             empleado.setCodlocal(EmpCodLocal[i]);
+            empleado.setCorreoempleado(EmpCorreoEmpleado[i]);
             insertar(empleado);
         }
 
