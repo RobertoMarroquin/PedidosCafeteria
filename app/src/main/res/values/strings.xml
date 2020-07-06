@@ -249,9 +249,12 @@
     <string name="finruta">Fin de la ruta del pedido</string>
 
 
-
     <!-- para las librerias -->
     <string name="mensajevideo">Algunos de nuestros productos se muestran en este video</string>
+
+    <string name="pdf">Exportar a PDF</string>
+
+    <string name="verlocales">Ver Localidades</string>
 
 
 </resources>

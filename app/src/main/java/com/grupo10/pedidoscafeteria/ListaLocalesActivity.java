@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -24,12 +25,17 @@ public class ListaLocalesActivity extends AppCompatActivity {
     Bundle paquete;
     private static final String[] camposLocal = new String[]{"codlocal", "codencargadolocal", "nombrelocal"};
 
+    Button mapas;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lista_locales);
         helper = new ControlBD(this);
         listViewLocales = (ListView) findViewById(R.id.listViewLocales);
+
+        mapas = (Button) findViewById(R.id.mapas);
+
         paquete = getIntent().getExtras();
         consultarlocales();
 
@@ -49,6 +55,16 @@ public class ListaLocalesActivity extends AppCompatActivity {
                 startActivity(productosLocal);
             }
         });
+
+        //para ir al activity de los mapas
+        mapas.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent map = new Intent(v.getContext(), LocalEnMapaActivity.class);
+                startActivity(map);
+            }
+        });
+        //
 
     }
 

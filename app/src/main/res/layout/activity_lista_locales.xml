@@ -8,7 +8,19 @@
 
     <ListView
         android:id="@+id/listViewLocales"
+        android:layout_width="415dp"
+        android:layout_height="534dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/mapas"
+        android:text="@string/verlocales"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="50dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/listViewLocales" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

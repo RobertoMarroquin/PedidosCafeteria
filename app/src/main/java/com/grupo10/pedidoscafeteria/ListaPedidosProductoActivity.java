@@ -1,16 +1,31 @@
 package com.grupo10.pedidoscafeteria;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.pdf.PdfDocument;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.text.Layout;
+import android.text.StaticLayout;
+import android.text.TextPaint;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class ListaPedidosProductoActivity extends AppCompatActivity {
@@ -23,11 +38,16 @@ public class ListaPedidosProductoActivity extends AppCompatActivity {
     Bundle paquete;
     private static final String[] camposPedido = new String[]{"IdPedido", "codtrabajador", "codproducto","cantidadpedido","nombreproducto","preciounitario"};
 
+    Button pdf;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lista_pedidos_producto);
         helper = new ControlBD(this);
+
+        pdf = (Button) findViewById(R.id.pdf);
+
         listViewPedidosProducto = (ListView) findViewById(R.id.lstPedidosProducto);
         paquete = getIntent().getExtras();
         if (paquete != null) {
@@ -61,6 +81,33 @@ public class ListaPedidosProductoActivity extends AppCompatActivity {
         });
 
 
+        pdf.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+            @Override
+            public void onClick(View v) {
+                int size = listaInfo.size();
+                String cadena ="";
+                for (int i=0; i<size; i++){
+                    String numero = "PRODUCTO NUMERO " + (i+1) + " ";
+                    String aux = listaInfo.get(i);
+                    String espacio = "\n";
+                    cadena=cadena.concat(numero);
+                    cadena=cadena.concat(espacio);
+                    cadena=cadena.concat(aux);
+                    cadena=cadena.concat(espacio);
+
+                }
+
+                //en cadena ya esta el string a imprimir en pdf
+
+
+                createPdf(cadena);
+                //Toast.makeText(getApplicationContext(), cadena, Toast.LENGTH_LONG).show();
+
+            }
+        });
+
+
     }
 
     private void consultarPedidosProducto() {
@@ -85,5 +132,63 @@ public class ListaPedidosProductoActivity extends AppCompatActivity {
             listaInfo.add("Producto: "+ cursor.getString(1) + " - "+ cursor.getString(2) +"\n"+ "Cantidad : "+ cursor.getString(3)+"      Precio: "+cursor.getString(4) );
         }
     }
+
+    //
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    private void createPdf(String cadena){
+        // criando o documento novo
+        PdfDocument document = new PdfDocument();
+
+        PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder(300, 600, 1).create();
+
+        PdfDocument.Page page = document.startPage(pageInfo);
+        Canvas canvas = page.getCanvas();
+        //Paint paint = new Paint();
+        //paint.setColor(Color.RED);
+        //canvas.drawCircle(50, 50, 10, paint);
+        //paint.setColor(Color.BLACK);
+        //canvas.drawText(cadena, 80, 50, paint);
+
+        //
+        //2
+        //String text = "This is some text.";
+
+
+        TextPaint textPaint = new TextPaint();
+        textPaint.setAntiAlias(true);
+        textPaint.setTextSize(2*getResources().getDisplayMetrics().density);
+        textPaint.setColor(0xFF000000);
+
+        int width = (int) textPaint.measureText(cadena);
+        StaticLayout staticLayout = new StaticLayout(cadena, textPaint, (int) width, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0, false);
+        staticLayout.draw(canvas);
+
+
+
+
+
+        //
+        document.finishPage(page);
+
+
+
+        String directory_path = Environment.getExternalStorageDirectory().getPath() + "/";
+        File file = new File(directory_path);
+        if (!file.exists()) {
+            file.mkdirs();
+        }
+        String targetPdf = directory_path+"prueba.pdf";
+        File filePath = new File(targetPdf);
+        try {
+            document.writeTo(new FileOutputStream(filePath));
+            Toast.makeText(this, "Se guardo correctamente", Toast.LENGTH_LONG).show();
+        } catch (IOException e) {
+            Log.e("main", "error "+e.toString());
+            Toast.makeText(this, "No se pudo exportar el pdf: " + e.toString(),  Toast.LENGTH_LONG).show();
+        }
+
+        document.close();
+    }
+
 
 }

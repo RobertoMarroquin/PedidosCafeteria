@@ -1,19 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.grupo10.pedidoscafeteria">
+
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="com.alpha.routefinder.permission.MAPS_RECEIVE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <application
+
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
-        android:requestLegacyExternalStorage="true">
+        android:theme="@style/AppTheme">
 
-        <activity android:name=".ActualizarPedidoActivity"></activity>
+
+        <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyA6NIp96rDlxJKWcc-6QHsl7RjTuPq4MMo"/>
+        <uses-library android:name="com.google.android.maps"/>
+        <activity android:name=".LocalEnMapaActivity"> </activity>
+        <activity android:name=".ActualizarPedidoActivity" />
         <activity android:name=".ListaPedidosLocalActivity" />
         <activity android:name=".ListaLocalesEncargadoActivity" />
         <activity android:name=".ListaPedidosProductoActivity" />
