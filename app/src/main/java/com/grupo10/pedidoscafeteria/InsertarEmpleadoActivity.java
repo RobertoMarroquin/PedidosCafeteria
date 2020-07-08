@@ -16,6 +16,8 @@ public class InsertarEmpleadoActivity extends AppCompatActivity {
     EditText editCodEmpleado, editCodFacultad, editCodUbicacion;
     EditText editNomEmpleado, editApeEmpleado, editTelEmpleado;
 
+    EditText editCorreoEmpleado;
+
     //aqui si se crearan el bundle y el usuario.
     //ya que se usara el nombreusuario para hacerlo igual al codempleado.
 
@@ -35,6 +37,8 @@ public class InsertarEmpleadoActivity extends AppCompatActivity {
         editNomEmpleado = (EditText) findViewById(R.id.editNomEmpleado);
         editApeEmpleado = (EditText) findViewById(R.id.editApeEmpleado);
         editTelEmpleado = (EditText) findViewById(R.id.editTelEmpleado);
+
+        editCorreoEmpleado = (EditText) findViewById(R.id.editCorreoEmpleado);
 
         spCodFacultad = (Spinner) findViewById(R.id.spCodFacultad);
         spCodUbicacion = (Spinner) findViewById(R.id.spCodUbicacion);
@@ -75,6 +79,7 @@ public class InsertarEmpleadoActivity extends AppCompatActivity {
         String nomempleado = editNomEmpleado.getText().toString();
         String apeempleado = editApeEmpleado.getText().toString();
         String telempleado = editTelEmpleado.getText().toString();
+        String correoempleado = editCorreoEmpleado.getText().toString();
 
         Empleado empleado = new Empleado();
         empleado.setCodempleado(codempleado);
@@ -83,6 +88,7 @@ public class InsertarEmpleadoActivity extends AppCompatActivity {
         empleado.setNomempleado(nomempleado);
         empleado.setApeempleado(apeempleado);
         empleado.setTelempleado(telempleado);
+        empleado.setCorreoempleado(correoempleado);
 
         helper.abrir();
         regInsertados = helper.insertar(empleado);

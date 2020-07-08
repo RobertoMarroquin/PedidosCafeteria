@@ -12,6 +12,8 @@ public class ConsultarEmpleadoActivity extends AppCompatActivity {
     EditText editCodEmpleado, editCodFacultad, editCodUbicacion;
     EditText editNomEmpleado, editApeEmpleado, editTelEmpleado;
 
+    EditText editCorreoEmpleado;
+
     Bundle recibido;
     Usuario user;
 
@@ -26,6 +28,8 @@ public class ConsultarEmpleadoActivity extends AppCompatActivity {
         editNomEmpleado = (EditText) findViewById(R.id.editNomEmpleado);
         editApeEmpleado = (EditText) findViewById(R.id.editApeEmpleado);
         editTelEmpleado = (EditText) findViewById(R.id.editTelEmpleado);
+
+        editCorreoEmpleado = (EditText) findViewById(R.id.editCorreoEmpleado);
 
         //obteniendo el bundle y usando el objeto usuario que trae
         recibido = getIntent().getExtras();
@@ -50,6 +54,7 @@ public class ConsultarEmpleadoActivity extends AppCompatActivity {
             editNomEmpleado.setText(empleado.getNomempleado());
             editApeEmpleado.setText(empleado.getApeempleado());
             editTelEmpleado.setText(empleado.getTelempleado());
+            editCorreoEmpleado.setText(empleado.getCorreoempleado());
         }
     }
 
@@ -60,6 +65,7 @@ public class ConsultarEmpleadoActivity extends AppCompatActivity {
         editNomEmpleado.setText("");
         editApeEmpleado.setText("");
         editTelEmpleado.setText("");
+        editCorreoEmpleado.setText("");
     }
 
 

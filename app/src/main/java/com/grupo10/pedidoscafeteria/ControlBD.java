@@ -65,7 +65,8 @@ public class ControlBD {
                 db.execSQL("CREATE TABLE accesousuario (nombreusuario VARCHAR(7) NOT NULL, idopcion CHAR(3) NOT NULL, PRIMARY KEY (nombreusuario, idopcion));");
                 db.execSQL("create TABLE facultad (codfacultad VARCHAR(7) NOT NULL PRIMARY KEY, nomfacultad VARCHAR(30));");
                 db.execSQL("create TABLE ubicacion (codubicacion VARCHAR(7) NOT NULL PRIMARY KEY, descubicacion VARCHAR(100));");
-                db.execSQL("create TABLE empleado (codempleado VARCHAR(15) NOT NULL PRIMARY KEY, codfacultad VARCHAR(7) NOT NULL, codubicacion VARCHAR(7) NOT NULL, nomempleado VARCHAR(30), apeempleado VARCHAR(30), telempleado VARCHAR(8), codlocal VARCHAR(7),correoempleado VARCHAR(150));");
+                db.execSQL("create TABLE empleado (codempleado VARCHAR(15) NOT NULL PRIMARY KEY, codfacultad VARCHAR(7), codubicacion VARCHAR(7), nomempleado VARCHAR(30), apeempleado VARCHAR(30), telempleado VARCHAR(8), codlocal VARCHAR(7),correoempleado VARCHAR(150));");
+                //db.execSQL("create TABLE empleado (codempleado VARCHAR(15) NOT NULL PRIMARY KEY, codfacultad VARCHAR(7) NOT NULL, codubicacion VARCHAR(7) NOT NULL, nomempleado VARCHAR(30), apeempleado VARCHAR(30), telempleado VARCHAR(8), codlocal VARCHAR(7),correoempleado VARCHAR(150));");
                 db.execSQL("create TABLE encargadolocal (codencargadolocal VARCHAR(10) NOT NULL PRIMARY KEY, nomencargadolocal VARCHAR(30), apeencargadolocal VARCHAR(30), telencargadolocal VARCHAR(8));");
                 db.execSQL("create TABLE local (codlocal VARCHAR(10) NOT NULL PRIMARY KEY, codencargadolocal VARCHAR(19) NOT NULL, nombrelocal VARCHAR(50));");
                 db.execSQL("create TABLE menu (codmenu VARCHAR(10) NOT NULL PRIMARY KEY, codlocal VARCHAR(10) NOT NULL, preciomenu REAL, fechadesdemenu VARCHAR(15), fechahastamenu VARCHAR(15));");
@@ -383,6 +384,7 @@ public class ControlBD {
             empleado.setNomempleado(cursor.getString(3));
             empleado.setApeempleado(cursor.getString(4));
             empleado.setTelempleado(cursor.getString(5));
+            empleado.setCorreoempleado(cursor.getString(6));
 
             cursor.close();
             return empleado;

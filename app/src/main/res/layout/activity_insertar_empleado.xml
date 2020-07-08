@@ -6,12 +6,12 @@
     android:layout_height="match_parent"
     tools:context=".InsertarEmpleadoActivity">
 
+
     <TextView
         android:id="@+id/textView12"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:layout_marginBottom="1dp"
+        android:layout_marginTop="10dp"
         android:text="@string/codempleado"
         app:layout_constraintBottom_toTopOf="@+id/editCodEmpleado"
         app:layout_constraintEnd_toEndOf="parent"
@@ -24,15 +24,17 @@
         android:layout_height="wrap_content"
 
 
+        android:layout_marginBottom="10dp"
         android:cursorVisible="false"
         android:ems="10"
         android:enabled="false"
         android:focusable="false"
+
         android:focusableInTouchMode="false"
-
         android:inputType="textPersonName"
-        android:longClickable="false"
 
+        android:longClickable="false"
+        app:layout_constraintBottom_toTopOf="@+id/textView13"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView12" />
@@ -41,8 +43,7 @@
         android:id="@+id/textView13"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginBottom="1dp"
         android:text="@string/codfacultad"
         app:layout_constraintBottom_toTopOf="@+id/spCodFacultad"
         app:layout_constraintEnd_toEndOf="parent"
@@ -53,9 +54,10 @@
         android:id="@+id/spCodFacultad"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:layout_marginBottom="20dp"
-        android:spinnerMode="dialog"
+        android:layout_marginBottom="10dp"
 
+        android:spinnerMode="dialog"
+        app:layout_constraintBottom_toTopOf="@+id/textView14"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView13" />
@@ -64,8 +66,6 @@
         android:id="@+id/textView14"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="4dp"
-        android:layout_marginTop="20dp"
         android:text="@string/codubicacion"
         app:layout_constraintBottom_toTopOf="@+id/spCodUbicacion"
         app:layout_constraintEnd_toEndOf="parent"
@@ -74,11 +74,12 @@
 
     <Spinner
         android:id="@+id/spCodUbicacion"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="40dp"
-        android:layout_marginBottom="20dp"
-        android:spinnerMode="dialog"
+        android:layout_marginBottom="10dp"
 
+        android:spinnerMode="dialog"
+        app:layout_constraintBottom_toTopOf="@+id/textView15"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView14" />
@@ -87,9 +88,7 @@
         android:id="@+id/textView15"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
         android:text="@string/nomempleado"
-        android:layout_marginTop="20dp"
         app:layout_constraintBottom_toTopOf="@+id/editNomEmpleado"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -99,10 +98,11 @@
         android:id="@+id/editNomEmpleado"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="10dp"
         android:ems="10"
-        android:inputType="textPersonName"
 
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toTopOf="@+id/textView16"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView15" />
@@ -111,9 +111,8 @@
         android:id="@+id/textView16"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="2dp"
+        android:layout_marginBottom="1dp"
         android:text="@string/apeempleado"
-        android:layout_marginTop="20dp"
         app:layout_constraintBottom_toTopOf="@+id/editApeEmpleado"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -123,10 +122,11 @@
         android:id="@+id/editApeEmpleado"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="10dp"
         android:ems="10"
-        android:inputType="textPersonName"
 
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toTopOf="@+id/textView17"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView16" />
@@ -136,7 +136,6 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="3dp"
-        android:layout_marginTop="20dp"
         android:text="@string/telempleado"
         app:layout_constraintBottom_toTopOf="@+id/editTelEmpleado"
         app:layout_constraintEnd_toEndOf="parent"
@@ -145,43 +144,64 @@
 
     <EditText
         android:id="@+id/editTelEmpleado"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="17dp"
         android:ems="10"
         android:inputType="number"
-        app:layout_constraintBottom_toTopOf="@+id/button6"
-        app:layout_constraintEnd_toEndOf="@+id/button5"
-        app:layout_constraintHorizontal_bias="0.36"
-        app:layout_constraintStart_toEndOf="@+id/button5"
+        app:layout_constraintBottom_toTopOf="@+id/textView20"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView17" />
+
+    <EditText
+        android:id="@+id/editCorreoEmpleado"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:ems="10"
+        android:inputType="textEmailAddress"
+        app:layout_constraintBottom_toTopOf="@+id/button6"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView20" />
+
+    <TextView
+        android:id="@+id/textView20"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="3dp"
+        android:text="Correo del empleado"
+        app:layout_constraintBottom_toTopOf="@+id/editCorreoEmpleado"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTelEmpleado" />
 
     <Button
         android:id="@+id/button5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="4dp"
-        android:layout_marginRight="4dp"
-        android:layout_marginStart="30dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
         android:onClick="insertarEmpleado"
         android:text="@string/button_create_empleado"
+        app:layout_constraintBaseline_toBaselineOf="@+id/button6"
         app:layout_constraintEnd_toStartOf="@+id/button6"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTelEmpleado"
-        android:layout_marginLeft="30dp" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/button6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginEnd="3dp"
+        android:layout_marginRight="3dp"
+        android:layout_marginBottom="71dp"
         android:onClick="limpiarTexto"
         android:text="@string/cleantext"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/button5"
-        app:layout_constraintTop_toBottomOf="@+id/editTelEmpleado" />
+        app:layout_constraintTop_toBottomOf="@+id/editCorreoEmpleado" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
